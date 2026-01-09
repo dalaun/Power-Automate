@@ -27,8 +27,23 @@ Private enablement is permissible when and only when it is BOTH:
 This constraint is the fundamental boundary between legitimate operations and private inurement.
 All compensation, benefits, and private enablement must satisfy both tests to be permissible.
 
+THE AUTHORITY CASCADE (PROOF OF LEGITIMACY):
+Mission → Purpose Domains → Authorized Activities → Operators in Role → Expense Domains → Actual Spend
+
+Every dollar spent MUST trace back through this cascade to mission/purpose. This traceable chain PROVES
+keystone constraint satisfaction. If spend cannot trace back to purpose through authorized activity and
+required operator, it fails the keystone constraint and constitutes private inurement.
+
+The cascade enforces:
+- Mission legitimizes Authority (purpose → power)
+- Purpose authorizes Activities (what trust may do)
+- Activities require Operators (who executes)
+- Operators necessitate Expense Domains (enablement categories)
+- Expense Domains manifest as Actual Spend (dollars out)
+- Actual Spend traces back to Purpose (closes the loop)
+
 Non-grantor and foreign trusts acquire operational instruments once control, jurisdiction, and fiduciary authority are cleanly separated under the doctrinal stack."""@en ;
-    owl:versionInfo "2.1" .
+    owl:versionInfo "3.0" .
 
 #################################################################
 #    Object Properties
@@ -231,6 +246,69 @@ Non-grantor and foreign trusts acquire operational instruments once control, jur
     rdfs:range :KeystoneConstraint ;
     rdfs:label "violates keystone constraint"@en ;
     rdfs:comment "Private enablement violates keystone constraint - not incidental or separable from purpose"@en .
+
+###  http://example.org/trust-domain#legitimizes
+:legitimizes rdf:type owl:ObjectProperty ;
+    rdfs:domain :Purpose ;
+    rdfs:range :Authority ;
+    rdfs:label "legitimizes"@en ;
+    rdfs:comment "Mission/Purpose legitimizes the exercise of Authority"@en .
+
+###  http://example.org/trust-domain#authorizes
+:authorizes rdf:type owl:ObjectProperty ;
+    rdfs:domain :Purpose ;
+    rdfs:range :AuthorizedActivity ;
+    rdfs:label "authorizes"@en ;
+    rdfs:comment "Purpose domain authorizes specific operational activities"@en .
+
+###  http://example.org/trust-domain#requires
+:requires rdf:type owl:ObjectProperty ;
+    rdfs:domain :AuthorizedActivity ;
+    rdfs:range :OperatorInRole ;
+    rdfs:label "requires"@en ;
+    rdfs:comment "Authorized activity requires operators in specific roles"@en .
+
+###  http://example.org/trust-domain#necessitates
+:necessitates rdf:type owl:ObjectProperty ;
+    rdfs:domain :OperatorInRole ;
+    rdfs:range :ExpenseDomain ;
+    rdfs:label "necessitates"@en ;
+    rdfs:comment "Operator in role necessitates expense domains (enablement)"@en .
+
+###  http://example.org/trust-domain#manifestsAs
+:manifestsAs rdf:type owl:ObjectProperty ;
+    rdfs:domain :ExpenseDomain ;
+    rdfs:range :ActualSpend ;
+    rdfs:label "manifests as"@en ;
+    rdfs:comment "Expense domain manifests as actual spend/expenditure"@en .
+
+###  http://example.org/trust-domain#tracesBackTo
+:tracesBackTo rdf:type owl:ObjectProperty ;
+    rdfs:domain :ActualSpend ;
+    rdfs:range :Purpose ;
+    rdfs:label "traces back to"@en ;
+    rdfs:comment "Actual spend traces back through the authority cascade to mission/purpose"@en .
+
+###  http://example.org/trust-domain#performedBy
+:performedBy rdf:type owl:ObjectProperty ;
+    rdfs:domain :AuthorizedActivity ;
+    rdfs:range :OperatorInRole ;
+    rdfs:label "performed by"@en ;
+    rdfs:comment "Authorized activity is performed by operator in role"@en .
+
+###  http://example.org/trust-domain#sustains
+:sustains rdf:type owl:ObjectProperty ;
+    rdfs:domain :ExpenseDomain ;
+    rdfs:range :OperatorInRole ;
+    rdfs:label "sustains"@en ;
+    rdfs:comment "Expense domain sustains the operator's capability to perform"@en .
+
+###  http://example.org/trust-domain#servesActivity
+:servesActivity rdf:type owl:ObjectProperty ;
+    rdfs:domain :OperatorInRole ;
+    rdfs:range :AuthorizedActivity ;
+    rdfs:label "serves activity"@en ;
+    rdfs:comment "Operator in role serves the authorized activity"@en .
 
 #################################################################
 #    Data Properties
@@ -1049,6 +1127,80 @@ Non-grantor and foreign trusts acquire operational instruments once control, jur
     rdfs:label "Beneficiary Distribution Enablement"@en ;
     rdfs:comment "Distributions to trust beneficiaries - may be permissible or improper depending on keystone constraint satisfaction"@en .
 
+###  http://example.org/trust-domain#AuthorizedActivity
+:AuthorizedActivity rdf:type owl:Class ;
+    rdfs:subClassOf :OperationalActivity ;
+    rdfs:label "Authorized Activity"@en ;
+    rdfs:comment "Operational activity explicitly authorized by a purpose domain in the mission - this is what the trust is allowed to do"@en .
+
+###  http://example.org/trust-domain#OperatorInRole
+:OperatorInRole rdf:type owl:Class ;
+    rdfs:label "Operator In Role"@en ;
+    rdfs:comment "A human capability (employee, contractor, etc.) operating in a specific role to execute authorized activities"@en .
+
+###  http://example.org/trust-domain#Role
+:Role rdf:type owl:Class ;
+    rdfs:label "Role"@en ;
+    rdfs:comment "A defined function or position within the trust's operational structure"@en .
+
+###  http://example.org/trust-domain#ResearchScientistRole
+:ResearchScientistRole rdf:type owl:Class ;
+    rdfs:subClassOf :Role ;
+    rdfs:label "Research Scientist Role"@en ;
+    rdfs:comment "Role of research scientist conducting studies and experiments"@en .
+
+###  http://example.org/trust-domain#ProgramDirectorRole
+:ProgramDirectorRole rdf:type owl:Class ;
+    rdfs:subClassOf :Role ;
+    rdfs:label "Program Director Role"@en ;
+    rdfs:comment "Role of program director managing charitable programs"@en .
+
+###  http://example.org/trust-domain#EducatorRole
+:EducatorRole rdf:type owl:Class ;
+    rdfs:subClassOf :Role ;
+    rdfs:label "Educator Role"@en ;
+    rdfs:comment "Role of educator providing education services"@en .
+
+###  http://example.org/trust-domain#ExpenseDomain
+:ExpenseDomain rdf:type owl:Class ;
+    rdfs:label "Expense Domain"@en ;
+    rdfs:comment "A category of expense/enablement necessary to sustain operators - this is WHERE private enablement occurs (compensation domain, benefits domain, etc.)"@en .
+
+###  http://example.org/trust-domain#CompensationDomain
+:CompensationDomain rdf:type owl:Class ;
+    rdfs:subClassOf :ExpenseDomain ;
+    rdfs:label "Compensation Domain"@en ;
+    rdfs:comment "Domain of wages, salaries, and direct compensation"@en .
+
+###  http://example.org/trust-domain#BenefitsDomain
+:BenefitsDomain rdf:type owl:Class ;
+    rdfs:subClassOf :ExpenseDomain ;
+    rdfs:label "Benefits Domain"@en ;
+    rdfs:comment "Domain of employee benefits (health, retirement, etc.)"@en .
+
+###  http://example.org/trust-domain#ProfessionalDevelopmentDomain
+:ProfessionalDevelopmentDomain rdf:type owl:Class ;
+    rdfs:subClassOf :ExpenseDomain ;
+    rdfs:label "Professional Development Domain"@en ;
+    rdfs:comment "Domain of training, education, and capability enhancement"@en .
+
+###  http://example.org/trust-domain#OperationalSupportDomain
+:OperationalSupportDomain rdf:type owl:Class ;
+    rdfs:subClassOf :ExpenseDomain ;
+    rdfs:label "Operational Support Domain"@en ;
+    rdfs:comment "Domain of tools, equipment, workspace, and operational support"@en .
+
+###  http://example.org/trust-domain#ActualSpend
+:ActualSpend rdf:type owl:Class ;
+    rdfs:subClassOf :Expenditure ;
+    rdfs:label "Actual Spend"@en ;
+    rdfs:comment "Concrete expenditure - the actual dollars spent, traceable back through the authority cascade to mission"@en .
+
+###  http://example.org/trust-domain#AuthorityCascade
+:AuthorityCascade rdf:type owl:Class ;
+    rdfs:label "Authority Cascade"@en ;
+    rdfs:comment "The complete traceable chain: Mission → Purpose Domains → Authorized Activities → Operators in Role → Expense Domains → Actual Spend. This cascade PROVES keystone constraint satisfaction."@en .
+
 #################################################################
 #    Restrictions and Axioms
 #################################################################
@@ -1331,6 +1483,81 @@ Non-grantor and foreign trusts acquire operational instruments once control, jur
 ###  Keystone Constraint prevents Authority Collapse
 :KeystoneConstraint rdfs:subClassOf :SafeguardMechanism .
 
+###  THE AUTHORITY CASCADE - Enforcing the traceable chain
+
+###  Authorized Activity MUST be authorized by a Purpose
+:AuthorizedActivity rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty [ owl:inverseOf :authorizes ] ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger
+    ] .
+
+###  Authorized Activity MUST require at least one Operator in Role
+:AuthorizedActivity rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :requires ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger
+    ] .
+
+###  Operator in Role MUST serve an Authorized Activity
+:OperatorInRole rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :servesActivity ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger
+    ] .
+
+###  Operator in Role MUST necessitate at least one Expense Domain
+:OperatorInRole rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :necessitates ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger
+    ] .
+
+###  Expense Domain MUST sustain an Operator in Role
+:ExpenseDomain rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :sustains ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger
+    ] .
+
+###  Expense Domain MUST manifest as Actual Spend
+:ExpenseDomain rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :manifestsAs ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger
+    ] .
+
+###  Actual Spend MUST trace back to a Purpose (PROOF of keystone constraint)
+:ActualSpend rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :tracesBackTo ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger
+    ] .
+
+###  Purpose legitimizes Authority - without Purpose, no Authority
+:Purpose rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :legitimizes ;
+      owl:someValuesFrom :Authority
+    ] .
+
+###  Expense Domain is a type of Private Enablement
+:ExpenseDomain rdfs:subClassOf :PrivateEnablement .
+
+###  Compensation Domain creates Employee Compensation Enablement
+:CompensationDomain rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :enablesPrivately ;
+      owl:someValuesFrom :EmployeeCompensationEnablement
+    ] .
+
+###  Benefits Domain creates Operational Benefit Enablement
+:BenefitsDomain rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :enablesPrivately ;
+      owl:someValuesFrom :OperationalBenefitEnablement
+    ] .
+
 #################################################################
 #    Individuals (Example Instances)
 #################################################################
@@ -1518,5 +1745,111 @@ Non-grantor and foreign trusts acquire operational instruments once control, jur
                                    :OperatingBoundary ;
     rdfs:label "Example Operating Boundary"@en ;
     rdfs:comment "The perimeter defining what belongs inside the foundation's operational system"@en .
+
+###  THE AUTHORITY CASCADE - Complete Traceable Example
+
+###  http://example.org/trust-domain#ClinicalTrialsActivity
+:ClinicalTrialsActivity rdf:type owl:NamedIndividual ,
+                                 :AuthorizedActivity ;
+    :advancesPurpose :FoundationHealthMission ;
+    :withinBoundary :ExampleOperatingBoundary ;
+    :requires :ResearchScientistDrSmith ;
+    :performedBy :ResearchScientistDrSmith ;
+    rdfs:label "Clinical Trials Activity"@en ;
+    rdfs:comment "Authorized activity: Conducting clinical trials for novel cancer treatments - authorized by health mission purpose domain"@en .
+
+###  http://example.org/trust-domain#ResearchScientistDrSmith
+:ResearchScientistDrSmith rdf:type owl:NamedIndividual ,
+                                   :OperatorInRole ;
+    :servesActivity :ClinicalTrialsActivity ;
+    :necessitates :CompensationDomain_DrSmith ,
+                  :BenefitsDomain_DrSmith ;
+    rdfs:label "Dr. Smith (Research Scientist)"@en ;
+    rdfs:comment "Operator in role: Research scientist conducting clinical trials - required by the authorized activity"@en .
+
+###  http://example.org/trust-domain#CompensationDomain_DrSmith
+:CompensationDomain_DrSmith rdf:type owl:NamedIndividual ,
+                                     :CompensationDomain ;
+    :sustains :ResearchScientistDrSmith ;
+    :manifestsAs :SalaryPayment_DrSmith_January2024 ;
+    :enablesPrivately :SalaryEnablement_DrSmith ;
+    rdfs:label "Compensation Domain: Dr. Smith"@en ;
+    rdfs:comment "Expense domain: Compensation for Dr. Smith - necessitated by her role as research scientist"@en .
+
+###  http://example.org/trust-domain#BenefitsDomain_DrSmith
+:BenefitsDomain_DrSmith rdf:type owl:NamedIndividual ,
+                                 :BenefitsDomain ;
+    :sustains :ResearchScientistDrSmith ;
+    :manifestsAs :HealthInsurance_DrSmith_January2024 ;
+    :enablesPrivately :BenefitsEnablement_DrSmith ;
+    rdfs:label "Benefits Domain: Dr. Smith"@en ;
+    rdfs:comment "Expense domain: Health insurance and retirement benefits for Dr. Smith"@en .
+
+###  http://example.org/trust-domain#SalaryPayment_DrSmith_January2024
+:SalaryPayment_DrSmith_January2024 rdf:type owl:NamedIndividual ,
+                                            :ActualSpend ;
+    :tracesBackTo :FoundationHealthMission ;
+    rdfs:label "Actual Spend: Dr. Smith Salary (Jan 2024) - $12,500"@en ;
+    rdfs:comment "ACTUAL SPEND: $12,500 salary payment to Dr. Smith for January 2024. TRACES BACK TO: FoundationHealthMission → ClinicalTrialsActivity → ResearchScientistDrSmith → CompensationDomain_DrSmith → THIS SPEND. The complete traceable chain PROVES keystone constraint satisfaction: incidental to health mission AND inseparable from clinical trials execution."@en .
+
+###  http://example.org/trust-domain#HealthInsurance_DrSmith_January2024
+:HealthInsurance_DrSmith_January2024 rdf:type owl:NamedIndividual ,
+                                              :ActualSpend ;
+    :tracesBackTo :FoundationHealthMission ;
+    rdfs:label "Actual Spend: Dr. Smith Health Insurance (Jan 2024) - $850"@en ;
+    rdfs:comment "ACTUAL SPEND: $850 health insurance premium for Dr. Smith for January 2024. TRACES BACK TO: FoundationHealthMission → ClinicalTrialsActivity → ResearchScientistDrSmith → BenefitsDomain_DrSmith → THIS SPEND. Sustaining workforce capability is incidental to AND inseparable from mission execution."@en .
+
+###  http://example.org/trust-domain#SalaryEnablement_DrSmith
+:SalaryEnablement_DrSmith rdf:type owl:NamedIndividual ,
+                                   :EmployeeCompensationEnablement ,
+                                   :PermissiblePrivateEnablement ;
+    :isIncidentalTo :FoundationHealthMission ;
+    :isInseparableFrom :ClinicalTrialsActivity ;
+    :satisfiesKeystoneConstraint :TheKeystoneConstraint ;
+    rdfs:label "Private Enablement: Dr. Smith Salary"@en ;
+    rdfs:comment "PERMISSIBLE: Dr. Smith's salary is incidental to the health mission (not the mission itself) AND inseparable from clinical trials (trials cannot occur without qualified researcher). Satisfies both keystone tests."@en .
+
+###  http://example.org/trust-domain#BenefitsEnablement_DrSmith
+:BenefitsEnablement_DrSmith rdf:type owl:NamedIndividual ,
+                                     :OperationalBenefitEnablement ,
+                                     :PermissiblePrivateEnablement ;
+    :isIncidentalTo :FoundationHealthMission ;
+    :isInseparableFrom :ClinicalTrialsActivity ;
+    :satisfiesKeystoneConstraint :TheKeystoneConstraint ;
+    rdfs:label "Private Enablement: Dr. Smith Benefits"@en ;
+    rdfs:comment "PERMISSIBLE: Dr. Smith's health benefits sustain her capability to perform research, incidental to mission AND inseparable from execution."@en .
+
+###  http://example.org/trust-domain#TheAuthorityCascade
+:TheAuthorityCascade rdf:type owl:NamedIndividual ,
+                              :AuthorityCascade ;
+    rdfs:label "The Authority Cascade: Mission to Spend"@en ;
+    rdfs:comment """THE COMPLETE AUTHORITY CASCADE EXAMPLE:
+
+1. MISSION: 'Empowering lives through health...' (FoundationMission)
+   ↓ legitimizes Authority
+   ↓ has sub-purpose
+
+2. PURPOSE DOMAIN: Health mission (FoundationHealthMission)
+   ↓ authorizes
+
+3. AUTHORIZED ACTIVITY: Conducting clinical trials (ClinicalTrialsActivity)
+   ↓ requires
+
+4. OPERATOR IN ROLE: Research scientist Dr. Smith (ResearchScientistDrSmith)
+   ↓ necessitates
+
+5. EXPENSE DOMAINS: Compensation + Benefits (CompensationDomain_DrSmith, BenefitsDomain_DrSmith)
+   ↓ manifest as
+
+6. ACTUAL SPEND: $12,500 salary + $850 insurance (SalaryPayment_DrSmith_January2024, HealthInsurance_DrSmith_January2024)
+   ↓ traces back to
+
+7. PURPOSE: FoundationHealthMission ✓
+
+RESULT: Every dollar spent is PROVABLY:
+- Incidental to purpose (serves health mission, not enrichment)
+- Inseparable from execution (clinical trials require qualified researcher)
+
+This is PROOF OF LEGITIMACY. The cascade cannot be completed for improper private enablement."""@en .
 
 ###  Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi

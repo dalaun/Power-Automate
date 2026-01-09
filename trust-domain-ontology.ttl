@@ -1,0 +1,760 @@
+@prefix : <http://example.org/trust-domain#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <http://example.org/trust-domain#> .
+
+<http://example.org/trust-domain> rdf:type owl:Ontology ;
+    rdfs:label "Trust Domain Ontology"@en ;
+    rdfs:comment "Canonical ontology for private & foreign irrevocable non-grantor trust domains, modeling authority, instruments, and operational boundaries"@en ;
+    owl:versionInfo "1.0" .
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://example.org/trust-domain#exercisesAuthority
+:exercisesAuthority rdf:type owl:ObjectProperty ;
+    rdfs:domain :TrustEntity ;
+    rdfs:range :Authority ;
+    rdfs:label "exercises authority"@en ;
+    rdfs:comment "Relates a trust entity to the authority it exercises"@en .
+
+###  http://example.org/trust-domain#advancesPurpose
+:advancesPurpose rdf:type owl:ObjectProperty ;
+    rdfs:domain :OperationalActivity ;
+    rdfs:range :Purpose ;
+    rdfs:label "advances purpose"@en ;
+    rdfs:comment "Links an operational activity to the purpose it advances"@en .
+
+###  http://example.org/trust-domain#implementedBy
+:implementedBy rdf:type owl:ObjectProperty ;
+    rdfs:domain :Purpose ;
+    rdfs:range :Instrument ;
+    rdfs:label "implemented by"@en ;
+    rdfs:comment "Relates a purpose to the instruments that implement it"@en .
+
+###  http://example.org/trust-domain#substantiatedBy
+:substantiatedBy rdf:type owl:ObjectProperty ;
+    rdfs:domain :Instrument ;
+    rdfs:range :Evidence ;
+    rdfs:label "substantiated by"@en ;
+    rdfs:comment "Links an instrument to the evidence that substantiates it"@en .
+
+###  http://example.org/trust-domain#governedBy
+:governedBy rdf:type owl:ObjectProperty ;
+    rdfs:domain :Instrument ;
+    rdfs:range :DoctrinalSource ;
+    rdfs:label "governed by"@en ;
+    rdfs:comment "Indicates which doctrinal source governs an instrument"@en .
+
+###  http://example.org/trust-domain#hasBeneficiary
+:hasBeneficiary rdf:type owl:ObjectProperty ;
+    rdfs:domain :TrustStructure ;
+    rdfs:range :Beneficiary ;
+    rdfs:label "has beneficiary"@en .
+
+###  http://example.org/trust-domain#hasTrustee
+:hasTrustee rdf:type owl:ObjectProperty ;
+    rdfs:domain :TrustStructure ;
+    rdfs:range :Trustee ;
+    rdfs:label "has trustee"@en .
+
+###  http://example.org/trust-domain#hasProtector
+:hasProtector rdf:type owl:ObjectProperty ;
+    rdfs:domain :TrustStructure ;
+    rdfs:range :Protector ;
+    rdfs:label "has protector"@en .
+
+###  http://example.org/trust-domain#employs
+:employs rdf:type owl:ObjectProperty ;
+    rdfs:domain :TrustEntity ;
+    rdfs:range :HumanCapability ;
+    rdfs:label "employs"@en ;
+    rdfs:comment "Relates trust entity to human capabilities it employs"@en .
+
+###  http://example.org/trust-domain#controls
+:controls rdf:type owl:ObjectProperty ;
+    rdfs:domain :TrustEntity ;
+    rdfs:range :Asset ;
+    rdfs:label "controls"@en ;
+    rdfs:comment "Indicates asset control relationship"@en .
+
+###  http://example.org/trust-domain#incurs
+:incurs rdf:type owl:ObjectProperty ;
+    rdfs:domain :TrustEntity ;
+    rdfs:range :Expenditure ;
+    rdfs:label "incurs"@en ;
+    rdfs:comment "Relates entity to expenditures it incurs"@en .
+
+###  http://example.org/trust-domain#withinBoundary
+:withinBoundary rdf:type owl:ObjectProperty ;
+    rdfs:domain :OperationalActivity ;
+    rdfs:range :OperatingBoundary ;
+    rdfs:label "within boundary"@en ;
+    rdfs:comment "Indicates activity is within operational boundary"@en .
+
+###  http://example.org/trust-domain#requiresEvidence
+:requiresEvidence rdf:type owl:ObjectProperty ;
+    rdfs:domain :Instrument ;
+    rdfs:range :EvidenceDiscipline ;
+    rdfs:label "requires evidence"@en .
+
+###  http://example.org/trust-domain#preventsMisuse
+:preventsMisuse rdf:type owl:ObjectProperty ;
+    rdfs:domain :SafeguardMechanism ;
+    rdfs:range :AuthorityCollapse ;
+    rdfs:label "prevents misuse"@en .
+
+#################################################################
+#    Data Properties
+#################################################################
+
+###  http://example.org/trust-domain#isRevocable
+:isRevocable rdf:type owl:DatatypeProperty ;
+    rdfs:domain :TrustStructure ;
+    rdfs:range xsd:boolean ;
+    rdfs:label "is revocable"@en .
+
+###  http://example.org/trust-domain#isGrantorTrust
+:isGrantorTrust rdf:type owl:DatatypeProperty ;
+    rdfs:domain :TrustStructure ;
+    rdfs:range xsd:boolean ;
+    rdfs:label "is grantor trust"@en .
+
+###  http://example.org/trust-domain#isForeign
+:isForeign rdf:type owl:DatatypeProperty ;
+    rdfs:domain :TrustStructure ;
+    rdfs:range xsd:boolean ;
+    rdfs:label "is foreign"@en .
+
+###  http://example.org/trust-domain#hasBusinessPurpose
+:hasBusinessPurpose rdf:type owl:DatatypeProperty ;
+    rdfs:domain :OperationalActivity ;
+    rdfs:range xsd:string ;
+    rdfs:label "has business purpose"@en .
+
+###  http://example.org/trust-domain#isOrdinaryAndNecessary
+:isOrdinaryAndNecessary rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Expenditure ;
+    rdfs:range xsd:boolean ;
+    rdfs:label "is ordinary and necessary"@en .
+
+###  http://example.org/trust-domain#isCapitalExpense
+:isCapitalExpense rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Expenditure ;
+    rdfs:range xsd:boolean ;
+    rdfs:label "is capital expense"@en .
+
+###  http://example.org/trust-domain#hasUsefulLife
+:hasUsefulLife rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Asset ;
+    rdfs:range xsd:integer ;
+    rdfs:label "has useful life"@en ;
+    rdfs:comment "Useful life in years for depreciation purposes"@en .
+
+###  http://example.org/trust-domain#establishedDate
+:establishedDate rdf:type owl:DatatypeProperty ;
+    rdfs:domain :TrustStructure ;
+    rdfs:range xsd:date ;
+    rdfs:label "established date"@en .
+
+###  http://example.org/trust-domain#jurisdiction
+:jurisdiction rdf:type owl:DatatypeProperty ;
+    rdfs:domain :TrustStructure ;
+    rdfs:range xsd:string ;
+    rdfs:label "jurisdiction"@en .
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://example.org/trust-domain#TrustEntity
+:TrustEntity rdf:type owl:Class ;
+    rdfs:label "Trust Entity"@en ;
+    rdfs:comment "A trust operating as a system of authority"@en .
+
+###  http://example.org/trust-domain#TrustStructure
+:TrustStructure rdf:type owl:Class ;
+    rdfs:subClassOf :TrustEntity ;
+    rdfs:label "Trust Structure"@en ;
+    rdfs:comment "The formal structure of a trust"@en .
+
+###  http://example.org/trust-domain#PrivateIrrevocableNonGrantorTrust
+:PrivateIrrevocableNonGrantorTrust rdf:type owl:Class ;
+    rdfs:subClassOf :TrustStructure ,
+        [ rdf:type owl:Restriction ;
+          owl:onProperty :isRevocable ;
+          owl:hasValue "false"^^xsd:boolean
+        ] ,
+        [ rdf:type owl:Restriction ;
+          owl:onProperty :isGrantorTrust ;
+          owl:hasValue "false"^^xsd:boolean
+        ] ;
+    rdfs:label "Private Irrevocable Non-Grantor Trust"@en ;
+    rdfs:comment "A trust that is irrevocable, non-grantor, and private in nature"@en .
+
+###  http://example.org/trust-domain#ForeignPrivateIrrevocableNonGrantorTrust
+:ForeignPrivateIrrevocableNonGrantorTrust rdf:type owl:Class ;
+    rdfs:subClassOf :PrivateIrrevocableNonGrantorTrust ,
+        [ rdf:type owl:Restriction ;
+          owl:onProperty :isForeign ;
+          owl:hasValue "true"^^xsd:boolean
+        ] ;
+    rdfs:label "Foreign Private Irrevocable Non-Grantor Trust"@en ;
+    rdfs:comment "A private irrevocable non-grantor trust established in a foreign jurisdiction"@en .
+
+###  http://example.org/trust-domain#Authority
+:Authority rdf:type owl:Class ;
+    rdfs:label "Authority"@en ;
+    rdfs:comment "The recognized power to direct resources, activities, and human capabilities"@en .
+
+###  http://example.org/trust-domain#FiduciaryAuthority
+:FiduciaryAuthority rdf:type owl:Class ;
+    rdfs:subClassOf :Authority ;
+    rdfs:label "Fiduciary Authority"@en ;
+    rdfs:comment "Authority exercised in a fiduciary capacity"@en .
+
+###  http://example.org/trust-domain#EmployerAuthority
+:EmployerAuthority rdf:type owl:Class ;
+    rdfs:subClassOf :Authority ;
+    rdfs:label "Employer Authority"@en ;
+    rdfs:comment "Authority to direct and control human labor"@en .
+
+###  http://example.org/trust-domain#Purpose
+:Purpose rdf:type owl:Class ;
+    rdfs:label "Purpose"@en ;
+    rdfs:comment "The mission or objective that legitimizes authority"@en .
+
+###  http://example.org/trust-domain#ExemptPurpose
+:ExemptPurpose rdf:type owl:Class ;
+    rdfs:subClassOf :Purpose ;
+    rdfs:label "Exempt Purpose"@en ;
+    rdfs:comment "A purpose recognized as tax-exempt"@en .
+
+###  http://example.org/trust-domain#BusinessPurpose
+:BusinessPurpose rdf:type owl:Class ;
+    rdfs:subClassOf :Purpose ;
+    rdfs:label "Business Purpose"@en ;
+    rdfs:comment "A purpose related to trade or business activity"@en .
+
+###  http://example.org/trust-domain#Instrument
+:Instrument rdf:type owl:Class ;
+    rdfs:label "Instrument"@en ;
+    rdfs:comment "The recognized mechanism through which authority acts on purpose"@en .
+
+###  http://example.org/trust-domain#CompensationInstrument
+:CompensationInstrument rdf:type owl:Class ;
+    rdfs:subClassOf :Instrument ;
+    rdfs:label "Compensation Instrument"@en ;
+    rdfs:comment "Instrument for compensating human capability"@en .
+
+###  http://example.org/trust-domain#FringeBenefit
+:FringeBenefit rdf:type owl:Class ;
+    rdfs:subClassOf :CompensationInstrument ;
+    rdfs:label "Fringe Benefit"@en ;
+    rdfs:comment "Non-cash compensation modality governed by Pub 15-B"@en .
+
+###  http://example.org/trust-domain#WageInstrument
+:WageInstrument rdf:type owl:Class ;
+    rdfs:subClassOf :CompensationInstrument ;
+    rdfs:label "Wage Instrument"@en ;
+    rdfs:comment "Direct wage compensation governed by Pub 15"@en .
+
+###  http://example.org/trust-domain#NonCashOperationalInstrument
+:NonCashOperationalInstrument rdf:type owl:Class ;
+    rdfs:subClassOf :Instrument ;
+    rdfs:label "Non-Cash Operational Instrument"@en ;
+    rdfs:comment "Non-cash instruments that reduce operational friction (IRC §132)"@en .
+
+###  http://example.org/trust-domain#MobilityInstrument
+:MobilityInstrument rdf:type owl:Class ;
+    rdfs:subClassOf :Instrument ;
+    rdfs:label "Mobility Instrument"@en ;
+    rdfs:comment "Travel, lodging, meals as operational requirements (Pub 463)"@en .
+
+###  http://example.org/trust-domain#ReimbursementInstrument
+:ReimbursementInstrument rdf:type owl:Class ;
+    rdfs:subClassOf :Instrument ;
+    rdfs:label "Reimbursement Instrument"@en ;
+    rdfs:comment "Accountable plan reimbursement (IRC §62(c))"@en .
+
+###  http://example.org/trust-domain#CapabilityInvestmentInstrument
+:CapabilityInvestmentInstrument rdf:type owl:Class ;
+    rdfs:subClassOf :Instrument ;
+    rdfs:label "Capability Investment Instrument"@en ;
+    rdfs:comment "Education and training as human capital investment (IRC §117, §127)"@en .
+
+###  http://example.org/trust-domain#DepreciationInstrument
+:DepreciationInstrument rdf:type owl:Class ;
+    rdfs:subClassOf :Instrument ;
+    rdfs:label "Depreciation Instrument"@en ;
+    rdfs:comment "Time-binding of long-lived assets (Pub 946)"@en .
+
+###  http://example.org/trust-domain#Evidence
+:Evidence rdf:type owl:Class ;
+    rdfs:label "Evidence"@en ;
+    rdfs:comment "The documentation and records that substantiate the instrument"@en .
+
+###  http://example.org/trust-domain#PayrollRecords
+:PayrollRecords rdf:type owl:Class ;
+    rdfs:subClassOf :Evidence ;
+    rdfs:label "Payroll Records"@en .
+
+###  http://example.org/trust-domain#BenefitPlan
+:BenefitPlan rdf:type owl:Class ;
+    rdfs:subClassOf :Evidence ;
+    rdfs:label "Benefit Plan"@en .
+
+###  http://example.org/trust-domain#BusinessRecords
+:BusinessRecords rdf:type owl:Class ;
+    rdfs:subClassOf :Evidence ;
+    rdfs:label "Business Records"@en ;
+    rdfs:comment "Invoices, contracts, business purpose documentation"@en .
+
+###  http://example.org/trust-domain#TravelSubstantiation
+:TravelSubstantiation rdf:type owl:Class ;
+    rdfs:subClassOf :Evidence ;
+    rdfs:label "Travel Substantiation"@en ;
+    rdfs:comment "Itineraries, receipts, business nexus documentation"@en .
+
+###  http://example.org/trust-domain#AssetRecords
+:AssetRecords rdf:type owl:Class ;
+    rdfs:subClassOf :Evidence ;
+    rdfs:label "Asset Records"@en ;
+    rdfs:comment "Asset creation and depreciation records"@en .
+
+###  http://example.org/trust-domain#EvidenceDiscipline
+:EvidenceDiscipline rdf:type owl:Class ;
+    rdfs:label "Evidence Discipline"@en ;
+    rdfs:comment "The systematic approach to maintaining evidence"@en .
+
+###  http://example.org/trust-domain#AccountablePlan
+:AccountablePlan rdf:type owl:Class ;
+    rdfs:subClassOf :EvidenceDiscipline ;
+    rdfs:label "Accountable Plan"@en ;
+    rdfs:comment "Evidence discipline per IRC §62(c) requiring substantiation and return of excess"@en .
+
+###  http://example.org/trust-domain#DoctrinalSource
+:DoctrinalSource rdf:type owl:Class ;
+    rdfs:label "Doctrinal Source"@en ;
+    rdfs:comment "Authoritative source defining recognized instruments and boundaries"@en .
+
+###  http://example.org/trust-domain#InternalRevenueCode
+:InternalRevenueCode rdf:type owl:Class ;
+    rdfs:subClassOf :DoctrinalSource ;
+    rdfs:label "Internal Revenue Code"@en .
+
+###  http://example.org/trust-domain#IRCSection
+:IRCSection rdf:type owl:Class ;
+    rdfs:subClassOf :InternalRevenueCode ;
+    rdfs:label "IRC Section"@en .
+
+###  http://example.org/trust-domain#IRSPublication
+:IRSPublication rdf:type owl:Class ;
+    rdfs:subClassOf :DoctrinalSource ;
+    rdfs:label "IRS Publication"@en .
+
+###  http://example.org/trust-domain#IRC_162
+:IRC_162 rdf:type owl:Class ;
+    rdfs:subClassOf :IRCSection ;
+    rdfs:label "IRC §162"@en ;
+    rdfs:comment "Defines the operating boundary - ordinary and necessary business expenses"@en .
+
+###  http://example.org/trust-domain#IRC_132
+:IRC_132 rdf:type owl:Class ;
+    rdfs:subClassOf :IRCSection ;
+    rdfs:label "IRC §132"@en ;
+    rdfs:comment "Non-cash instruments reducing operational friction"@en .
+
+###  http://example.org/trust-domain#IRC_62c
+:IRC_62c rdf:type owl:Class ;
+    rdfs:subClassOf :IRCSection ;
+    rdfs:label "IRC §62(c)"@en ;
+    rdfs:comment "Accountable plans as evidence discipline"@en .
+
+###  http://example.org/trust-domain#IRC_263
+:IRC_263 rdf:type owl:Class ;
+    rdfs:subClassOf :IRCSection ;
+    rdfs:label "IRC §263"@en ;
+    rdfs:comment "Capital boundary enforcement - prevents premature expense recognition"@en .
+
+###  http://example.org/trust-domain#IRC_263A
+:IRC_263A rdf:type owl:Class ;
+    rdfs:subClassOf :IRCSection ;
+    rdfs:label "IRC §263A"@en ;
+    rdfs:comment "Uniform capitalization rules"@en .
+
+###  http://example.org/trust-domain#IRC_117
+:IRC_117 rdf:type owl:Class ;
+    rdfs:subClassOf :IRCSection ;
+    rdfs:label "IRC §117"@en ;
+    rdfs:comment "Scholarships as capability investment"@en .
+
+###  http://example.org/trust-domain#IRC_127
+:IRC_127 rdf:type owl:Class ;
+    rdfs:subClassOf :IRCSection ;
+    rdfs:label "IRC §127"@en ;
+    rdfs:comment "Educational assistance as capability investment"@en .
+
+###  http://example.org/trust-domain#IRC_129
+:IRC_129 rdf:type owl:Class ;
+    rdfs:subClassOf :IRCSection ;
+    rdfs:label "IRC §129"@en ;
+    rdfs:comment "Childcare as workforce infrastructure"@en .
+
+###  http://example.org/trust-domain#IRC_4941
+:IRC_4941 rdf:type owl:Class ;
+    rdfs:subClassOf :IRCSection ;
+    rdfs:label "IRC §4941"@en ;
+    rdfs:comment "Self-dealing prohibitions - abuse prevention"@en .
+
+###  http://example.org/trust-domain#IRC_4942
+:IRC_4942 rdf:type owl:Class ;
+    rdfs:subClassOf :IRCSection ;
+    rdfs:label "IRC §4942"@en ;
+    rdfs:comment "Distribution requirements"@en .
+
+###  http://example.org/trust-domain#IRC_4943
+:IRC_4943 rdf:type owl:Class ;
+    rdfs:subClassOf :IRCSection ;
+    rdfs:label "IRC §4943"@en ;
+    rdfs:comment "Excess business holdings"@en .
+
+###  http://example.org/trust-domain#IRC_4944
+:IRC_4944 rdf:type owl:Class ;
+    rdfs:subClassOf :IRCSection ;
+    rdfs:label "IRC §4944"@en ;
+    rdfs:comment "Jeopardizing investments"@en .
+
+###  http://example.org/trust-domain#IRC_4945
+:IRC_4945 rdf:type owl:Class ;
+    rdfs:subClassOf :IRCSection ;
+    rdfs:label "IRC §4945"@en ;
+    rdfs:comment "Taxable expenditures"@en .
+
+###  http://example.org/trust-domain#Pub_15
+:Pub_15 rdf:type owl:Class ;
+    rdfs:subClassOf :IRSPublication ;
+    rdfs:label "Publication 15"@en ;
+    rdfs:comment "Control-plane for human engagement - how labor attaches to systems of authority"@en .
+
+###  http://example.org/trust-domain#Pub_15B
+:Pub_15B rdf:type owl:Class ;
+    rdfs:subClassOf :IRSPublication ;
+    rdfs:label "Publication 15-B"@en ;
+    rdfs:comment "Taxonomy of fringe benefits as compensation modality"@en .
+
+###  http://example.org/trust-domain#Pub_463
+:Pub_463 rdf:type owl:Class ;
+    rdfs:subClassOf :IRSPublication ;
+    rdfs:label "Publication 463"@en ;
+    rdfs:comment "Mobility as execution primitive - movement as infrastructure"@en .
+
+###  http://example.org/trust-domain#Pub_535
+:Pub_535 rdf:type owl:Class ;
+    rdfs:subClassOf :IRSPublication ;
+    rdfs:label "Publication 535"@en ;
+    rdfs:comment "Cost of producing capability - what systems consume to exist"@en .
+
+###  http://example.org/trust-domain#Pub_557
+:Pub_557 rdf:type owl:Class ;
+    rdfs:subClassOf :IRSPublication ;
+    rdfs:label "Publication 557"@en ;
+    rdfs:comment "Legitimacy of exempt authority - why power is allowed to exist"@en .
+
+###  http://example.org/trust-domain#Pub_583
+:Pub_583 rdf:type owl:Class ;
+    rdfs:subClassOf :IRSPublication ;
+    rdfs:label "Publication 583"@en ;
+    rdfs:comment "System genesis - bringing economic system into lawful existence"@en .
+
+###  http://example.org/trust-domain#Pub_946
+:Pub_946 rdf:type owl:Class ;
+    rdfs:subClassOf :IRSPublication ;
+    rdfs:label "Publication 946"@en ;
+    rdfs:comment "Time-binding of assets - how long-lived assets are consumed over time"@en .
+
+###  http://example.org/trust-domain#OperationalActivity
+:OperationalActivity rdf:type owl:Class ;
+    rdfs:label "Operational Activity"@en ;
+    rdfs:comment "Activity conducted by the trust entity"@en .
+
+###  http://example.org/trust-domain#TradeOrBusiness
+:TradeOrBusiness rdf:type owl:Class ;
+    rdfs:subClassOf :OperationalActivity ;
+    rdfs:label "Trade or Business"@en ;
+    rdfs:comment "Activity conducted for profit or mission"@en .
+
+###  http://example.org/trust-domain#OperatingBoundary
+:OperatingBoundary rdf:type owl:Class ;
+    rdfs:label "Operating Boundary"@en ;
+    rdfs:comment "The perimeter defining what belongs inside the system"@en .
+
+###  http://example.org/trust-domain#Expenditure
+:Expenditure rdf:type owl:Class ;
+    rdfs:label "Expenditure"@en ;
+    rdfs:comment "Cost incurred by the trust entity"@en .
+
+###  http://example.org/trust-domain#OrdinaryAndNecessaryExpense
+:OrdinaryAndNecessaryExpense rdf:type owl:Class ;
+    rdfs:subClassOf :Expenditure ,
+        [ rdf:type owl:Restriction ;
+          owl:onProperty :isOrdinaryAndNecessary ;
+          owl:hasValue "true"^^xsd:boolean
+        ] ;
+    rdfs:label "Ordinary and Necessary Expense"@en ;
+    rdfs:comment "Expense within the operating boundary (IRC §162)"@en .
+
+###  http://example.org/trust-domain#CapitalExpenditure
+:CapitalExpenditure rdf:type owl:Class ;
+    rdfs:subClassOf :Expenditure ,
+        [ rdf:type owl:Restriction ;
+          owl:onProperty :isCapitalExpense ;
+          owl:hasValue "true"^^xsd:boolean
+        ] ;
+    rdfs:label "Capital Expenditure"@en ;
+    rdfs:comment "Expenditure creating long-lived asset (IRC §263)"@en .
+
+###  http://example.org/trust-domain#Asset
+:Asset rdf:type owl:Class ;
+    rdfs:label "Asset"@en ;
+    rdfs:comment "Resource controlled by trust entity"@en .
+
+###  http://example.org/trust-domain#TangibleAsset
+:TangibleAsset rdf:type owl:Class ;
+    rdfs:subClassOf :Asset ;
+    rdfs:label "Tangible Asset"@en .
+
+###  http://example.org/trust-domain#IntangibleAsset
+:IntangibleAsset rdf:type owl:Class ;
+    rdfs:subClassOf :Asset ;
+    rdfs:label "Intangible Asset"@en .
+
+###  http://example.org/trust-domain#DepreciableAsset
+:DepreciableAsset rdf:type owl:Class ;
+    rdfs:subClassOf :Asset ,
+        [ rdf:type owl:Restriction ;
+          owl:onProperty :hasUsefulLife ;
+          owl:someValuesFrom xsd:integer
+        ] ;
+    rdfs:label "Depreciable Asset"@en ;
+    rdfs:comment "Asset consumed over time (Pub 946)"@en .
+
+###  http://example.org/trust-domain#HumanCapability
+:HumanCapability rdf:type owl:Class ;
+    rdfs:label "Human Capability"@en ;
+    rdfs:comment "Human labor and skill engaged by trust"@en .
+
+###  http://example.org/trust-domain#Employee
+:Employee rdf:type owl:Class ;
+    rdfs:subClassOf :HumanCapability ;
+    rdfs:label "Employee"@en ;
+    rdfs:comment "Human capability under employer authority and control"@en .
+
+###  http://example.org/trust-domain#IndependentContractor
+:IndependentContractor rdf:type owl:Class ;
+    rdfs:subClassOf :HumanCapability ;
+    rdfs:label "Independent Contractor"@en .
+
+###  http://example.org/trust-domain#Beneficiary
+:Beneficiary rdf:type owl:Class ;
+    rdfs:label "Beneficiary"@en ;
+    rdfs:comment "Person or entity with beneficial interest in trust"@en .
+
+###  http://example.org/trust-domain#Trustee
+:Trustee rdf:type owl:Class ;
+    rdfs:label "Trustee"@en ;
+    rdfs:comment "Fiduciary holding legal title and authority"@en .
+
+###  http://example.org/trust-domain#Protector
+:Protector rdf:type owl:Class ;
+    rdfs:label "Protector"@en ;
+    rdfs:comment "Person or entity overseeing trustee actions"@en .
+
+###  http://example.org/trust-domain#Grantor
+:Grantor rdf:type owl:Class ;
+    rdfs:label "Grantor"@en ;
+    rdfs:comment "Person or entity establishing the trust"@en .
+
+###  http://example.org/trust-domain#SafeguardMechanism
+:SafeguardMechanism rdf:type owl:Class ;
+    rdfs:label "Safeguard Mechanism"@en ;
+    rdfs:comment "Structural constraint preventing fiduciary power collapse"@en .
+
+###  http://example.org/trust-domain#SelfDealingProhibition
+:SelfDealingProhibition rdf:type owl:Class ;
+    rdfs:subClassOf :SafeguardMechanism ;
+    rdfs:label "Self-Dealing Prohibition"@en ;
+    rdfs:comment "Prevents transactions between fiduciary and trust (IRC §4941)"@en .
+
+###  http://example.org/trust-domain#ExcessBenefitTest
+:ExcessBenefitTest rdf:type owl:Class ;
+    rdfs:subClassOf :SafeguardMechanism ;
+    rdfs:label "Excess Benefit Test"@en ;
+    rdfs:comment "Prevents excessive compensation or benefits"@en .
+
+###  http://example.org/trust-domain#JeopardizingInvestmentRule
+:JeopardizingInvestmentRule rdf:type owl:Class ;
+    rdfs:subClassOf :SafeguardMechanism ;
+    rdfs:label "Jeopardizing Investment Rule"@en ;
+    rdfs:comment "Prevents reckless investment endangering mission (IRC §4944)"@en .
+
+###  http://example.org/trust-domain#AuthorityCollapse
+:AuthorityCollapse rdf:type owl:Class ;
+    rdfs:label "Authority Collapse"@en ;
+    rdfs:comment "Misuse or abuse of fiduciary authority"@en .
+
+###  http://example.org/trust-domain#PrivateInurement
+:PrivateInurement rdf:type owl:Class ;
+    rdfs:subClassOf :AuthorityCollapse ;
+    rdfs:label "Private Inurement"@en ;
+    rdfs:comment "Improper private benefit from exempt organization"@en .
+
+###  http://example.org/trust-domain#PrivateBenefit
+:PrivateBenefit rdf:type owl:Class ;
+    rdfs:subClassOf :AuthorityCollapse ;
+    rdfs:label "Private Benefit"@en ;
+    rdfs:comment "Excessive benefit to private interests"@en .
+
+#################################################################
+#    Restrictions and Axioms
+#################################################################
+
+###  Foreign Private Irrevocable Non-Grantor Trust must have Trustee
+:ForeignPrivateIrrevocableNonGrantorTrust rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :hasTrustee ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger
+    ] .
+
+###  Every Instrument must be governed by at least one DoctrinalSource
+:Instrument rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :governedBy ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger
+    ] .
+
+###  Every Instrument must be substantiated by Evidence
+:Instrument rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :substantiatedBy ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger
+    ] .
+
+###  Accountable Plan requires substantiation and return of excess
+:AccountablePlan rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :requiresEvidence ;
+      owl:someValuesFrom :BusinessRecords
+    ] .
+
+###  Reimbursement Instrument must follow Accountable Plan
+:ReimbursementInstrument rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :requiresEvidence ;
+      owl:someValuesFrom :AccountablePlan
+    ] .
+
+###  Operational Activity must advance a Purpose
+:OperationalActivity rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :advancesPurpose ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger
+    ] .
+
+###  Operational Activity within boundary must be Ordinary and Necessary
+[ rdf:type owl:Restriction ;
+  owl:onProperty :withinBoundary ;
+  owl:someValuesFrom :OperatingBoundary
+] rdfs:subClassOf :OrdinaryAndNecessaryExpense .
+
+###  Safeguard Mechanisms prevent Authority Collapse
+:SafeguardMechanism rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :preventsMisuse ;
+      owl:someValuesFrom :AuthorityCollapse
+    ] .
+
+###  Trust Entity must exercise Authority
+:TrustEntity rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :exercisesAuthority ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger
+    ] .
+
+###  Depreciation Instrument applies to Depreciable Assets
+:DepreciationInstrument rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :substantiatedBy ;
+      owl:someValuesFrom :AssetRecords
+    ] .
+
+###  Fringe Benefit governed by Pub 15-B
+:FringeBenefit rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :governedBy ;
+      owl:hasValue :Pub_15B
+    ] .
+
+###  Wage Instrument governed by Pub 15
+:WageInstrument rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :governedBy ;
+      owl:hasValue :Pub_15
+    ] .
+
+###  Non-Cash Operational Instrument governed by IRC §132
+:NonCashOperationalInstrument rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :governedBy ;
+      owl:hasValue :IRC_132
+    ] .
+
+###  Mobility Instrument governed by Pub 463
+:MobilityInstrument rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :governedBy ;
+      owl:hasValue :Pub_463
+    ] .
+
+###  Ordinary and Necessary Expense governed by IRC §162
+:OrdinaryAndNecessaryExpense rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :governedBy ;
+      owl:hasValue :IRC_162
+    ] .
+
+###  Capital Expenditure governed by IRC §263
+:CapitalExpenditure rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :governedBy ;
+      owl:hasValue :IRC_263
+    ] .
+
+###  Capability Investment governed by IRC §117 or §127
+:CapabilityInvestmentInstrument rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :governedBy ;
+      owl:someValuesFrom [ rdf:type owl:Class ;
+                           owl:unionOf ( :IRC_117 :IRC_127 )
+                         ]
+    ] .
+
+#################################################################
+#    Individuals (Example Instances)
+#################################################################
+
+###  http://example.org/trust-domain#ExampleForeignTrust
+:ExampleForeignTrust rdf:type owl:NamedIndividual ,
+                              :ForeignPrivateIrrevocableNonGrantorTrust ;
+    :isRevocable "false"^^xsd:boolean ;
+    :isGrantorTrust "false"^^xsd:boolean ;
+    :isForeign "true"^^xsd:boolean ;
+    :jurisdiction "Nevis" ;
+    :establishedDate "2024-01-15"^^xsd:date ;
+    rdfs:label "Example Foreign Private Irrevocable Non-Grantor Trust"@en .
+
+###  Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi

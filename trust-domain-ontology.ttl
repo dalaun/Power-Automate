@@ -19,8 +19,16 @@ CRITICAL ARCHITECTURE:
 - IRC §162/§212/§67(e): The EXPENSE INSTRUMENTS - operational spending power for trusts
 - EIN: System identifier (MAC address, not protocol) - NOT an instrument
 
+THE KEYSTONE CONSTRAINT:
+Private enablement is permissible when and only when it is BOTH:
+  1. Incidental to purpose-driven execution (not the primary purpose), AND
+  2. Inseparable from purpose-driven execution (necessarily coupled with mission advancement)
+
+This constraint is the fundamental boundary between legitimate operations and private inurement.
+All compensation, benefits, and private enablement must satisfy both tests to be permissible.
+
 Non-grantor and foreign trusts acquire operational instruments once control, jurisdiction, and fiduciary authority are cleanly separated under the doctrinal stack."""@en ;
-    owl:versionInfo "2.0" .
+    owl:versionInfo "2.1" .
 
 #################################################################
 #    Object Properties
@@ -188,6 +196,41 @@ Non-grantor and foreign trusts acquire operational instruments once control, jur
     rdfs:range :Purpose ;
     rdfs:label "has sub-purpose"@en ;
     rdfs:comment "Purpose composed of multiple sub-purposes or mission areas"@en .
+
+###  http://example.org/trust-domain#isIncidentalTo
+:isIncidentalTo rdf:type owl:ObjectProperty ;
+    rdfs:domain :PrivateEnablement ;
+    rdfs:range :Purpose ;
+    rdfs:label "is incidental to"@en ;
+    rdfs:comment "Private enablement is incidental to purpose-driven execution"@en .
+
+###  http://example.org/trust-domain#isInseparableFrom
+:isInseparableFrom rdf:type owl:ObjectProperty ;
+    rdfs:domain :PrivateEnablement ;
+    rdfs:range :OperationalActivity ;
+    rdfs:label "is inseparable from"@en ;
+    rdfs:comment "Private enablement is inseparable from operational execution"@en .
+
+###  http://example.org/trust-domain#enablesPrivately
+:enablesPrivately rdf:type owl:ObjectProperty ;
+    rdfs:domain :Instrument ;
+    rdfs:range :PrivateEnablement ;
+    rdfs:label "enables privately"@en ;
+    rdfs:comment "Instrument provides private enablement (compensation, benefits, etc.)"@en .
+
+###  http://example.org/trust-domain#satisfiesKeystoneConstraint
+:satisfiesKeystoneConstraint rdf:type owl:ObjectProperty ;
+    rdfs:domain :PrivateEnablement ;
+    rdfs:range :KeystoneConstraint ;
+    rdfs:label "satisfies keystone constraint"@en ;
+    rdfs:comment "Private enablement satisfies the keystone constraint: incidental to AND inseparable from purpose-driven execution"@en .
+
+###  http://example.org/trust-domain#violatesKeystoneConstraint
+:violatesKeystoneConstraint rdf:type owl:ObjectProperty ;
+    rdfs:domain :PrivateEnablement ;
+    rdfs:range :KeystoneConstraint ;
+    rdfs:label "violates keystone constraint"@en ;
+    rdfs:comment "Private enablement violates keystone constraint - not incidental or separable from purpose"@en .
 
 #################################################################
 #    Data Properties
@@ -945,6 +988,67 @@ Non-grantor and foreign trusts acquire operational instruments once control, jur
     rdfs:label "Fiduciary-Specific Expense"@en ;
     rdfs:comment "Expense that would not exist but for fiduciary status (IRC §67(e))"@en .
 
+###  http://example.org/trust-domain#PrivateEnablement
+:PrivateEnablement rdf:type owl:Class ;
+    rdfs:label "Private Enablement"@en ;
+    rdfs:comment "Any benefit, compensation, or resource provided to private individuals (employees, contractors, beneficiaries, etc.) by the trust entity"@en .
+
+###  http://example.org/trust-domain#PermissiblePrivateEnablement
+:PermissiblePrivateEnablement rdf:type owl:Class ;
+    rdfs:subClassOf :PrivateEnablement ,
+        [ rdf:type owl:Restriction ;
+          owl:onProperty :isIncidentalTo ;
+          owl:minCardinality "1"^^xsd:nonNegativeInteger
+        ] ,
+        [ rdf:type owl:Restriction ;
+          owl:onProperty :isInseparableFrom ;
+          owl:minCardinality "1"^^xsd:nonNegativeInteger
+        ] ;
+    rdfs:label "Permissible Private Enablement"@en ;
+    rdfs:comment "Private enablement that is BOTH incidental to AND inseparable from purpose-driven execution - the ONLY permissible form per the keystone constraint"@en .
+
+###  http://example.org/trust-domain#ImproperPrivateEnablement
+:ImproperPrivateEnablement rdf:type owl:Class ;
+    rdfs:subClassOf :PrivateEnablement ;
+    owl:disjointWith :PermissiblePrivateEnablement ;
+    rdfs:label "Improper Private Enablement"@en ;
+    rdfs:comment "Private enablement that fails the keystone constraint - either not incidental to purpose OR separable from execution. This constitutes private inurement or excessive private benefit."@en .
+
+###  http://example.org/trust-domain#KeystoneConstraint
+:KeystoneConstraint rdf:type owl:Class ;
+    rdfs:label "Keystone Constraint"@en ;
+    rdfs:comment "The fundamental constraint governing all private enablement: Private enablement is permissible when and only when it is BOTH incidental to AND inseparable from purpose-driven execution. This is the boundary between legitimate operations and private inurement."@en .
+
+###  http://example.org/trust-domain#IncidentalityTest
+:IncidentalityTest rdf:type owl:Class ;
+    rdfs:subClassOf :KeystoneConstraint ;
+    rdfs:label "Incidentality Test"@en ;
+    rdfs:comment "Tests whether private enablement is incidental to (not the primary purpose of) the operational activity"@en .
+
+###  http://example.org/trust-domain#InseparabilityTest
+:InseparabilityTest rdf:type owl:Class ;
+    rdfs:subClassOf :KeystoneConstraint ;
+    rdfs:label "Inseparability Test"@en ;
+    rdfs:comment "Tests whether private enablement is inseparable from (necessarily coupled with) purpose-driven execution"@en .
+
+###  http://example.org/trust-domain#EmployeeCompensationEnablement
+:EmployeeCompensationEnablement rdf:type owl:Class ;
+    rdfs:subClassOf :PermissiblePrivateEnablement ;
+    rdfs:label "Employee Compensation Enablement"@en ;
+    rdfs:comment "Compensation to employees for work advancing the mission - incidental to and inseparable from execution"@en .
+
+###  http://example.org/trust-domain#OperationalBenefitEnablement
+:OperationalBenefitEnablement rdf:type owl:Class ;
+    rdfs:subClassOf :PermissiblePrivateEnablement ;
+    rdfs:label "Operational Benefit Enablement"@en ;
+    rdfs:comment "Benefits (health insurance, retirement, etc.) necessary to sustain workforce capability - incidental to and inseparable from mission execution"@en .
+
+###  http://example.org/trust-domain#BeneficiaryDistributionEnablement
+:BeneficiaryDistributionEnablement rdf:type owl:Class ;
+    rdfs:subClassOf :PrivateEnablement ;
+    rdfs:label "Beneficiary Distribution Enablement"@en ;
+    rdfs:comment "Distributions to trust beneficiaries - may be permissible or improper depending on keystone constraint satisfaction"@en .
+
 #################################################################
 #    Restrictions and Axioms
 #################################################################
@@ -1172,6 +1276,61 @@ Non-grantor and foreign trusts acquire operational instruments once control, jur
       owl:someValuesFrom :Instrument
     ] .
 
+###  THE KEYSTONE CONSTRAINT - Permissible Private Enablement MUST satisfy both tests
+:PermissiblePrivateEnablement rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :satisfiesKeystoneConstraint ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger
+    ] .
+
+###  Improper Private Enablement violates the Keystone Constraint
+:ImproperPrivateEnablement rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :violatesKeystoneConstraint ;
+      owl:someValuesFrom :KeystoneConstraint
+    ] .
+
+###  Improper Private Enablement leads to Authority Collapse (Private Inurement)
+:ImproperPrivateEnablement rdfs:subClassOf :PrivateInurement .
+
+###  Compensation Instruments may enable privately - must satisfy Keystone Constraint
+:CompensationInstrument rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :enablesPrivately ;
+      owl:someValuesFrom :PrivateEnablement
+    ] .
+
+###  Employee Compensation Enablement is incidental to Purpose
+:EmployeeCompensationEnablement rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :isIncidentalTo ;
+      owl:someValuesFrom :Purpose
+    ] .
+
+###  Employee Compensation Enablement is inseparable from Operational Activity
+:EmployeeCompensationEnablement rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :isInseparableFrom ;
+      owl:someValuesFrom :OperationalActivity
+    ] .
+
+###  Operational Benefit Enablement is incidental to Purpose
+:OperationalBenefitEnablement rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :isIncidentalTo ;
+      owl:someValuesFrom :Purpose
+    ] .
+
+###  Operational Benefit Enablement is inseparable from sustaining HumanCapability
+:OperationalBenefitEnablement rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :isInseparableFrom ;
+      owl:someValuesFrom :OperationalActivity
+    ] .
+
+###  Keystone Constraint prevents Authority Collapse
+:KeystoneConstraint rdfs:subClassOf :SafeguardMechanism .
+
 #################################################################
 #    Individuals (Example Instances)
 #################################################################
@@ -1305,5 +1464,59 @@ Non-grantor and foreign trusts acquire operational instruments once control, jur
                             :Trustee ;
     rdfs:label "Foundation Trustee"@en ;
     rdfs:comment "Fiduciary exercising authority to advance the foundation's charitable mission"@en .
+
+###  http://example.org/trust-domain#TheKeystoneConstraint
+:TheKeystoneConstraint rdf:type owl:NamedIndividual ,
+                                :KeystoneConstraint ;
+    rdfs:label "The Keystone Constraint"@en ;
+    rdfs:comment "THE fundamental rule: Private enablement is permissible when and only when it is BOTH incidental to AND inseparable from purpose-driven execution. This is the boundary between legitimate operation and private inurement."@en .
+
+###  http://example.org/trust-domain#ExamplePermissibleCompensation
+:ExamplePermissibleCompensation rdf:type owl:NamedIndividual ,
+                                         :EmployeeCompensationEnablement ,
+                                         :PermissiblePrivateEnablement ;
+    :isIncidentalTo :FoundationMission ;
+    :isInseparableFrom :ExampleResearchActivity ;
+    :satisfiesKeystoneConstraint :TheKeystoneConstraint ;
+    rdfs:label "Example: Permissible Researcher Compensation"@en ;
+    rdfs:comment "Compensation paid to research scientist conducting medical research grants aligned with health mission. This is INCIDENTAL TO (health mission) AND INSEPARABLE FROM (research cannot occur without researcher) purpose-driven execution - therefore permissible."@en .
+
+###  http://example.org/trust-domain#ExamplePermissibleHealthBenefit
+:ExamplePermissibleHealthBenefit rdf:type owl:NamedIndividual ,
+                                          :OperationalBenefitEnablement ,
+                                          :PermissiblePrivateEnablement ;
+    :isIncidentalTo :FoundationMission ;
+    :isInseparableFrom :ExampleResearchActivity ;
+    :satisfiesKeystoneConstraint :TheKeystoneConstraint ;
+    rdfs:label "Example: Permissible Health Insurance Benefit"@en ;
+    rdfs:comment "Health insurance provided to research staff. This is INCIDENTAL TO (not the purpose, but enables the purpose) AND INSEPARABLE FROM (sustaining workforce capability required for execution) mission advancement - therefore permissible."@en .
+
+###  http://example.org/trust-domain#ExampleImproperLavishExpense
+:ExampleImproperLavishExpense rdf:type owl:NamedIndividual ,
+                                       :ImproperPrivateEnablement ;
+    :violatesKeystoneConstraint :TheKeystoneConstraint ;
+    rdfs:label "Example: Improper Lavish Personal Expense"@en ;
+    rdfs:comment "Luxury vacation for trustee unrelated to mission activities. This is NOT INCIDENTAL (serves no mission purpose) and IS SEPARABLE (can be removed without affecting execution) - therefore VIOLATES keystone constraint and constitutes private inurement."@en .
+
+###  http://example.org/trust-domain#ExampleImproperExcessCompensation
+:ExampleImproperExcessCompensation rdf:type owl:NamedIndividual ,
+                                            :ImproperPrivateEnablement ;
+    :violatesKeystoneConstraint :TheKeystoneConstraint ;
+    rdfs:label "Example: Improper Excessive Compensation"@en ;
+    rdfs:comment "Compensation far exceeding market rate for comparable services. While some compensation is incidental and inseparable, the EXCESS portion is SEPARABLE from execution and serves enrichment rather than purpose - therefore the excess VIOLATES keystone constraint."@en .
+
+###  http://example.org/trust-domain#ExampleResearchActivity
+:ExampleResearchActivity rdf:type owl:NamedIndividual ,
+                                  :OperationalActivity ;
+    :advancesPurpose :FoundationHealthMission ;
+    :withinBoundary :ExampleOperatingBoundary ;
+    rdfs:label "Example: Medical Research Activity"@en ;
+    rdfs:comment "Conducting medical research grants to advance health mission"@en .
+
+###  http://example.org/trust-domain#ExampleOperatingBoundary
+:ExampleOperatingBoundary rdf:type owl:NamedIndividual ,
+                                   :OperatingBoundary ;
+    rdfs:label "Example Operating Boundary"@en ;
+    rdfs:comment "The perimeter defining what belongs inside the foundation's operational system"@en .
 
 ###  Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi

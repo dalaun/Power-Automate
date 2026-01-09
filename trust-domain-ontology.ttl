@@ -175,6 +175,20 @@ Non-grantor and foreign trusts acquire operational instruments once control, jur
     rdfs:label "requires filing"@en ;
     rdfs:comment "Trust must file fiduciary tax return (Form 1041)"@en .
 
+###  http://example.org/trust-domain#hasPurpose
+:hasPurpose rdf:type owl:ObjectProperty ;
+    rdfs:domain :TrustEntity ;
+    rdfs:range :Purpose ;
+    rdfs:label "has purpose"@en ;
+    rdfs:comment "Trust entity has stated purpose that legitimizes its authority"@en .
+
+###  http://example.org/trust-domain#hasSubPurpose
+:hasSubPurpose rdf:type owl:ObjectProperty ;
+    rdfs:domain :Purpose ;
+    rdfs:range :Purpose ;
+    rdfs:label "has sub-purpose"@en ;
+    rdfs:comment "Purpose composed of multiple sub-purposes or mission areas"@en .
+
 #################################################################
 #    Data Properties
 #################################################################
@@ -269,6 +283,20 @@ Non-grantor and foreign trusts acquire operational instruments once control, jur
     rdfs:label "has control location"@en ;
     rdfs:comment "Location where substantial trust decisions are made"@en .
 
+###  http://example.org/trust-domain#hasMissionStatement
+:hasMissionStatement rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Purpose ;
+    rdfs:range xsd:string ;
+    rdfs:label "has mission statement"@en ;
+    rdfs:comment "The formal mission statement articulating the purpose"@en .
+
+###  http://example.org/trust-domain#purposeDescription
+:purposeDescription rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Purpose ;
+    rdfs:range xsd:string ;
+    rdfs:label "purpose description"@en ;
+    rdfs:comment "Detailed description of the purpose and how it will be advanced"@en .
+
 #################################################################
 #    Classes
 #################################################################
@@ -335,6 +363,36 @@ Non-grantor and foreign trusts acquire operational instruments once control, jur
     rdfs:subClassOf :Purpose ;
     rdfs:label "Exempt Purpose"@en ;
     rdfs:comment "A purpose recognized as tax-exempt"@en .
+
+###  http://example.org/trust-domain#CharitablePurpose
+:CharitablePurpose rdf:type owl:Class ;
+    rdfs:subClassOf :ExemptPurpose ;
+    rdfs:label "Charitable Purpose"@en ;
+    rdfs:comment "Purpose advancing charitable, educational, scientific, or other exempt activities"@en .
+
+###  http://example.org/trust-domain#HealthPurpose
+:HealthPurpose rdf:type owl:Class ;
+    rdfs:subClassOf :CharitablePurpose ;
+    rdfs:label "Health Purpose"@en ;
+    rdfs:comment "Purpose advancing health and wellness"@en .
+
+###  http://example.org/trust-domain#EducationalPurpose
+:EducationalPurpose rdf:type owl:Class ;
+    rdfs:subClassOf :CharitablePurpose ;
+    rdfs:label "Educational Purpose"@en ;
+    rdfs:comment "Purpose advancing education and knowledge dissemination"@en .
+
+###  http://example.org/trust-domain#InnovationPurpose
+:InnovationPurpose rdf:type owl:Class ;
+    rdfs:subClassOf :CharitablePurpose ;
+    rdfs:label "Innovation Purpose"@en ;
+    rdfs:comment "Purpose advancing scientific research, technological development, and innovation"@en .
+
+###  http://example.org/trust-domain#OpportunityPurpose
+:OpportunityPurpose rdf:type owl:Class ;
+    rdfs:subClassOf :CharitablePurpose ;
+    rdfs:label "Opportunity Purpose"@en ;
+    rdfs:comment "Purpose advancing economic opportunity, social mobility, and human capability"@en .
 
 ###  http://example.org/trust-domain#BusinessPurpose
 :BusinessPurpose rdf:type owl:Class ;
@@ -1100,6 +1158,20 @@ Non-grantor and foreign trusts acquire operational instruments once control, jur
       owl:hasValue :IRC_7701
     ] .
 
+###  Trust Entity must have Purpose - Purpose legitimizes Authority
+:TrustEntity rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :hasPurpose ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger
+    ] .
+
+###  Exempt Purpose enables use of Charitable Instruments
+:ExemptPurpose rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :implementedBy ;
+      owl:someValuesFrom :Instrument
+    ] .
+
 #################################################################
 #    Individuals (Example Instances)
 #################################################################
@@ -1170,5 +1242,68 @@ Non-grantor and foreign trusts acquire operational instruments once control, jur
                                         :IRC_7701 ;
     rdfs:label "IRC §7701 Jurisdictional Identity"@en ;
     rdfs:comment "Determines which sovereign's rules apply via court test and control test"@en .
+
+###  http://example.org/trust-domain#FoundationMission
+:FoundationMission rdf:type owl:NamedIndividual ,
+                            :CharitablePurpose ;
+    :hasMissionStatement "Empowering lives through health, education, innovation, and opportunity" ;
+    :purposeDescription "The foundation advances charitable purposes by investing in health initiatives, educational programs, innovation and scientific research, and economic opportunity for underserved communities. This multi-faceted mission legitimizes the foundation's authority to deploy resources across four complementary domains." ;
+    :hasSubPurpose :FoundationHealthMission ,
+                   :FoundationEducationMission ,
+                   :FoundationInnovationMission ,
+                   :FoundationOpportunityMission ;
+    rdfs:label "Foundation Mission: Empowering Lives"@en ;
+    rdfs:comment "The overarching exempt purpose that legitimizes the foundation's authority and governs instrument selection"@en .
+
+###  http://example.org/trust-domain#FoundationHealthMission
+:FoundationHealthMission rdf:type owl:NamedIndividual ,
+                                  :HealthPurpose ;
+    :purposeDescription "Advancing health and wellness through medical research grants, healthcare access programs, and public health initiatives" ;
+    rdfs:label "Health Mission Component"@en ;
+    rdfs:comment "Health sub-purpose of the foundation mission"@en .
+
+###  http://example.org/trust-domain#FoundationEducationMission
+:FoundationEducationMission rdf:type owl:NamedIndividual ,
+                                     :EducationalPurpose ;
+    :purposeDescription "Advancing education through scholarship programs, educational technology, curriculum development, and teacher training initiatives" ;
+    rdfs:label "Education Mission Component"@en ;
+    rdfs:comment "Educational sub-purpose of the foundation mission"@en .
+
+###  http://example.org/trust-domain#FoundationInnovationMission
+:FoundationInnovationMission rdf:type owl:NamedIndividual ,
+                                      :InnovationPurpose ;
+    :purposeDescription "Advancing innovation through scientific research grants, technology development, and support for breakthrough discoveries" ;
+    rdfs:label "Innovation Mission Component"@en ;
+    rdfs:comment "Innovation sub-purpose of the foundation mission"@en .
+
+###  http://example.org/trust-domain#FoundationOpportunityMission
+:FoundationOpportunityMission rdf:type owl:NamedIndividual ,
+                                       :OpportunityPurpose ;
+    :purposeDescription "Advancing economic opportunity through workforce development, entrepreneurship programs, and initiatives that expand access to capital and resources for underserved populations" ;
+    rdfs:label "Opportunity Mission Component"@en ;
+    rdfs:comment "Opportunity sub-purpose of the foundation mission"@en .
+
+###  http://example.org/trust-domain#ExampleFoundationTrust
+:ExampleFoundationTrust rdf:type owl:NamedIndividual ,
+                                 :ForeignPrivateIrrevocableNonGrantorTrust ;
+    :isRevocable "false"^^xsd:boolean ;
+    :isGrantorTrust "false"^^xsd:boolean ;
+    :isForeign "true"^^xsd:boolean ;
+    :isDomestic "false"^^xsd:boolean ;
+    :jurisdiction "Nevis" ;
+    :hasCourtJurisdiction "Nevis High Court" ;
+    :hasControlLocation "Nevis" ;
+    :establishedDate "2024-01-15"^^xsd:date ;
+    :hasEIN "98-7654321" ;
+    :hasPurpose :FoundationMission ;
+    :hasTrustee :FoundationTrustee ;
+    rdfs:label "Example Foundation Trust"@en ;
+    rdfs:comment "Foreign private irrevocable non-grantor trust operating as a private foundation with mission to empower lives through health, education, innovation, and opportunity. Purpose legitimizes authority, which enables deployment of instruments."@en .
+
+###  http://example.org/trust-domain#FoundationTrustee
+:FoundationTrustee rdf:type owl:NamedIndividual ,
+                            :Trustee ;
+    rdfs:label "Foundation Trustee"@en ;
+    rdfs:comment "Fiduciary exercising authority to advance the foundation's charitable mission"@en .
 
 ###  Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi

@@ -8,8 +8,19 @@
 
 <http://example.org/trust-domain> rdf:type owl:Ontology ;
     rdfs:label "Trust Domain Ontology"@en ;
-    rdfs:comment "Canonical ontology for private & foreign irrevocable non-grantor trust domains, modeling authority, instruments, and operational boundaries"@en ;
-    owl:versionInfo "1.0" .
+    rdfs:comment """Canonical ontology for private & foreign irrevocable non-grantor trust domains, modeling authority, instruments, and operational boundaries.
+
+This ontology treats tax code sections not as 'tax rules' but as recognized instruments, authority boundaries, evidence schemas, and control-plane components.
+
+CRITICAL ARCHITECTURE:
+- IRC §§671-679: The GATEWAY - creates separation between grantor and trust (control-of-income boundary)
+- IRC §§641-685: The OPERATING SYSTEM - enables trust as autonomous accounting system (DNI, distributions, character flow-through)
+- IRC §7701: The JURISDICTION - assigns which sovereign's rules apply (court + control tests)
+- IRC §162/§212/§67(e): The EXPENSE INSTRUMENTS - operational spending power for trusts
+- EIN: System identifier (MAC address, not protocol) - NOT an instrument
+
+Non-grantor and foreign trusts acquire operational instruments once control, jurisdiction, and fiduciary authority are cleanly separated under the doctrinal stack."""@en ;
+    owl:versionInfo "2.0" .
 
 #################################################################
 #    Object Properties
@@ -108,6 +119,62 @@
     rdfs:range :AuthorityCollapse ;
     rdfs:label "prevents misuse"@en .
 
+###  http://example.org/trust-domain#retainsControlPower
+:retainsControlPower rdf:type owl:ObjectProperty ;
+    rdfs:domain :Grantor ;
+    rdfs:range :ControlPower ;
+    rdfs:label "retains control power"@en ;
+    rdfs:comment "Grantor retains enumerated control power under IRC §§671-679"@en .
+
+###  http://example.org/trust-domain#lacksRetainedControl
+:lacksRetainedControl rdf:type owl:ObjectProperty ;
+    rdfs:domain :NonGrantorTrustSystem ;
+    rdfs:range :ControlPower ;
+    rdfs:label "lacks retained control"@en ;
+    rdfs:comment "Trust lacks enumerated control powers, crossing the non-grantor boundary"@en .
+
+###  http://example.org/trust-domain#makesDistribution
+:makesDistribution rdf:type owl:ObjectProperty ;
+    rdfs:domain :NonGrantorTrustSystem ;
+    rdfs:range :Distribution ;
+    rdfs:label "makes distribution"@en ;
+    rdfs:comment "Trust distributes income or corpus to beneficiaries"@en .
+
+###  http://example.org/trust-domain#passesJurisdictionalTest
+:passesJurisdictionalTest rdf:type owl:ObjectProperty ;
+    rdfs:domain :TrustStructure ;
+    rdfs:range :JurisdictionalTest ;
+    rdfs:label "passes jurisdictional test"@en ;
+    rdfs:comment "Trust satisfies court or control test for jurisdictional classification"@en .
+
+###  http://example.org/trust-domain#hasSystemIdentifier
+:hasSystemIdentifier rdf:type owl:ObjectProperty ;
+    rdfs:domain :TrustEntity ;
+    rdfs:range :SystemIdentifier ;
+    rdfs:label "has system identifier"@en ;
+    rdfs:comment "Trust has system identifier (EIN) - not an instrument, but required for interaction"@en .
+
+###  http://example.org/trust-domain#computesDNI
+:computesDNI rdf:type owl:ObjectProperty ;
+    rdfs:domain :NonGrantorTrustSystem ;
+    rdfs:range :DistributableNetIncome ;
+    rdfs:label "computes DNI"@en ;
+    rdfs:comment "Trust computes Distributable Net Income per IRC §§641-685"@en .
+
+###  http://example.org/trust-domain#flowsCharacterThrough
+:flowsCharacterThrough rdf:type owl:ObjectProperty ;
+    rdfs:domain :Distribution ;
+    rdfs:range :CharacterFlowThrough ;
+    rdfs:label "flows character through"@en ;
+    rdfs:comment "Distribution carries income character to beneficiary"@en .
+
+###  http://example.org/trust-domain#requiresFiling
+:requiresFiling rdf:type owl:ObjectProperty ;
+    rdfs:domain :NonGrantorTrustSystem ;
+    rdfs:range :FiduciaryReturn ;
+    rdfs:label "requires filing"@en ;
+    rdfs:comment "Trust must file fiduciary tax return (Form 1041)"@en .
+
 #################################################################
 #    Data Properties
 #################################################################
@@ -166,6 +233,41 @@
     rdfs:domain :TrustStructure ;
     rdfs:range xsd:string ;
     rdfs:label "jurisdiction"@en .
+
+###  http://example.org/trust-domain#isDomestic
+:isDomestic rdf:type owl:DatatypeProperty ;
+    rdfs:domain :TrustStructure ;
+    rdfs:range xsd:boolean ;
+    rdfs:label "is domestic"@en ;
+    rdfs:comment "Trust satisfies domestic trust tests under IRC §7701(a)(30)"@en .
+
+###  http://example.org/trust-domain#hasEIN
+:hasEIN rdf:type owl:DatatypeProperty ;
+    rdfs:domain :TrustEntity ;
+    rdfs:range xsd:string ;
+    rdfs:label "has EIN"@en ;
+    rdfs:comment "Employer Identification Number - system identifier, not instrument"@en .
+
+###  http://example.org/trust-domain#dniAmount
+:dniAmount rdf:type owl:DatatypeProperty ;
+    rdfs:domain :DistributableNetIncome ;
+    rdfs:range xsd:decimal ;
+    rdfs:label "DNI amount"@en ;
+    rdfs:comment "Distributable Net Income amount for tax year"@en .
+
+###  http://example.org/trust-domain#hasCourtJurisdiction
+:hasCourtJurisdiction rdf:type owl:DatatypeProperty ;
+    rdfs:domain :TrustStructure ;
+    rdfs:range xsd:string ;
+    rdfs:label "has court jurisdiction"@en ;
+    rdfs:comment "Court jurisdiction controlling trust administration"@en .
+
+###  http://example.org/trust-domain#hasControlLocation
+:hasControlLocation rdf:type owl:DatatypeProperty ;
+    rdfs:domain :TrustStructure ;
+    rdfs:range xsd:string ;
+    rdfs:label "has control location"@en ;
+    rdfs:comment "Location where substantial trust decisions are made"@en .
 
 #################################################################
 #    Classes
@@ -435,6 +537,36 @@
     rdfs:label "IRC §4945"@en ;
     rdfs:comment "Taxable expenditures"@en .
 
+###  http://example.org/trust-domain#IRC_671_679
+:IRC_671_679 rdf:type owl:Class ;
+    rdfs:subClassOf :IRCSection ;
+    rdfs:label "IRC §§671-679"@en ;
+    rdfs:comment "Control-of-income boundary - determines who is the economic operator, the gateway to non-grantor status"@en .
+
+###  http://example.org/trust-domain#IRC_641_685
+:IRC_641_685 rdf:type owl:Class ;
+    rdfs:subClassOf :IRCSection ;
+    rdfs:label "IRC §§641-685"@en ;
+    rdfs:comment "Trust as autonomous accounting system - enables trust to retain income, deploy expenses, distribute outputs"@en .
+
+###  http://example.org/trust-domain#IRC_7701
+:IRC_7701 rdf:type owl:Class ;
+    rdfs:subClassOf :IRCSection ;
+    rdfs:label "IRC §7701"@en ;
+    rdfs:comment "Jurisdictional identity - assigns which sovereign's rules apply via court and control tests"@en .
+
+###  http://example.org/trust-domain#IRC_212
+:IRC_212 rdf:type owl:Class ;
+    rdfs:subClassOf :IRCSection ;
+    rdfs:label "IRC §212"@en ;
+    rdfs:comment "Expenses for income production without trade or business - trust expense instrument"@en .
+
+###  http://example.org/trust-domain#IRC_67e
+:IRC_67e rdf:type owl:Class ;
+    rdfs:subClassOf :IRCSection ;
+    rdfs:label "IRC §67(e)"@en ;
+    rdfs:comment "Trust-specific expenses that would not exist but for fiduciary status"@en .
+
 ###  http://example.org/trust-domain#Pub_15
 :Pub_15 rdf:type owl:Class ;
     rdfs:subClassOf :IRSPublication ;
@@ -619,6 +751,142 @@
     rdfs:label "Private Benefit"@en ;
     rdfs:comment "Excessive benefit to private interests"@en .
 
+###  http://example.org/trust-domain#NonGrantorTrustSystem
+:NonGrantorTrustSystem rdf:type owl:Class ;
+    rdfs:subClassOf :TrustEntity ;
+    rdfs:label "Non-Grantor Trust System"@en ;
+    rdfs:comment "Trust that has crossed the IRC §§671-679 gateway - no retained control powers, operates as autonomous system"@en .
+
+###  http://example.org/trust-domain#ControlPower
+:ControlPower rdf:type owl:Class ;
+    rdfs:label "Control Power"@en ;
+    rdfs:comment "Enumerated power under IRC §§671-679 that triggers grantor trust attribution if retained"@en .
+
+###  http://example.org/trust-domain#ReversionaryInterest
+:ReversionaryInterest rdf:type owl:Class ;
+    rdfs:subClassOf :ControlPower ;
+    rdfs:label "Reversionary Interest"@en ;
+    rdfs:comment "Power causing trust assets to revert to grantor (IRC §673)"@en .
+
+###  http://example.org/trust-domain#PowerToControlBeneficialEnjoyment
+:PowerToControlBeneficialEnjoyment rdf:type owl:Class ;
+    rdfs:subClassOf :ControlPower ;
+    rdfs:label "Power to Control Beneficial Enjoyment"@en ;
+    rdfs:comment "Power over beneficial enjoyment without trustee approval (IRC §674)"@en .
+
+###  http://example.org/trust-domain#AdministrativePower
+:AdministrativePower rdf:type owl:Class ;
+    rdfs:subClassOf :ControlPower ;
+    rdfs:label "Administrative Power"@en ;
+    rdfs:comment "Administrative powers exercisable for grantor benefit (IRC §675)"@en .
+
+###  http://example.org/trust-domain#PowerToRevoke
+:PowerToRevoke rdf:type owl:Class ;
+    rdfs:subClassOf :ControlPower ;
+    rdfs:label "Power to Revoke"@en ;
+    rdfs:comment "Power to revoke trust and revest corpus in grantor (IRC §676)"@en .
+
+###  http://example.org/trust-domain#IncomeForGrantorBenefit
+:IncomeForGrantorBenefit rdf:type owl:Class ;
+    rdfs:subClassOf :ControlPower ;
+    rdfs:label "Income for Grantor Benefit"@en ;
+    rdfs:comment "Trust income held for grantor or spouse benefit (IRC §677)"@en .
+
+###  http://example.org/trust-domain#DistributableNetIncome
+:DistributableNetIncome rdf:type owl:Class ;
+    rdfs:label "Distributable Net Income (DNI)"@en ;
+    rdfs:comment "Trust accounting concept limiting deductible distributions and carrying income character (IRC §§643, 661-663)"@en .
+
+###  http://example.org/trust-domain#Distribution
+:Distribution rdf:type owl:Class ;
+    rdfs:label "Distribution"@en ;
+    rdfs:comment "Transfer of income or corpus from trust to beneficiary"@en .
+
+###  http://example.org/trust-domain#IncomeDistribution
+:IncomeDistribution rdf:type owl:Class ;
+    rdfs:subClassOf :Distribution ;
+    rdfs:label "Income Distribution"@en ;
+    rdfs:comment "Distribution of current income"@en .
+
+###  http://example.org/trust-domain#CorpusDistribution
+:CorpusDistribution rdf:type owl:Class ;
+    rdfs:subClassOf :Distribution ;
+    rdfs:label "Corpus Distribution"@en ;
+    rdfs:comment "Distribution of principal/corpus"@en .
+
+###  http://example.org/trust-domain#CharacterFlowThrough
+:CharacterFlowThrough rdf:type owl:Class ;
+    rdfs:label "Character Flow-Through"@en ;
+    rdfs:comment "Income character (ordinary, capital gain, etc.) that flows through distribution to beneficiary"@en .
+
+###  http://example.org/trust-domain#FiduciaryReturn
+:FiduciaryReturn rdf:type owl:Class ;
+    rdfs:subClassOf :Evidence ;
+    rdfs:label "Fiduciary Return (Form 1041)"@en ;
+    rdfs:comment "Annual income tax return filed by trust (Form 1041 for domestic, 1040-NR for foreign)"@en .
+
+###  http://example.org/trust-domain#ScheduleK1
+:ScheduleK1 rdf:type owl:Class ;
+    rdfs:subClassOf :Evidence ;
+    rdfs:label "Schedule K-1"@en ;
+    rdfs:comment "Beneficiary statement showing distributed income and character"@en .
+
+###  http://example.org/trust-domain#TrustAccounting
+:TrustAccounting rdf:type owl:Class ;
+    rdfs:subClassOf :Evidence ;
+    rdfs:label "Trust Accounting"@en ;
+    rdfs:comment "Fiduciary accounting records distinguishing income from principal"@en .
+
+###  http://example.org/trust-domain#JurisdictionalTest
+:JurisdictionalTest rdf:type owl:Class ;
+    rdfs:label "Jurisdictional Test"@en ;
+    rdfs:comment "Test under IRC §7701(a)(30)-(31) determining domestic vs foreign status"@en .
+
+###  http://example.org/trust-domain#CourtTest
+:CourtTest rdf:type owl:Class ;
+    rdfs:subClassOf :JurisdictionalTest ;
+    rdfs:label "Court Test"@en ;
+    rdfs:comment "Test whether US court can exercise primary supervision over trust administration"@en .
+
+###  http://example.org/trust-domain#ControlTest
+:ControlTest rdf:type owl:Class ;
+    rdfs:subClassOf :JurisdictionalTest ;
+    rdfs:label "Control Test"@en ;
+    rdfs:comment "Test whether one or more US persons control all substantial trust decisions"@en .
+
+###  http://example.org/trust-domain#DomesticTrust
+:DomesticTrust rdf:type owl:Class ;
+    rdfs:subClassOf :TrustStructure ,
+        [ rdf:type owl:Restriction ;
+          owl:onProperty :isDomestic ;
+          owl:hasValue "true"^^xsd:boolean
+        ] ;
+    rdfs:label "Domestic Trust"@en ;
+    rdfs:comment "Trust satisfying both court and control tests under IRC §7701(a)(30)"@en .
+
+###  http://example.org/trust-domain#SystemIdentifier
+:SystemIdentifier rdf:type owl:Class ;
+    rdfs:label "System Identifier"@en ;
+    rdfs:comment "Identifier enabling trust interaction with authorities - NOT an instrument, analogous to MAC address not protocol"@en .
+
+###  http://example.org/trust-domain#EIN
+:EIN rdf:type owl:Class ;
+    rdfs:subClassOf :SystemIdentifier ;
+    rdfs:label "EIN (Employer Identification Number)"@en ;
+    rdfs:comment "Tax identifier for trust entity - required for interaction, meaningless without doctrinal stack"@en .
+
+###  http://example.org/trust-domain#IncomeProductionExpense
+:IncomeProductionExpense rdf:type owl:Class ;
+    rdfs:subClassOf :Expenditure ;
+    rdfs:label "Income Production Expense"@en ;
+    rdfs:comment "Expense for income production without trade or business (IRC §212)"@en .
+
+###  http://example.org/trust-domain#FiduciarySpecificExpense
+:FiduciarySpecificExpense rdf:type owl:Class ;
+    rdfs:subClassOf :Expenditure ;
+    rdfs:label "Fiduciary-Specific Expense"@en ;
+    rdfs:comment "Expense that would not exist but for fiduciary status (IRC §67(e))"@en .
+
 #################################################################
 #    Restrictions and Axioms
 #################################################################
@@ -743,6 +1011,95 @@
                          ]
     ] .
 
+###  Non-Grantor Trust System - THE GATEWAY under IRC §§671-679
+:NonGrantorTrustSystem rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :governedBy ;
+      owl:hasValue :IRC_671_679
+    ] .
+
+###  Non-Grantor Trust operates as autonomous accounting system under IRC §§641-685
+:NonGrantorTrustSystem rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :governedBy ;
+      owl:hasValue :IRC_641_685
+    ] .
+
+###  Non-Grantor Trust must have system identifier (EIN)
+:NonGrantorTrustSystem rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :hasSystemIdentifier ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger
+    ] .
+
+###  Non-Grantor Trust must file fiduciary return
+:NonGrantorTrustSystem rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :requiresFiling ;
+      owl:someValuesFrom :FiduciaryReturn
+    ] .
+
+###  Non-Grantor Trust can compute DNI
+:NonGrantorTrustSystem rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :computesDNI ;
+      owl:someValuesFrom :DistributableNetIncome
+    ] .
+
+###  Foreign Trust determined by IRC §7701 jurisdictional tests
+[ rdf:type owl:Restriction ;
+  owl:onProperty :isForeign ;
+  owl:hasValue "true"^^xsd:boolean
+] rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :governedBy ;
+      owl:hasValue :IRC_7701
+    ] .
+
+###  Domestic Trust must pass both court and control tests
+:DomesticTrust rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :passesJurisdictionalTest ;
+      owl:minCardinality "2"^^xsd:nonNegativeInteger
+    ] .
+
+###  Income Production Expense governed by IRC §212
+:IncomeProductionExpense rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :governedBy ;
+      owl:hasValue :IRC_212
+    ] .
+
+###  Fiduciary-Specific Expense governed by IRC §67(e)
+:FiduciarySpecificExpense rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :governedBy ;
+      owl:hasValue :IRC_67e
+    ] .
+
+###  Distribution must flow character through to beneficiary
+:Distribution rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :flowsCharacterThrough ;
+      owl:someValuesFrom :CharacterFlowThrough
+    ] .
+
+###  EIN is NOT an Instrument - disjoint classes
+:EIN owl:disjointWith :Instrument .
+
+###  System Identifier is NOT an Instrument - disjoint classes
+:SystemIdentifier owl:disjointWith :Instrument .
+
+###  Private Irrevocable Non-Grantor Trust is a Non-Grantor Trust System
+:PrivateIrrevocableNonGrantorTrust rdfs:subClassOf :NonGrantorTrustSystem .
+
+###  Foreign Private Irrevocable Non-Grantor Trust governed by IRC §7701
+:ForeignPrivateIrrevocableNonGrantorTrust rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :governedBy ;
+      owl:hasValue :IRC_7701
+    ] .
+
 #################################################################
 #    Individuals (Example Instances)
 #################################################################
@@ -753,8 +1110,65 @@
     :isRevocable "false"^^xsd:boolean ;
     :isGrantorTrust "false"^^xsd:boolean ;
     :isForeign "true"^^xsd:boolean ;
+    :isDomestic "false"^^xsd:boolean ;
     :jurisdiction "Nevis" ;
+    :hasCourtJurisdiction "Nevis High Court" ;
+    :hasControlLocation "Nevis" ;
     :establishedDate "2024-01-15"^^xsd:date ;
-    rdfs:label "Example Foreign Private Irrevocable Non-Grantor Trust"@en .
+    :hasEIN "98-1234567" ;
+    :hasSystemIdentifier :ExampleForeignTrust_EIN ;
+    :hasTrustee :ExampleTrustee ;
+    rdfs:label "Example Foreign Private Irrevocable Non-Grantor Trust"@en ;
+    rdfs:comment "Demonstrates foreign trust that has crossed IRC §§671-679 gateway, operates under IRC §§641-685 as autonomous system, classified under IRC §7701"@en .
+
+###  http://example.org/trust-domain#ExampleForeignTrust_EIN
+:ExampleForeignTrust_EIN rdf:type owl:NamedIndividual ,
+                                  :EIN ;
+    rdfs:label "EIN 98-1234567"@en ;
+    rdfs:comment "System identifier for ExampleForeignTrust - enables interaction but is NOT an instrument"@en .
+
+###  http://example.org/trust-domain#ExampleTrustee
+:ExampleTrustee rdf:type owl:NamedIndividual ,
+                         :Trustee ;
+    rdfs:label "Example Trustee"@en ;
+    rdfs:comment "Fiduciary holding legal title and exercising authority"@en .
+
+###  http://example.org/trust-domain#ExampleDNI_2024
+:ExampleDNI_2024 rdf:type owl:NamedIndividual ,
+                          :DistributableNetIncome ;
+    :dniAmount "150000.00"^^xsd:decimal ;
+    rdfs:label "2024 DNI"@en ;
+    rdfs:comment "Distributable Net Income for tax year 2024"@en .
+
+###  http://example.org/trust-domain#ExampleIncomeDistribution
+:ExampleIncomeDistribution rdf:type owl:NamedIndividual ,
+                                    :IncomeDistribution ;
+    :flowsCharacterThrough :ExampleCharacterFlow ;
+    rdfs:label "Example Income Distribution"@en ;
+    rdfs:comment "Distribution of current income to beneficiary with character flow-through"@en .
+
+###  http://example.org/trust-domain#ExampleCharacterFlow
+:ExampleCharacterFlow rdf:type owl:NamedIndividual ,
+                               :CharacterFlowThrough ;
+    rdfs:label "Example Character Flow"@en ;
+    rdfs:comment "Income character (ordinary, capital gain, etc.) flowing through to beneficiary"@en .
+
+###  http://example.org/trust-domain#Example_IRC_671_679_Gateway
+:Example_IRC_671_679_Gateway rdf:type owl:NamedIndividual ,
+                                      :IRC_671_679 ;
+    rdfs:label "IRC §§671-679 Control-of-Income Boundary"@en ;
+    rdfs:comment "The gateway that determines whether trust is its own system - absence of retained control powers creates non-grantor status"@en .
+
+###  http://example.org/trust-domain#Example_IRC_641_685_OperatingSystem
+:Example_IRC_641_685_OperatingSystem rdf:type owl:NamedIndividual ,
+                                              :IRC_641_685 ;
+    rdfs:label "IRC §§641-685 Autonomous Accounting System"@en ;
+    rdfs:comment "Enables non-grantor trust to retain income, deploy expenses, distribute outputs with DNI and character flow-through"@en .
+
+###  http://example.org/trust-domain#Example_IRC_7701_Jurisdiction
+:Example_IRC_7701_Jurisdiction rdf:type owl:NamedIndividual ,
+                                        :IRC_7701 ;
+    rdfs:label "IRC §7701 Jurisdictional Identity"@en ;
+    rdfs:comment "Determines which sovereign's rules apply via court test and control test"@en .
 
 ###  Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi

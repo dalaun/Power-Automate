@@ -1,6 +1,6 @@
 # Trust Domain Ontology
 
-**Version 3.0** | [View Ontology File](../../trust-domain-ontology.ttl)
+**Version 4.0** | [View Ontology File](../../trust-domain-ontology.ttl)
 
 ## Overview
 
@@ -62,6 +62,36 @@ Purpose ✓
 ```
 
 **If the cascade completes, spend is permissible. If it breaks, it's private inurement.**
+
+### 4. **Temporal Dimension** (v4.0)
+
+All operations occur in time:
+
+- **Fiscal Years**: 12-month accounting periods for DNI computation
+- **Temporal Tracking**: Expenditures linked to quarters, months
+- **Distribution Requirements**: IRC §4942 minimum distributions tracked annually
+- **Compliance Queries**: Time-series analysis of qualifying distributions
+
+### 5. **Grantmaking** (v4.0)
+
+Grantmaking is modeled as **distinct from operations**:
+
+- **GrantmakingActivity**: Separate authorized activity class
+- **Grants to Public Charities**: Count as qualifying distributions
+- **Program-Related Investments (PRIs)**: Grants for charitable purpose
+- **Expenditure Responsibility**: Required for non-exempt grantees
+
+### 6. **IRC §§4941-4945 Safeguards** (v4.0)
+
+Fully axiomatized private foundation rules:
+
+- **§4941 Self-Dealing**: Transactions with disqualified persons prohibited
+- **§4942 Distributions**: Minimum distribution requirements enforced
+- **§4943 Excess Holdings**: Business ownership limits (>20% triggers violation)
+- **§4944 Jeopardizing Investments**: Investments endangering mission prohibited
+- **§4945 Taxable Expenditures**: Lobbying, political, irresponsible grants prohibited
+
+All violations are subclasses of `AuthorityCollapse` with disjoint classes preventing violations.
 
 ## Quick Start
 

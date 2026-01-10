@@ -101,14 +101,81 @@ SafeguardMechanism
 ├── KeystoneConstraint
 │   ├── IncidentalityTest
 │   └── InseparabilityTest
-├── SelfDealingProhibition
-├── ExcessBenefitTest
-└── JeopardizingInvestmentRule
+├── SelfDealingProhibition (IRC §4941)
+├── MinimumDistributionRequirement (IRC §4942)
+├── ExcessBusinessHoldingLimit (IRC §4943)
+├── JeopardizingInvestmentRule (IRC §4944)
+└── TaxableExpenditureProhibition (IRC §4945)
 
 AuthorityCollapse
 ├── PrivateInurement
 └── PrivateBenefit
 ```
+
+### IRC §§4941-4945 Safeguards (v4.0 - Fully Axiomatized)
+
+#### IRC §4941: Self-Dealing
+
+```
+DisqualifiedPerson
+├── SubstantialContributor
+├── FoundationManager
+├── OwnerOfControlledEntity
+└── FamilyMember
+
+Transaction
+├── SelfDealingTransaction (DISJOINT from Permitted)
+│   └── [any transaction with DisqualifiedPerson]
+└── PermittedTransaction
+
+ExcessBenefit
+```
+
+**Axiom**: `SelfDealingTransaction` MUST involve `DisqualifiedPerson`
+
+**Disjointness**: `PermittedTransaction owl:disjointWith SelfDealingTransaction`
+
+#### IRC §4942: Minimum Distributions
+
+Covered in [Grantmaking](#grantmaking-v40) section above.
+
+- Foundation MUST make qualifying distributions
+- Tracked via `minimumDistributionRequired` vs `qualifyingDistributionsMade`
+
+#### IRC §4943: Excess Business Holdings
+
+```
+Investment
+├── ExcessBusinessHolding (>20% ownership triggers violation)
+└── PermittedBusinessHolding (DISJOINT from Excess)
+```
+
+**Axiom**: Holdings >20% constitute `ExcessBusinessHolding`
+
+**Disjointness**: `PermittedBusinessHolding owl:disjointWith ExcessBusinessHolding`
+
+#### IRC §4944: Jeopardizing Investments
+
+```
+Investment
+├── JeopardizingInvestment (endangers mission)
+└── PrudentInvestment (DISJOINT from Jeopardizing)
+```
+
+**Property**: `jeopardizesMission` links investment to purpose
+
+**Disjointness**: `PrudentInvestment owl:disjointWith JeopardizingInvestment`
+
+#### IRC §4945: Taxable Expenditures
+
+```
+TaxableExpenditure (subclass of AuthorityCollapse)
+├── LobbyingExpenditure
+├── PoliticalExpenditure
+└── GrantWithoutExpenditureResponsibility
+```
+
+**All violations are subclasses of `AuthorityCollapse`**
 
 ### Doctrinal Sources
 
@@ -145,6 +212,53 @@ Distribution
 
 CharacterFlowThrough
 ```
+
+### Temporal Dimension (v4.0)
+
+```
+TemporalPeriod
+├── FiscalYear
+├── Quarter
+└── Month
+```
+
+**Key Classes**:
+
+- **FiscalYear**: 12-month accounting period for DNI computation and distribution tracking
+- **Quarter**: Quarterly period for tax estimation and interim reporting
+- **Month**: Monthly period for operational tracking
+
+**Temporal Properties**:
+
+- `occursDuring`: Links expenditures to temporal periods
+- `computedFor`: Links DNI to specific fiscal year
+- `hasTemporalExtent`: Activities span temporal periods
+- `fiscalYearStart`, `fiscalYearEnd`: Date boundaries for fiscal years
+- `minimumDistributionRequired`, `qualifyingDistributionsMade`: IRC §4942 tracking
+
+### Grantmaking (v4.0)
+
+```
+GrantmakingActivity (subclass of AuthorizedActivity)
+
+Grant
+└── ProgramRelatedInvestment
+
+Grantee
+├── PublicCharity (IRC §509(a))
+└── NonExemptGrantee
+
+QualifyingDistribution (IRC §4942)
+```
+
+**Key Classes**:
+
+- **GrantmakingActivity**: Charitable grantmaking distinct from operations
+- **Grant**: Charitable grant to advance exempt purpose
+- **ProgramRelatedInvestment**: Investment primarily for charitable purpose
+- **PublicCharity**: IRC §509(a) public charity (qualifying grantee)
+- **NonExemptGrantee**: Grantee requiring expenditure responsibility
+- **QualifyingDistribution**: Distribution counting toward minimum requirement
 
 ### Evidence & Validation
 

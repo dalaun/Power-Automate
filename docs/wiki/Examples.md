@@ -251,6 +251,156 @@ Attempted cascade:
 
 ---
 
+## Temporal Tracking Example (v4.0)
+
+### Fiscal Year 2024 with Expenditures
+
+```turtle
+# Fiscal year with minimum distribution requirements
+:FiscalYear2024 rdf:type :FiscalYear ;
+    :fiscalYearStart "2024-01-01"^^xsd:date ;
+    :fiscalYearEnd "2024-12-31"^^xsd:date ;
+    :yearNumber "2024"^^xsd:integer ;
+    :minimumDistributionRequired "500000.00"^^xsd:decimal ;
+    :qualifyingDistributionsMade "625000.00"^^xsd:decimal ;
+    rdfs:label "Fiscal Year 2024" .
+
+# DNI computed for fiscal year
+:DNI_2024 rdf:type :DistributableNetIncome ;
+    :computedFor :FiscalYear2024 ;
+    :dniAmount "750000.00"^^xsd:decimal ;
+    rdfs:label "2024 DNI - $750,000" .
+
+# Expenditure occurring during fiscal year
+:SalaryPayment_DrSmith_January2024 rdf:type :ActualSpend ;
+    :occursDuring :FiscalYear2024 ;
+    :expenditureDate "2024-01-31"^^xsd:date ;
+    :tracesBackTo :FoundationHealthMission ;
+    rdfs:label "Dr. Smith Salary - January 2024 - $12,500" .
+
+# Activity spanning fiscal year
+:ClinicalTrialsActivity_2024 rdf:type :GrantmakingActivity ;
+    :hasTemporalExtent :FiscalYear2024 ;
+    :advancesPurpose :FoundationHealthMission .
+```
+
+**Key Features**:
+- Fiscal year tracks minimum distribution requirement ($500K) vs actual ($625K) ✅
+- DNI computed annually for tax compliance
+- Expenditures linked to temporal periods via `occursDuring`
+- Activities span fiscal years via `hasTemporalExtent`
+- Enables time-series compliance queries
+
+---
+
+## Grantmaking Example (v4.0)
+
+### Grant to Stanford Medicine
+
+```turtle
+# Public charity grantee
+:StanfordMedicine rdf:type :PublicCharity ;
+    rdfs:label "Stanford University School of Medicine" ;
+    rdfs:comment "IRC §509(a) public charity - qualifying grantee" .
+
+# Grant to advance health purpose
+:GrantToStanfordMedicine rdf:type :Grant ;
+    :grantAmount "250000.00"^^xsd:decimal ;
+    :receivesGrant :StanfordMedicine ;
+    :satisfiesQualifyingDistribution :QD_StanfordGrant ;
+    rdfs:label "Grant to Stanford Medicine - $250,000" .
+
+# Qualifying distribution for IRC §4942
+:QD_StanfordGrant rdf:type :QualifyingDistribution ;
+    rdfs:label "Qualifying Distribution: Stanford Grant" ;
+    rdfs:comment "Counts toward $500K minimum distribution requirement" .
+
+# Grantmaking activity (distinct from operations)
+:GrantmakingActivity_Stanford rdf:type :GrantmakingActivity ;
+    :advancesPurpose :FoundationHealthMission ;
+    :hasTemporalExtent :FiscalYear2024 .
+
+# Foundation makes the grant
+:ExampleFoundationTrust :makesGrant :GrantToStanfordMedicine .
+```
+
+**Why Grantmaking is Distinct from Operations**:
+- `GrantmakingActivity` is separate class from operational activities
+- Grants to IRC §509(a) public charities automatically qualify
+- Non-exempt grantees require expenditure responsibility
+- Enables tracking qualifying distributions vs minimum requirements
+
+---
+
+## IRC §§4941-4945 Safeguard Examples (v4.0)
+
+### Example: IRC §4941 Self-Dealing Violation
+
+```turtle
+# Disqualified person (substantial contributor)
+:ExampleTrusteeAsDisqualifiedPerson rdf:type :SubstantialContributor ,
+                                              :DisqualifiedPerson ;
+    rdfs:label "Foundation Trustee (Disqualified Person)" .
+
+# Self-dealing transaction
+:ExampleSelfDealing rdf:type :SelfDealingTransaction ;
+    :involvesDisqualifiedPerson :ExampleTrusteeAsDisqualifiedPerson ;
+    :transactionAmount "100000.00"^^xsd:decimal ;
+    rdfs:label "VIOLATION: Self-Dealing Transaction" ;
+    rdfs:comment "Sale of property to disqualified person - IRC §4941 violation" .
+```
+
+**Result**: ❌ **VIOLATION** - Transaction with disqualified person triggers IRC §4941 self-dealing prohibition
+
+### Example: IRC §4943 Excess Business Holding
+
+```turtle
+# Excess business holding (>20% ownership)
+:ExampleExcessHolding rdf:type :ExcessBusinessHolding ;
+    :hasOwnershipPercentage "35.0"^^xsd:decimal ;
+    :excessHoldingPercentage "15.0"^^xsd:decimal ;
+    rdfs:label "VIOLATION: Excess Business Holding (35%)" ;
+    rdfs:comment "Ownership exceeds 20% limit - IRC §4943 violation" .
+```
+
+**Result**: ❌ **VIOLATION** - Holdings >20% violate IRC §4943 excess business holding limits
+
+### Example: IRC §4944 Jeopardizing Investment
+
+```turtle
+# Jeopardizing investment
+:ExampleJeopardizingInvestment rdf:type :JeopardizingInvestment ;
+    :jeopardizesMission :FoundationHealthMission ;
+    rdfs:label "VIOLATION: Jeopardizing Investment" ;
+    rdfs:comment "Speculative investment endangering mission - IRC §4944 violation" .
+```
+
+**Result**: ❌ **VIOLATION** - Investment jeopardizes mission, prohibited by IRC §4944
+
+### Example: IRC §4945 Taxable Expenditure
+
+```turtle
+# Lobbying expenditure
+:ExampleLobbyingExpenditure rdf:type :LobbyingExpenditure ,
+                                     :TaxableExpenditure ;
+    :transactionAmount "50000.00"^^xsd:decimal ;
+    rdfs:label "VIOLATION: Lobbying Expenditure" ;
+    rdfs:comment "Expenditure for lobbying - IRC §4945 taxable expenditure" .
+
+# Political expenditure
+:ExamplePoliticalExpenditure rdf:type :PoliticalExpenditure ,
+                                      :TaxableExpenditure ;
+    :transactionAmount "25000.00"^^xsd:decimal ;
+    rdfs:label "VIOLATION: Political Expenditure" ;
+    rdfs:comment "Expenditure for political campaign - IRC §4945 taxable expenditure" .
+```
+
+**Result**: ❌ **VIOLATION** - Both are taxable expenditures prohibited by IRC §4945
+
+**All violations are subclasses of `AuthorityCollapse`** and can be detected via disjoint class axioms.
+
+---
+
 ## Doctrinal Source Examples
 
 ```turtle

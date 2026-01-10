@@ -173,6 +173,262 @@ SELECT ?operator ?expenseDomain ?spend WHERE {
 
 ---
 
+## Temporal Tracking Queries (v4.0)
+
+### Find All Expenditures for Fiscal Year
+
+**Use Case**: Track all spending during a specific fiscal year
+
+```sparql
+PREFIX : <http://example.org/trust-domain#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?spend ?date ?purpose WHERE {
+  ?spend a :ActualSpend ;
+         :occursDuring :FiscalYear2024 ;
+         :tracesBackTo ?purpose .
+
+  OPTIONAL { ?spend :expenditureDate ?date }
+  OPTIONAL { ?spend rdfs:label ?label }
+}
+ORDER BY ?date
+```
+
+### Check Minimum Distribution Compliance (IRC §4942)
+
+**Use Case**: Verify foundation meets minimum distribution requirements
+
+```sparql
+PREFIX : <http://example.org/trust-domain#>
+
+SELECT ?fiscalYear ?required ?actual ?compliant WHERE {
+  ?fiscalYear a :FiscalYear ;
+              :minimumDistributionRequired ?required ;
+              :qualifyingDistributionsMade ?actual .
+
+  BIND((?actual >= ?required) AS ?compliant)
+}
+ORDER BY DESC(?fiscalYear)
+```
+
+**Example Result**:
+```
+| fiscalYear      | required | actual  | compliant |
+|-----------------|----------|---------|-----------|
+| FiscalYear2024  | 500000   | 625000  | true      |
+```
+
+### Find DNI for Specific Fiscal Year
+
+**Use Case**: Retrieve DNI computation for tax reporting
+
+```sparql
+PREFIX : <http://example.org/trust-domain#>
+
+SELECT ?fiscalYear ?dniAmount WHERE {
+  ?dni a :DistributableNetIncome ;
+       :computedFor ?fiscalYear ;
+       :dniAmount ?dniAmount .
+
+  FILTER(?fiscalYear = :FiscalYear2024)
+}
+```
+
+### Time-Series Analysis: Spending Trends
+
+**Use Case**: Analyze spending patterns over time
+
+```sparql
+PREFIX : <http://example.org/trust-domain#>
+
+SELECT ?fiscalYear (COUNT(?spend) AS ?spendCount) WHERE {
+  ?fiscalYear a :FiscalYear .
+  ?spend a :ActualSpend ;
+         :occursDuring ?fiscalYear .
+}
+GROUP BY ?fiscalYear
+ORDER BY ?fiscalYear
+```
+
+---
+
+## Grantmaking Queries (v4.0)
+
+### Find All Grants to Public Charities
+
+**Use Case**: List all qualifying grants
+
+```sparql
+PREFIX : <http://example.org/trust-domain#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?grant ?grantee ?amount ?qd WHERE {
+  ?grant a :Grant ;
+         :grantAmount ?amount ;
+         :receivesGrant ?grantee ;
+         :satisfiesQualifyingDistribution ?qd .
+
+  ?grantee a :PublicCharity .
+
+  OPTIONAL { ?grantee rdfs:label ?granteeLabel }
+}
+ORDER BY DESC(?amount)
+```
+
+**Example Result**:
+```
+| grant                    | grantee          | amount  | qd              |
+|--------------------------|------------------|---------|-----------------|
+| GrantToStanfordMedicine  | StanfordMedicine | 250000  | QD_StanfordGrant|
+```
+
+### Calculate Total Qualifying Distributions
+
+**Use Case**: Sum all qualifying distributions for IRC §4942 compliance
+
+```sparql
+PREFIX : <http://example.org/trust-domain#>
+
+SELECT ?fiscalYear (SUM(?amount) AS ?totalQualifying) WHERE {
+  ?grant a :Grant ;
+         :grantAmount ?amount ;
+         :satisfiesQualifyingDistribution ?qd .
+
+  ?activity a :GrantmakingActivity ;
+            :hasTemporalExtent ?fiscalYear .
+}
+GROUP BY ?fiscalYear
+```
+
+### Find Grants Requiring Expenditure Responsibility
+
+**Use Case**: Identify grants to non-exempt grantees
+
+```sparql
+PREFIX : <http://example.org/trust-domain#>
+
+SELECT ?grant ?grantee ?amount WHERE {
+  ?grant a :Grant ;
+         :grantAmount ?amount ;
+         :receivesGrant ?grantee .
+
+  ?grantee a :NonExemptGrantee .
+}
+```
+
+### List All Grantmaking Activities
+
+**Use Case**: Track grantmaking separate from operations
+
+```sparql
+PREFIX : <http://example.org/trust-domain#>
+
+SELECT ?activity ?purpose ?fiscalYear WHERE {
+  ?activity a :GrantmakingActivity ;
+            :advancesPurpose ?purpose ;
+            :hasTemporalExtent ?fiscalYear .
+}
+```
+
+---
+
+## IRC §§4941-4945 Safeguard Queries (v4.0)
+
+### Detect IRC §4941 Self-Dealing Violations
+
+**Use Case**: Find transactions with disqualified persons
+
+```sparql
+PREFIX : <http://example.org/trust-domain#>
+
+SELECT ?transaction ?disqualifiedPerson ?amount WHERE {
+  ?transaction a :SelfDealingTransaction ;
+               :involvesDisqualifiedPerson ?disqualifiedPerson .
+
+  OPTIONAL { ?transaction :transactionAmount ?amount }
+  OPTIONAL { ?transaction rdfs:label ?label }
+}
+```
+
+**Expected**: EMPTY in compliant foundation (violations trigger alerts)
+
+### Find Excess Business Holdings (IRC §4943)
+
+**Use Case**: Identify holdings exceeding 20% limit
+
+```sparql
+PREFIX : <http://example.org/trust-domain#>
+
+SELECT ?holding ?percentage ?excess WHERE {
+  ?holding a :ExcessBusinessHolding ;
+           :hasOwnershipPercentage ?percentage ;
+           :excessHoldingPercentage ?excess .
+
+  FILTER(?percentage > 20.0)
+}
+```
+
+### Detect Jeopardizing Investments (IRC §4944)
+
+**Use Case**: Find investments endangering mission
+
+```sparql
+PREFIX : <http://example.org/trust-domain#>
+
+SELECT ?investment ?purpose WHERE {
+  ?investment a :JeopardizingInvestment ;
+              :jeopardizesMission ?purpose .
+}
+```
+
+### Find All Taxable Expenditures (IRC §4945)
+
+**Use Case**: Identify prohibited expenditures
+
+```sparql
+PREFIX : <http://example.org/trust-domain#>
+
+SELECT ?expenditure ?type ?amount WHERE {
+  ?expenditure a :TaxableExpenditure ;
+               a ?type .
+
+  OPTIONAL { ?expenditure :transactionAmount ?amount }
+
+  # Filter to specific subtypes
+  FILTER(?type IN (:LobbyingExpenditure, :PoliticalExpenditure,
+                   :GrantWithoutExpenditureResponsibility))
+}
+```
+
+### Detect All Authority Collapses
+
+**Use Case**: Find any violations across all safeguards
+
+```sparql
+PREFIX : <http://example.org/trust-domain#>
+
+SELECT ?violation ?type ?description WHERE {
+  ?violation a :AuthorityCollapse ;
+             a ?type .
+
+  OPTIONAL { ?violation rdfs:comment ?description }
+
+  # All violations are subclasses of AuthorityCollapse
+}
+```
+
+**Example Result**:
+```
+| violation                     | type                    | description                      |
+|-------------------------------|-------------------------|----------------------------------|
+| ExampleSelfDealing            | SelfDealingTransaction  | Sale to disqualified person      |
+| ExampleExcessHolding          | ExcessBusinessHolding   | 35% ownership exceeds limit      |
+| ExampleJeopardizingInvestment | JeopardizingInvestment  | Speculative investment           |
+| ExampleLobbyingExpenditure    | LobbyingExpenditure     | Expenditure for lobbying         |
+```
+
+---
+
 ## Validation Queries
 
 ### Check if Trust Has Required Purpose

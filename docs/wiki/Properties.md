@@ -95,11 +95,38 @@ The traceable chain from mission to spend:
 |----------|--------|-------|-------------|
 | **hasSystemIdentifier** | TrustEntity | SystemIdentifier | Trust has system identifier (EIN) |
 
+### Temporal Properties (v4.0)
+
+| Property | Domain | Range | Description |
+|----------|--------|-------|-------------|
+| **occursDuring** | ActualSpend | TemporalPeriod | Expenditure occurs during temporal period |
+| **computedFor** | DistributableNetIncome | FiscalYear | DNI computed for specific fiscal year |
+| **hasTemporalExtent** | OperationalActivity | TemporalPeriod | Activity spans temporal period |
+
+### Grantmaking Properties (v4.0)
+
+| Property | Domain | Range | Description |
+|----------|--------|-------|-------------|
+| **makesGrant** | TrustEntity | Grant | Trust entity makes charitable grant |
+| **receivesGrant** | Grantee | Grant | Grantee receives grant from trust |
+| **satisfiesQualifyingDistribution** | Grant | QualifyingDistribution | Grant counts toward qualifying distribution (IRC §4942) |
+
 ### Safeguard Properties
 
 | Property | Domain | Range | Description |
 |----------|--------|-------|-------------|
 | **preventsMisuse** | SafeguardMechanism | AuthorityCollapse | Safeguard prevents authority collapse |
+
+### IRC §§4941-4945 Safeguard Properties (v4.0)
+
+| Property | Domain | Range | Description |
+|----------|--------|-------|-------------|
+| **involvesDisqualifiedPerson** | Transaction | DisqualifiedPerson | Transaction involves disqualified person (IRC §4941) |
+| **constitutesExcessBenefit** | Transaction | ExcessBenefit | Transaction provides excess benefit |
+| **jeopardizesMission** | Investment | Purpose | Investment jeopardizes mission (IRC §4944) |
+| **hasOwnershipPercentage** | Investment | xsd:decimal | Ownership percentage in business |
+| **violatesSelfDealing** | Transaction | SelfDealingTransaction | Transaction violates self-dealing prohibition |
+| **violatesExcessHolding** | Investment | ExcessBusinessHolding | Investment violates excess business holding limits |
 
 ---
 
@@ -160,6 +187,30 @@ The traceable chain from mission to spend:
 | Property | Domain | Range | Description |
 |----------|--------|-------|-------------|
 | **dniAmount** | DistributableNetIncome | xsd:decimal | DNI amount for tax year |
+
+### Temporal Data Properties (v4.0)
+
+| Property | Domain | Range | Description |
+|----------|--------|-------|-------------|
+| **fiscalYearStart** | FiscalYear | xsd:date | Start date of fiscal year |
+| **fiscalYearEnd** | FiscalYear | xsd:date | End date of fiscal year |
+| **yearNumber** | FiscalYear | xsd:integer | Calendar year number |
+| **expenditureDate** | ActualSpend | xsd:date | Date of expenditure |
+
+### Grantmaking Data Properties (v4.0)
+
+| Property | Domain | Range | Description |
+|----------|--------|-------|-------------|
+| **grantAmount** | Grant | xsd:decimal | Dollar amount of grant |
+| **minimumDistributionRequired** | FiscalYear | xsd:decimal | Minimum qualifying distributions required (IRC §4942) |
+| **qualifyingDistributionsMade** | FiscalYear | xsd:decimal | Actual qualifying distributions made |
+
+### Safeguard Data Properties (v4.0)
+
+| Property | Domain | Range | Description |
+|----------|--------|-------|-------------|
+| **excessHoldingPercentage** | Investment | xsd:decimal | Percentage exceeding 20% limit |
+| **transactionAmount** | Transaction | xsd:decimal | Dollar amount of transaction |
 
 ---
 

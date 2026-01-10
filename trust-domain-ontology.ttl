@@ -42,8 +42,29 @@ The cascade enforces:
 - Expense Domains manifest as Actual Spend (dollars out)
 - Actual Spend traces back to Purpose (closes the loop)
 
+TEMPORAL DIMENSION:
+- All expenditures occur during temporal periods (fiscal years, quarters, months)
+- DNI computed annually per fiscal year
+- Qualifying distributions tracked against minimum distribution requirements (IRC §4942)
+- Enables time-series queries and fiscal year compliance tracking
+
+GRANTMAKING (DISTINCT FROM OPERATIONS):
+- GrantmakingActivity as separate authorized activity class
+- Grants to public charities count as qualifying distributions
+- Non-exempt grantees require expenditure responsibility
+- Program-Related Investments (PRIs) as grants for charitable purpose
+
+IRC §§4941-4945 SAFEGUARDS (FULLY AXIOMATIZED):
+- §4941: Self-dealing prohibition - transactions with disqualified persons
+- §4942: Minimum distribution requirements - qualifying distributions vs. minimum
+- §4943: Excess business holdings - ownership percentage limits
+- §4944: Jeopardizing investments - investments endangering mission
+- §4945: Taxable expenditures - lobbying, political, grants without responsibility
+
+All safeguards are disjoint classes with prohibited behaviors triggering AuthorityCollapse.
+
 Non-grantor and foreign trusts acquire operational instruments once control, jurisdiction, and fiduciary authority are cleanly separated under the doctrinal stack."""@en ;
-    owl:versionInfo "3.0" .
+    owl:versionInfo "4.0" .
 
 #################################################################
 #    Object Properties
@@ -310,6 +331,83 @@ Non-grantor and foreign trusts acquire operational instruments once control, jur
     rdfs:label "serves activity"@en ;
     rdfs:comment "Operator in role serves the authorized activity"@en .
 
+###  http://example.org/trust-domain#occursDuring
+:occursDuring rdf:type owl:ObjectProperty ;
+    rdfs:domain :ActualSpend ;
+    rdfs:range :TemporalPeriod ;
+    rdfs:label "occurs during"@en ;
+    rdfs:comment "Expenditure occurs during temporal period (fiscal year, quarter, etc.)"@en .
+
+###  http://example.org/trust-domain#computedFor
+:computedFor rdf:type owl:ObjectProperty ;
+    rdfs:domain :DistributableNetIncome ;
+    rdfs:range :FiscalYear ;
+    rdfs:label "computed for"@en ;
+    rdfs:comment "DNI computed for specific fiscal year"@en .
+
+###  http://example.org/trust-domain#hasTemporalExtent
+:hasTemporalExtent rdf:type owl:ObjectProperty ;
+    rdfs:domain :OperationalActivity ;
+    rdfs:range :TemporalPeriod ;
+    rdfs:label "has temporal extent"@en ;
+    rdfs:comment "Activity spans temporal period"@en .
+
+###  http://example.org/trust-domain#makesGrant
+:makesGrant rdf:type owl:ObjectProperty ;
+    rdfs:domain :TrustEntity ;
+    rdfs:range :Grant ;
+    rdfs:label "makes grant"@en ;
+    rdfs:comment "Trust entity makes charitable grant"@en .
+
+###  http://example.org/trust-domain#receivesGrant
+:receivesGrant rdf:type owl:ObjectProperty ;
+    rdfs:domain :Grantee ;
+    rdfs:range :Grant ;
+    rdfs:label "receives grant"@en ;
+    rdfs:comment "Grantee receives grant from trust"@en .
+
+###  http://example.org/trust-domain#satisfiesQualifyingDistribution
+:satisfiesQualifyingDistribution rdf:type owl:ObjectProperty ;
+    rdfs:domain :Grant ;
+    rdfs:range :QualifyingDistribution ;
+    rdfs:label "satisfies qualifying distribution"@en ;
+    rdfs:comment "Grant counts toward qualifying distribution requirement (IRC §4942)"@en .
+
+###  http://example.org/trust-domain#involvesDisqualifiedPerson
+:involvesDisqualifiedPerson rdf:type owl:ObjectProperty ;
+    rdfs:domain :Transaction ;
+    rdfs:range :DisqualifiedPerson ;
+    rdfs:label "involves disqualified person"@en ;
+    rdfs:comment "Transaction involves disqualified person (triggers IRC §4941 review)"@en .
+
+###  http://example.org/trust-domain#constitutesExcessBenefit
+:constitutesExcessBenefit rdf:type owl:ObjectProperty ;
+    rdfs:domain :Transaction ;
+    rdfs:range :ExcessBenefit ;
+    rdfs:label "constitutes excess benefit"@en ;
+    rdfs:comment "Transaction provides excess benefit to disqualified person"@en .
+
+###  http://example.org/trust-domain#jeopardizesMission
+:jeopardizesMission rdf:type owl:ObjectProperty ;
+    rdfs:domain :Investment ;
+    rdfs:range :Purpose ;
+    rdfs:label "jeopardizes mission"@en ;
+    rdfs:comment "Investment jeopardizes ability to carry out mission (IRC §4944 violation)"@en .
+
+###  http://example.org/trust-domain#constitutesExcessHolding
+:constitutesExcessHolding rdf:type owl:ObjectProperty ;
+    rdfs:domain :Investment ;
+    rdfs:range :ExcessBusinessHolding ;
+    rdfs:label "constitutes excess holding"@en ;
+    rdfs:comment "Investment constitutes excess business holding (IRC §4943 violation)"@en .
+
+###  http://example.org/trust-domain#isTaxableExpenditure
+:isTaxableExpenditure rdf:type owl:ObjectProperty ;
+    rdfs:domain :Expenditure ;
+    rdfs:range :TaxableExpenditure ;
+    rdfs:label "is taxable expenditure"@en ;
+    rdfs:comment "Expenditure is taxable expenditure under IRC §4945"@en .
+
 #################################################################
 #    Data Properties
 #################################################################
@@ -417,6 +515,62 @@ Non-grantor and foreign trusts acquire operational instruments once control, jur
     rdfs:range xsd:string ;
     rdfs:label "purpose description"@en ;
     rdfs:comment "Detailed description of the purpose and how it will be advanced"@en .
+
+###  http://example.org/trust-domain#fiscalYearStart
+:fiscalYearStart rdf:type owl:DatatypeProperty ;
+    rdfs:domain :FiscalYear ;
+    rdfs:range xsd:date ;
+    rdfs:label "fiscal year start"@en ;
+    rdfs:comment "Start date of fiscal year"@en .
+
+###  http://example.org/trust-domain#fiscalYearEnd
+:fiscalYearEnd rdf:type owl:DatatypeProperty ;
+    rdfs:domain :FiscalYear ;
+    rdfs:range xsd:date ;
+    rdfs:label "fiscal year end"@en ;
+    rdfs:comment "End date of fiscal year"@en .
+
+###  http://example.org/trust-domain#yearNumber
+:yearNumber rdf:type owl:DatatypeProperty ;
+    rdfs:domain :FiscalYear ;
+    rdfs:range xsd:integer ;
+    rdfs:label "year number"@en ;
+    rdfs:comment "Calendar year number (e.g., 2024)"@en .
+
+###  http://example.org/trust-domain#expenditureDate
+:expenditureDate rdf:type owl:DatatypeProperty ;
+    rdfs:domain :ActualSpend ;
+    rdfs:range xsd:date ;
+    rdfs:label "expenditure date"@en ;
+    rdfs:comment "Date expenditure was made"@en .
+
+###  http://example.org/trust-domain#grantAmount
+:grantAmount rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Grant ;
+    rdfs:range xsd:decimal ;
+    rdfs:label "grant amount"@en ;
+    rdfs:comment "Amount of charitable grant"@en .
+
+###  http://example.org/trust-domain#minimumDistributionRequired
+:minimumDistributionRequired rdf:type owl:DatatypeProperty ;
+    rdfs:domain :FiscalYear ;
+    rdfs:range xsd:decimal ;
+    rdfs:label "minimum distribution required"@en ;
+    rdfs:comment "Minimum qualifying distribution required for fiscal year (IRC §4942)"@en .
+
+###  http://example.org/trust-domain#qualifyingDistributionsMade
+:qualifyingDistributionsMade rdf:type owl:DatatypeProperty ;
+    rdfs:domain :FiscalYear ;
+    rdfs:range xsd:decimal ;
+    rdfs:label "qualifying distributions made"@en ;
+    rdfs:comment "Total qualifying distributions made during fiscal year"@en .
+
+###  http://example.org/trust-domain#excessHoldingPercentage
+:excessHoldingPercentage rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Investment ;
+    rdfs:range xsd:decimal ;
+    rdfs:label "excess holding percentage"@en ;
+    rdfs:comment "Percentage ownership that constitutes excess business holding"@en .
 
 #################################################################
 #    Classes
@@ -1201,6 +1355,161 @@ Non-grantor and foreign trusts acquire operational instruments once control, jur
     rdfs:label "Authority Cascade"@en ;
     rdfs:comment "The complete traceable chain: Mission → Purpose Domains → Authorized Activities → Operators in Role → Expense Domains → Actual Spend. This cascade PROVES keystone constraint satisfaction."@en .
 
+###  http://example.org/trust-domain#TemporalPeriod
+:TemporalPeriod rdf:type owl:Class ;
+    rdfs:label "Temporal Period"@en ;
+    rdfs:comment "A time interval during which activities occur and expenditures are made"@en .
+
+###  http://example.org/trust-domain#FiscalYear
+:FiscalYear rdf:type owl:Class ;
+    rdfs:subClassOf :TemporalPeriod ;
+    rdfs:label "Fiscal Year"@en ;
+    rdfs:comment "12-month accounting period for trust operations, DNI computation, and distribution requirements"@en .
+
+###  http://example.org/trust-domain#Quarter
+:Quarter rdf:type owl:Class ;
+    rdfs:subClassOf :TemporalPeriod ;
+    rdfs:label "Quarter"@en ;
+    rdfs:comment "3-month period within fiscal year"@en .
+
+###  http://example.org/trust-domain#Month
+:Month rdf:type owl:Class ;
+    rdfs:subClassOf :TemporalPeriod ;
+    rdfs:label "Month"@en ;
+    rdfs:comment "Monthly period for operational tracking"@en .
+
+###  http://example.org/trust-domain#GrantmakingActivity
+:GrantmakingActivity rdf:type owl:Class ;
+    rdfs:subClassOf :AuthorizedActivity ;
+    rdfs:label "Grantmaking Activity"@en ;
+    rdfs:comment "Activity of making charitable grants to advance mission - DISTINCT from operations"@en .
+
+###  http://example.org/trust-domain#Grant
+:Grant rdf:type owl:Class ;
+    rdfs:label "Grant"@en ;
+    rdfs:comment "Charitable grant made to grantee to advance exempt purpose"@en .
+
+###  http://example.org/trust-domain#ProgramRelatedInvestment
+:ProgramRelatedInvestment rdf:type owl:Class ;
+    rdfs:subClassOf :Grant ;
+    rdfs:label "Program-Related Investment (PRI)"@en ;
+    rdfs:comment "Investment primarily to accomplish charitable purpose, not investment return"@en .
+
+###  http://example.org/trust-domain#Grantee
+:Grantee rdf:type owl:Class ;
+    rdfs:label "Grantee"@en ;
+    rdfs:comment "Organization or individual receiving charitable grant"@en .
+
+###  http://example.org/trust-domain#PublicCharity
+:PublicCharity rdf:type owl:Class ;
+    rdfs:subClassOf :Grantee ;
+    rdfs:label "Public Charity"@en ;
+    rdfs:comment "IRC §509(a) public charity - qualifying grantee"@en .
+
+###  http://example.org/trust-domain#NonExemptGrantee
+:NonExemptGrantee rdf:type owl:Class ;
+    rdfs:subClassOf :Grantee ;
+    rdfs:label "Non-Exempt Grantee"@en ;
+    rdfs:comment "Non-exempt organization requiring expenditure responsibility"@en .
+
+###  http://example.org/trust-domain#QualifyingDistribution
+:QualifyingDistribution rdf:type owl:Class ;
+    rdfs:label "Qualifying Distribution"@en ;
+    rdfs:comment "Distribution that counts toward IRC §4942 minimum distribution requirement"@en .
+
+###  http://example.org/trust-domain#DisqualifiedPerson
+:DisqualifiedPerson rdf:type owl:Class ;
+    rdfs:label "Disqualified Person"@en ;
+    rdfs:comment "Person defined in IRC §4946 - substantial contributor, foundation manager, or related party"@en .
+
+###  http://example.org/trust-domain#SubstantialContributor
+:SubstantialContributor rdf:type owl:Class ;
+    rdfs:subClassOf :DisqualifiedPerson ;
+    rdfs:label "Substantial Contributor"@en ;
+    rdfs:comment "Person who contributed over $5,000 if that exceeds 2% of total contributions"@en .
+
+###  http://example.org/trust-domain#FoundationManager
+:FoundationManager rdf:type owl:Class ;
+    rdfs:subClassOf :DisqualifiedPerson ;
+    rdfs:label "Foundation Manager"@en ;
+    rdfs:comment "Officer, director, trustee, or person with similar powers"@en .
+
+###  http://example.org/trust-domain#Transaction
+:Transaction rdf:type owl:Class ;
+    rdfs:label "Transaction"@en ;
+    rdfs:comment "Any exchange, transfer, or dealing involving trust assets or income"@en .
+
+###  http://example.org/trust-domain#SelfDealingTransaction
+:SelfDealingTransaction rdf:type owl:Class ;
+    rdfs:subClassOf :Transaction ;
+    rdfs:label "Self-Dealing Transaction"@en ;
+    rdfs:comment "Transaction between foundation and disqualified person - PROHIBITED under IRC §4941"@en .
+
+###  http://example.org/trust-domain#PermittedTransaction
+:PermittedTransaction rdf:type owl:Class ;
+    rdfs:subClassOf :Transaction ;
+    owl:disjointWith :SelfDealingTransaction ;
+    rdfs:label "Permitted Transaction"@en ;
+    rdfs:comment "Transaction that does not involve self-dealing or is explicitly permitted"@en .
+
+###  http://example.org/trust-domain#ExcessBenefit
+:ExcessBenefit rdf:type owl:Class ;
+    rdfs:label "Excess Benefit"@en ;
+    rdfs:comment "Benefit exceeding fair market value provided to disqualified person"@en .
+
+###  http://example.org/trust-domain#Investment
+:Investment rdf:type owl:Class ;
+    rdfs:label "Investment"@en ;
+    rdfs:comment "Trust investment in securities, property, or business interests"@en .
+
+###  http://example.org/trust-domain#JeopardizingInvestment
+:JeopardizingInvestment rdf:type owl:Class ;
+    rdfs:subClassOf :Investment ;
+    rdfs:label "Jeopardizing Investment"@en ;
+    rdfs:comment "Investment that jeopardizes carrying out exempt purpose - PROHIBITED under IRC §4944"@en .
+
+###  http://example.org/trust-domain#PrudentInvestment
+:PrudentInvestment rdf:type owl:Class ;
+    rdfs:subClassOf :Investment ;
+    owl:disjointWith :JeopardizingInvestment ;
+    rdfs:label "Prudent Investment"@en ;
+    rdfs:comment "Investment exercising ordinary business care and prudence"@en .
+
+###  http://example.org/trust-domain#ExcessBusinessHolding
+:ExcessBusinessHolding rdf:type owl:Class ;
+    rdfs:label "Excess Business Holding"@en ;
+    rdfs:comment "Business holdings exceeding permitted percentage - PROHIBITED under IRC §4943"@en .
+
+###  http://example.org/trust-domain#PermittedBusinessHolding
+:PermittedBusinessHolding rdf:type owl:Class ;
+    rdfs:subClassOf :Investment ;
+    rdfs:label "Permitted Business Holding"@en ;
+    rdfs:comment "Business holding within IRC §4943 limits (generally 20% or 2% depending on control)"@en .
+
+###  http://example.org/trust-domain#TaxableExpenditure
+:TaxableExpenditure rdf:type owl:Class ;
+    rdfs:subClassOf :Expenditure ;
+    rdfs:label "Taxable Expenditure"@en ;
+    rdfs:comment "Expenditure for prohibited purpose under IRC §4945 (lobbying, political, non-charitable grants without expenditure responsibility)"@en .
+
+###  http://example.org/trust-domain#LobbyingExpenditure
+:LobbyingExpenditure rdf:type owl:Class ;
+    rdfs:subClassOf :TaxableExpenditure ;
+    rdfs:label "Lobbying Expenditure"@en ;
+    rdfs:comment "Expenditure to influence legislation - taxable under IRC §4945"@en .
+
+###  http://example.org/trust-domain#PoliticalExpenditure
+:PoliticalExpenditure rdf:type owl:Class ;
+    rdfs:subClassOf :TaxableExpenditure ;
+    rdfs:label "Political Expenditure"@en ;
+    rdfs:comment "Expenditure to influence election or carry on voter registration - taxable under IRC §4945"@en .
+
+###  http://example.org/trust-domain#GrantWithoutExpenditureResponsibility
+:GrantWithoutExpenditureResponsibility rdf:type owl:Class ;
+    rdfs:subClassOf :TaxableExpenditure ;
+    rdfs:label "Grant Without Expenditure Responsibility"@en ;
+    rdfs:comment "Grant to non-qualifying organization without required oversight - taxable under IRC §4945"@en .
+
 #################################################################
 #    Restrictions and Axioms
 #################################################################
@@ -1558,6 +1867,214 @@ Non-grantor and foreign trusts acquire operational instruments once control, jur
       owl:someValuesFrom :OperationalBenefitEnablement
     ] .
 
+###  TEMPORAL AXIOMS - Expenditures and DNI bound to time
+
+###  Actual Spend MUST occur during a temporal period
+:ActualSpend rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :occursDuring ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger
+    ] .
+
+###  DNI MUST be computed for a fiscal year
+:DistributableNetIncome rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :computedFor ;
+      owl:someValuesFrom :FiscalYear
+    ] .
+
+###  Fiscal Year MUST have start and end dates
+:FiscalYear rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :fiscalYearStart ;
+      owl:cardinality "1"^^xsd:nonNegativeInteger
+    ] ,
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :fiscalYearEnd ;
+      owl:cardinality "1"^^xsd:nonNegativeInteger
+    ] .
+
+###  GRANTMAKING AXIOMS - Grants distinct from operations
+
+###  Grantmaking Activity MUST produce Grants
+:GrantmakingActivity rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty [ owl:inverseOf :makesGrant ] ;
+      owl:someValuesFrom :Grant
+    ] .
+
+###  Grant MUST be received by Grantee
+:Grant rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty [ owl:inverseOf :receivesGrant ] ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger
+    ] .
+
+###  Grant MUST have amount
+:Grant rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :grantAmount ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger
+    ] .
+
+###  Grant to Public Charity is Qualifying Distribution
+:Grant rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :receivesGrant ;
+      owl:allValuesFrom [
+        rdf:type owl:Restriction ;
+        owl:onProperty rdf:type ;
+        owl:hasValue :PublicCharity
+      ] ;
+      owl:onProperty :satisfiesQualifyingDistribution ;
+      owl:someValuesFrom :QualifyingDistribution
+    ] .
+
+###  IRC §4941 AXIOMS - Self-Dealing Prohibition (FULLY AXIOMATIZED)
+
+###  Self-Dealing Transaction MUST involve Disqualified Person
+:SelfDealingTransaction rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :involvesDisqualifiedPerson ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger
+    ] .
+
+###  Self-Dealing Transaction triggers IRC §4941 violation
+:SelfDealingTransaction rdfs:subClassOf :PrivateInurement .
+
+###  Self-Dealing Prohibition prevents Self-Dealing Transactions
+:SelfDealingProhibition rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :preventsMisuse ;
+      owl:hasValue :SelfDealingTransaction
+    ] .
+
+###  Transaction with Disqualified Person is presumptively Self-Dealing
+[ rdf:type owl:Restriction ;
+  owl:onProperty :involvesDisqualifiedPerson ;
+  owl:someValuesFrom :DisqualifiedPerson
+] rdfs:subClassOf :SelfDealingTransaction .
+
+###  Permitted Transactions are DISJOINT from Self-Dealing
+:PermittedTransaction owl:disjointWith :SelfDealingTransaction .
+
+###  IRC §4942 AXIOMS - Minimum Distribution Requirements (FULLY AXIOMATIZED)
+
+###  Private Foundation MUST make Qualifying Distributions
+:ForeignPrivateIrrevocableNonGrantorTrust rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :makesGrant ;
+      owl:someValuesFrom [
+        rdf:type owl:Restriction ;
+        owl:onProperty :satisfiesQualifyingDistribution ;
+        owl:someValuesFrom :QualifyingDistribution
+      ]
+    ] .
+
+###  Fiscal Year tracks minimum distribution requirement
+:FiscalYear rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :minimumDistributionRequired ;
+      owl:someValuesFrom xsd:decimal
+    ] .
+
+###  Failure to meet minimum distribution is Authority Collapse
+[ rdf:type owl:Class ;
+  owl:intersectionOf (
+    :FiscalYear
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :qualifyingDistributionsMade ;
+      owl:someValuesFrom [
+        rdf:type rdfs:Datatype ;
+        owl:onDatatype xsd:decimal
+      ]
+    ]
+  )
+] .
+
+###  IRC §4943 AXIOMS - Excess Business Holdings (FULLY AXIOMATIZED)
+
+###  Excess Business Holding MUST have percentage
+:ExcessBusinessHolding rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :excessHoldingPercentage ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger
+    ] .
+
+###  Investment with excessive percentage is Excess Holding
+[ rdf:type owl:Restriction ;
+  owl:onProperty :excessHoldingPercentage ;
+  owl:someValuesFrom [
+    rdf:type rdfs:Datatype ;
+    owl:onDatatype xsd:decimal ;
+    owl:withRestrictions ([xsd:minInclusive "20.0"^^xsd:decimal])
+  ]
+] rdfs:subClassOf :ExcessBusinessHolding .
+
+###  Excess Business Holding triggers IRC §4943 violation
+:ExcessBusinessHolding rdfs:subClassOf :AuthorityCollapse .
+
+###  Permitted Holdings are DISJOINT from Excess Holdings
+:PermittedBusinessHolding owl:disjointWith :ExcessBusinessHolding .
+
+###  IRC §4944 AXIOMS - Jeopardizing Investments (FULLY AXIOMATIZED)
+
+###  Jeopardizing Investment MUST jeopardize a Purpose
+:JeopardizingInvestment rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :jeopardizesMission ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger
+    ] .
+
+###  Jeopardizing Investment is Authority Collapse
+:JeopardizingInvestment rdfs:subClassOf :AuthorityCollapse .
+
+###  Jeopardizing Investment Rule prevents Jeopardizing Investments
+:JeopardizingInvestmentRule rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :preventsMisuse ;
+      owl:hasValue :JeopardizingInvestment
+    ] .
+
+###  Prudent Investment is DISJOINT from Jeopardizing Investment
+:PrudentInvestment owl:disjointWith :JeopardizingInvestment .
+
+###  IRC §4945 AXIOMS - Taxable Expenditures (FULLY AXIOMATIZED)
+
+###  Taxable Expenditure is Authority Collapse
+:TaxableExpenditure rdfs:subClassOf :AuthorityCollapse .
+
+###  Lobbying Expenditure triggers IRC §4945(d)(1)
+:LobbyingExpenditure rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :isTaxableExpenditure ;
+      owl:hasValue :TaxableExpenditure
+    ] .
+
+###  Political Expenditure triggers IRC §4945(d)(2)
+:PoliticalExpenditure rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :isTaxableExpenditure ;
+      owl:hasValue :TaxableExpenditure
+    ] .
+
+###  Grant Without Expenditure Responsibility triggers IRC §4945(d)(4)
+:GrantWithoutExpenditureResponsibility rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :isTaxableExpenditure ;
+      owl:hasValue :TaxableExpenditure
+    ] .
+
+###  Grant to Non-Exempt Grantee requires Expenditure Responsibility
+[ rdf:type owl:Restriction ;
+  owl:onProperty :receivesGrant ;
+  owl:someValuesFrom [
+    rdf:type owl:Restriction ;
+    owl:onProperty rdf:type ;
+    owl:hasValue :NonExemptGrantee
+  ]
+] rdfs:subClassOf :GrantWithoutExpenditureResponsibility .
+
 #################################################################
 #    Individuals (Example Instances)
 #################################################################
@@ -1851,5 +2368,93 @@ RESULT: Every dollar spent is PROVABLY:
 - Inseparable from execution (clinical trials require qualified researcher)
 
 This is PROOF OF LEGITIMACY. The cascade cannot be completed for improper private enablement."""@en .
+
+###  TEMPORAL EXAMPLES
+
+###  http://example.org/trust-domain#FiscalYear2024
+:FiscalYear2024 rdf:type owl:NamedIndividual ,
+                         :FiscalYear ;
+    :fiscalYearStart "2024-01-01"^^xsd:date ;
+    :fiscalYearEnd "2024-12-31"^^xsd:date ;
+    :yearNumber "2024"^^xsd:integer ;
+    :minimumDistributionRequired "500000.00"^^xsd:decimal ;
+    :qualifyingDistributionsMade "625000.00"^^xsd:decimal ;
+    rdfs:label "Fiscal Year 2024"@en ;
+    rdfs:comment "Foundation fiscal year 2024 - made $625K qualifying distributions, exceeding $500K minimum requirement"@en .
+
+###  http://example.org/trust-domain#DNI_2024
+:DNI_2024 rdf:type owl:NamedIndividual ,
+                   :DistributableNetIncome ;
+    :computedFor :FiscalYear2024 ;
+    :dniAmount "850000.00"^^xsd:decimal ;
+    rdfs:label "DNI for Fiscal Year 2024"@en ;
+    rdfs:comment "Distributable Net Income computed for fiscal year 2024"@en .
+
+###  Expenditure with temporal binding
+:SalaryPayment_DrSmith_January2024 :occursDuring :FiscalYear2024 ;
+                                   :expenditureDate "2024-01-15"^^xsd:date .
+
+###  GRANTMAKING EXAMPLES
+
+###  http://example.org/trust-domain#CancerResearchGrantActivity
+:CancerResearchGrantActivity rdf:type owl:NamedIndividual ,
+                                      :GrantmakingActivity ;
+    :advancesPurpose :FoundationHealthMission ;
+    :hasTemporalExtent :FiscalYear2024 ;
+    rdfs:label "Cancer Research Grantmaking Activity"@en ;
+    rdfs:comment "Grantmaking activity to fund cancer research - DISTINCT from operational research"@en .
+
+###  http://example.org/trust-domain#GrantToStanfordMedicine
+:GrantToStanfordMedicine rdf:type owl:NamedIndividual ,
+                                  :Grant ;
+    :grantAmount "250000.00"^^xsd:decimal ;
+    :receivesGrant :StanfordMedicine ;
+    :satisfiesQualifyingDistribution :QD_StanfordGrant ;
+    :occursDuring :FiscalYear2024 ;
+    rdfs:label "Grant to Stanford Medicine - $250,000"@en ;
+    rdfs:comment "Charitable grant to Stanford Medicine for cancer research"@en .
+
+###  http://example.org/trust-domain#StanfordMedicine
+:StanfordMedicine rdf:type owl:NamedIndividual ,
+                           :PublicCharity ;
+    rdfs:label "Stanford Medicine (Public Charity)"@en ;
+    rdfs:comment "IRC §509(a) public charity - qualifying grantee"@en .
+
+###  http://example.org/trust-domain#QD_StanfordGrant
+:QD_StanfordGrant rdf:type owl:NamedIndividual ,
+                           :QualifyingDistribution ;
+    rdfs:label "Qualifying Distribution: Stanford Grant"@en ;
+    rdfs:comment "Grant to public charity counts toward IRC §4942 minimum distribution"@en .
+
+###  IRC §§4941-4945 VIOLATION EXAMPLES
+
+###  http://example.org/trust-domain#ExampleSelfDealing
+:ExampleSelfDealing rdf:type owl:NamedIndividual ,
+                             :SelfDealingTransaction ;
+    :involvesDisqualifiedPerson :ExampleTrusteeAsDisqualifiedPerson ;
+    rdfs:label "Example: Self-Dealing Transaction"@en ;
+    rdfs:comment "Transaction between foundation and trustee (disqualified person) - PROHIBITED under IRC §4941"@en .
+
+###  http://example.org/trust-domain#ExampleTrusteeAsDisqualifiedPerson
+:ExampleTrusteeAsDisqualifiedPerson rdf:type owl:NamedIndividual ,
+                                             :FoundationManager ,
+                                             :DisqualifiedPerson ;
+    rdfs:label "Trustee (Disqualified Person)"@en ;
+    rdfs:comment "Foundation manager is disqualified person under IRC §4946"@en .
+
+###  http://example.org/trust-domain#ExampleJeopardizingInvestment
+:ExampleJeopardizingInvestment rdf:type owl:NamedIndividual ,
+                                        :JeopardizingInvestment ;
+    :jeopardizesMission :FoundationHealthMission ;
+    rdfs:label "Example: Jeopardizing Investment"@en ;
+    rdfs:comment "Speculative investment jeopardizing ability to carry out health mission - PROHIBITED under IRC §4944"@en .
+
+###  http://example.org/trust-domain#ExampleLobbyingExpense
+:ExampleLobbyingExpense rdf:type owl:NamedIndividual ,
+                                 :LobbyingExpenditure ,
+                                 :TaxableExpenditure ;
+    :isTaxableExpenditure :TaxableExpenditure ;
+    rdfs:label "Example: Lobbying Expenditure"@en ;
+    rdfs:comment "Expenditure to influence legislation - taxable under IRC §4945(d)(1)"@en .
 
 ###  Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi

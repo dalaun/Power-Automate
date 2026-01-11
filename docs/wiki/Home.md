@@ -93,6 +93,22 @@ Fully axiomatized private foundation rules:
 
 All violations are subclasses of `AuthorityCollapse` with disjoint classes preventing violations.
 
+## Extensions
+
+### Estate Planning Extension (v1.0)
+
+**[Estate Planning Extension](Estate-Planning-Extension.md)** - Comprehensive traditional trust & estate vocabulary
+
+The base ontology focuses on **private foundations** (IRC §§4941-4945, grantmaking, temporal compliance). The estate planning extension adds:
+
+- **Participant roles**: Grantor, Settlor, Trustee variants, Income/Remainder Beneficiaries
+- **Document hierarchy**: Trust Indentures, Deeds, Amendments, Restatements
+- **Property tenure**: Fee Simple, Life Estate, Remainder, Joint Tenancy
+- **Legal actions**: Trust Contests, Reformation, Accounting Proceedings
+- **250+ properties** with inverse relationships and cardinality constraints
+
+Use **separately** or **together** depending on your trust modeling needs.
+
 ## Quick Start
 
 1. **[Architecture Overview](Architecture.md)** - Understand the control-plane framework
@@ -100,6 +116,7 @@ All violations are subclasses of `AuthorityCollapse` with disjoint classes preve
 3. **[Authority Cascade](Authority-Cascade.md)** - How every dollar traces back to mission
 4. **[Examples](Examples.md)** - See concrete instances of permissible vs improper enablement
 5. **[Usage Guide](Usage-Guide.md)** - Query the ontology and validate compliance
+6. **[Estate Planning Extension](Estate-Planning-Extension.md)** - Traditional trust vocabulary (optional)
 
 ## What This Enables
 

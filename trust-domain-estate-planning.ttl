@@ -21,6 +21,7 @@ This extension adds:
 - Transaction framework (Arm's Length, Related Party, Fair Value)
 - Common law trust doctrines (Rule Against Perpetuities, Cy Pres, Spendthrift Clauses)
 - Arm's length dealing standards (Arm's Length Standard, Fair Dealing, Conflict of Interest)
+- Hague Trusts Convention framework (Cross-border trust recognition)
 - Comprehensive relationship properties with inverses
 - Cardinality constraints ensuring ontological integrity
 - Property chains for complex legal patterns
@@ -43,9 +44,49 @@ ARM'S LENGTH DEALING:
 - Conflict of Interest: Fiduciary personal interest conflicts
 - Independent Trustee Requirement: Trustee without conflicts
 
+HAGUE TRUSTS CONVENTION (v1.2):
+The Convention provides a recognition layer for cross-border trusts without harmonizing
+substantive trust law. Key principles:
+
+TWO-STEP VALIDITY MODEL (most consequential clarification):
+  Step One: Trust Validity - Is there a valid trust instrument?
+  Step Two: Asset Transfer Validity - Was property validly transferred into trust?
+
+  CRITICAL: These steps are analytically separate. A trust can exist even if a
+  particular transfer fails, and a failed conveyance does not retroactively destroy
+  the trust agreement itself.
+
+RECOGNITION VS REINVENTION:
+  Foreign trusts are recognized without requiring domestic law to adopt foreign
+  trust doctrines. Recognition does not mean reinvention of local property law.
+
+SITUS RULE PRESERVATION:
+  Law of property location (lex situs) controls title, conveyance, creditor rights,
+  and recording requirements. The Hague Convention does NOT displace situs rules.
+
+CHOICE OF LAW WITH FENCES:
+  Settlor's choice of governing law is honored subject to:
+  - Meaningful connection requirement
+  - Mandatory rules (creditor rights, forced heirship, public policy)
+  - Public policy exceptions
+
+MANDATORY RULES:
+  Overriding rules that cannot be displaced by choice of law:
+  - Creditor rights
+  - Forced heirship (legitime portions)
+  - Fundamental public policy
+
+Classes: HagueTrustsConvention, TrustRecognition, TrustValidity, AssetTransferValidity,
+         ChoiceOfLaw, MandatoryRule, PublicPolicyException, SitusRule, CrossBorderTrust,
+         ForcedHeirship
+
+Properties: recognizedUnder, satisfiesTrustValidity, satisfiesTransferValidity,
+            choosesGoverningLaw, subjectToMandatoryRule, governedBySitusRule,
+            operatesInJurisdiction, subjectToForcedHeirship
+
 Designed for traditional estate planning while maintaining compatibility with
 the foundation-focused private trust framework in the base ontology."""@en ;
-    owl:versionInfo "1.1" .
+    owl:versionInfo "1.2" .
 
 #################################################################
 #    Annotation properties
@@ -1090,6 +1131,176 @@ ep:possesses rdf:type owl:ObjectProperty ;
     rdfs:comment "Participant possesses property tenure"@en .
 
 
+###############################################################
+###  SECTION 8: HAGUE TRUSTS CONVENTION RELATIONSHIPS
+###############################################################
+
+###  Recognition and Validity Properties
+
+###  http://example.org/trust-domain/estate-planning#recognizedUnder
+ep:recognizedUnder rdf:type owl:ObjectProperty ;
+    rdfs:domain :TrustEntity ;
+    rdfs:range ep:HagueTrustsConvention ;
+    owl:inverseOf ep:recognizesTrust ;
+    rdfs:label "recognized under"@en ;
+    rdfs:comment "Trust recognized under Hague Trusts Convention framework (recognition vs reinvention)"@en ;
+    ep:glossaryTerm "Recognition" .
+
+###  http://example.org/trust-domain/estate-planning#recognizesTrust
+ep:recognizesTrust rdf:type owl:ObjectProperty ;
+    rdfs:domain ep:HagueTrustsConvention ;
+    rdfs:range :TrustEntity ;
+    owl:inverseOf ep:recognizedUnder ;
+    rdfs:label "recognizes trust"@en ;
+    rdfs:comment "Hague Convention provides recognition for trust"@en .
+
+###  http://example.org/trust-domain/estate-planning#satisfiesTrustValidity
+ep:satisfiesTrustValidity rdf:type owl:ObjectProperty ;
+    rdfs:domain :TrustEntity ;
+    rdfs:range ep:TrustValidity ;
+    owl:inverseOf ep:validityOfTrust ;
+    rdfs:label "satisfies trust validity"@en ;
+    rdfs:comment "Trust instrument satisfies validity requirements (step one of Hague two-step model - analytically separate from asset transfers)"@en ;
+    ep:glossaryTerm "Validity" .
+
+###  http://example.org/trust-domain/estate-planning#validityOfTrust
+ep:validityOfTrust rdf:type owl:ObjectProperty ;
+    rdfs:domain ep:TrustValidity ;
+    rdfs:range :TrustEntity ;
+    owl:inverseOf ep:satisfiesTrustValidity ;
+    rdfs:label "validity of trust"@en ;
+    rdfs:comment "Validity determination applies to this trust"@en .
+
+###  http://example.org/trust-domain/estate-planning#satisfiesTransferValidity
+ep:satisfiesTransferValidity rdf:type owl:ObjectProperty ;
+    rdfs:domain ep:Asset ;
+    rdfs:range ep:AssetTransferValidity ;
+    owl:inverseOf ep:validityOfTransfer ;
+    rdfs:label "satisfies transfer validity"@en ;
+    rdfs:comment "Asset transfer satisfies property law requirements (step two of Hague two-step model - analytically separate from trust validity). A trust can exist even if particular transfers fail."@en ;
+    ep:glossaryTerm "TransferValidity, Conveyance" .
+
+###  http://example.org/trust-domain/estate-planning#validityOfTransfer
+ep:validityOfTransfer rdf:type owl:ObjectProperty ;
+    rdfs:domain ep:AssetTransferValidity ;
+    rdfs:range ep:Asset ;
+    owl:inverseOf ep:satisfiesTransferValidity ;
+    rdfs:label "validity of transfer"@en ;
+    rdfs:comment "Transfer validity determination applies to this asset"@en .
+
+###  Choice of Law Properties
+
+###  http://example.org/trust-domain/estate-planning#choosesGoverningLaw
+ep:choosesGoverningLaw rdf:type owl:ObjectProperty ;
+    rdfs:domain :TrustEntity ;
+    rdfs:range ep:ChoiceOfLaw ;
+    owl:inverseOf ep:governingLawFor ;
+    rdfs:label "chooses governing law"@en ;
+    rdfs:comment "Settlor chooses governing law for trust (honored under Hague Convention subject to meaningful connection and mandatory rules)"@en ;
+    ep:glossaryTerm "ChoiceOfLaw, GoverningLaw" .
+
+###  http://example.org/trust-domain/estate-planning#governingLawFor
+ep:governingLawFor rdf:type owl:ObjectProperty ;
+    rdfs:domain ep:ChoiceOfLaw ;
+    rdfs:range :TrustEntity ;
+    owl:inverseOf ep:choosesGoverningLaw ;
+    rdfs:label "governing law for"@en ;
+    rdfs:comment "Choice of law governs this trust"@en .
+
+###  Mandatory Rules and Public Policy Properties
+
+###  http://example.org/trust-domain/estate-planning#subjectToMandatoryRule
+ep:subjectToMandatoryRule rdf:type owl:ObjectProperty ;
+    rdfs:domain :TrustEntity ;
+    rdfs:range ep:MandatoryRule ;
+    owl:inverseOf ep:mandatoryRuleAppliesTo ;
+    rdfs:label "subject to mandatory rule"@en ;
+    rdfs:comment "Trust subject to overriding mandatory rules that cannot be displaced by choice of law (creditor rights, forced heirship, public policy)"@en ;
+    ep:glossaryTerm "MandatoryRule, OverridingRule" .
+
+###  http://example.org/trust-domain/estate-planning#mandatoryRuleAppliesTo
+ep:mandatoryRuleAppliesTo rdf:type owl:ObjectProperty ;
+    rdfs:domain ep:MandatoryRule ;
+    rdfs:range :TrustEntity ;
+    owl:inverseOf ep:subjectToMandatoryRule ;
+    rdfs:label "mandatory rule applies to"@en ;
+    rdfs:comment "Mandatory rule applies to this trust"@en .
+
+###  http://example.org/trust-domain/estate-planning#subjectToPublicPolicyException
+ep:subjectToPublicPolicyException rdf:type owl:ObjectProperty ;
+    rdfs:domain :TrustEntity ;
+    rdfs:range ep:PublicPolicyException ;
+    owl:inverseOf ep:publicPolicyExceptionAppliesTo ;
+    rdfs:label "subject to public policy exception"@en ;
+    rdfs:comment "Trust subject to public policy exception allowing forum state to disregard foreign trust law"@en ;
+    ep:glossaryTerm "PublicPolicy" .
+
+###  http://example.org/trust-domain/estate-planning#publicPolicyExceptionAppliesTo
+ep:publicPolicyExceptionAppliesTo rdf:type owl:ObjectProperty ;
+    rdfs:domain ep:PublicPolicyException ;
+    rdfs:range :TrustEntity ;
+    owl:inverseOf ep:subjectToPublicPolicyException ;
+    rdfs:label "public policy exception applies to"@en ;
+    rdfs:comment "Public policy exception applies to this trust"@en .
+
+###  Situs Rule Properties
+
+###  http://example.org/trust-domain/estate-planning#governedBySitusRule
+ep:governedBySitusRule rdf:type owl:ObjectProperty ;
+    rdfs:domain ep:Asset ;
+    rdfs:range ep:SitusRule ;
+    owl:inverseOf ep:situsRuleGoverns ;
+    rdfs:label "governed by situs rule"@en ;
+    rdfs:comment "Asset governed by situs rule (law of property location controls title, conveyance, creditor rights, recording - not displaced by Hague Convention)"@en ;
+    ep:glossaryTerm "SitusRule, LexSitus" .
+
+###  http://example.org/trust-domain/estate-planning#situsRuleGoverns
+ep:situsRuleGoverns rdf:type owl:ObjectProperty ;
+    rdfs:domain ep:SitusRule ;
+    rdfs:range ep:Asset ;
+    owl:inverseOf ep:governedBySitusRule ;
+    rdfs:label "situs rule governs"@en ;
+    rdfs:comment "Situs rule governs this asset"@en .
+
+###  Cross-Border Trust Properties
+
+###  http://example.org/trust-domain/estate-planning#operatesInJurisdiction
+ep:operatesInJurisdiction rdf:type owl:ObjectProperty ;
+    rdfs:domain ep:CrossBorderTrust ;
+    rdfs:range ep:Jurisdiction ;
+    rdfs:label "operates in jurisdiction"@en ;
+    rdfs:comment "Cross-border trust operates in this jurisdiction"@en ;
+    ep:glossaryTerm "Jurisdiction, Forum" .
+
+###  http://example.org/trust-domain/estate-planning#hasAssetIn
+ep:hasAssetIn rdf:type owl:ObjectProperty ;
+    rdfs:domain ep:CrossBorderTrust ;
+    rdfs:range ep:Jurisdiction ;
+    rdfs:label "has asset in"@en ;
+    rdfs:comment "Cross-border trust has assets located in this jurisdiction (relevant for situs rule)"@en ;
+    ep:glossaryTerm "AssetLocation, Situs" .
+
+###  Forced Heirship Properties
+
+###  http://example.org/trust-domain/estate-planning#subjectToForcedHeirship
+ep:subjectToForcedHeirship rdf:type owl:ObjectProperty ;
+    rdfs:subPropertyOf ep:subjectToMandatoryRule ;
+    rdfs:domain :TrustEntity ;
+    rdfs:range ep:ForcedHeirship ;
+    owl:inverseOf ep:forcedHeirshipAppliesTo ;
+    rdfs:label "subject to forced heirship"@en ;
+    rdfs:comment "Trust subject to forced heirship rules reserving portion of estate for heirs - not displaced by trust or choice of law"@en ;
+    ep:glossaryTerm "ForcedHeirship, LegitimePortion" .
+
+###  http://example.org/trust-domain/estate-planning#forcedHeirshipAppliesTo
+ep:forcedHeirshipAppliesTo rdf:type owl:ObjectProperty ;
+    rdfs:domain ep:ForcedHeirship ;
+    rdfs:range :TrustEntity ;
+    owl:inverseOf ep:subjectToForcedHeirship ;
+    rdfs:label "forced heirship applies to"@en ;
+    rdfs:comment "Forced heirship rule applies to this trust"@en .
+
+
 #################################################################
 #    Data Properties
 #################################################################
@@ -1170,6 +1381,80 @@ ep:isArmsLength rdf:type owl:DatatypeProperty ;
     rdfs:range xsd:boolean ;
     rdfs:label "is arm's length"@en ;
     rdfs:comment "Boolean indicating whether transaction was conducted at arm's length"@en .
+
+###  Hague Trusts Convention Data Properties
+
+###  http://example.org/trust-domain/estate-planning#choiceOfLawClause
+ep:choiceOfLawClause rdf:type owl:DatatypeProperty ;
+    rdfs:domain ep:ChoiceOfLaw ;
+    rdfs:range xsd:string ;
+    rdfs:label "choice of law clause"@en ;
+    rdfs:comment "Text of the choice of law provision specifying governing law"@en ;
+    ep:glossaryTerm "ChoiceOfLaw, GoverningLaw" .
+
+###  http://example.org/trust-domain/estate-planning#applicableLaw
+ep:applicableLaw rdf:type owl:DatatypeProperty ;
+    rdfs:domain ep:ChoiceOfLaw ;
+    rdfs:range xsd:string ;
+    rdfs:label "applicable law"@en ;
+    rdfs:comment "Name of the jurisdiction's law chosen to govern the trust (e.g., 'Nevis Trust Law', 'Delaware Trust Code')"@en ;
+    ep:glossaryTerm "ApplicableLaw" .
+
+###  http://example.org/trust-domain/estate-planning#recognitionDate
+ep:recognitionDate rdf:type owl:DatatypeProperty ;
+    rdfs:domain ep:TrustRecognition ;
+    rdfs:range xsd:date ;
+    rdfs:label "recognition date"@en ;
+    rdfs:comment "Date foreign trust was recognized under Hague Convention"@en ;
+    ep:glossaryTerm "Recognition" .
+
+###  http://example.org/trust-domain/estate-planning#validityDeterminationDate
+ep:validityDeterminationDate rdf:type owl:DatatypeProperty ;
+    rdfs:domain ep:TrustValidity ;
+    rdfs:range xsd:date ;
+    rdfs:label "validity determination date"@en ;
+    rdfs:comment "Date trust validity was determined (step one of two-step model)"@en ;
+    ep:glossaryTerm "Validity" .
+
+###  http://example.org/trust-domain/estate-planning#transferValidityDate
+ep:transferValidityDate rdf:type owl:DatatypeProperty ;
+    rdfs:domain ep:AssetTransferValidity ;
+    rdfs:range xsd:date ;
+    rdfs:label "transfer validity date"@en ;
+    rdfs:comment "Date asset transfer validity was determined (step two of two-step model - analytically separate from trust validity)"@en ;
+    ep:glossaryTerm "TransferValidity" .
+
+###  http://example.org/trust-domain/estate-planning#mandatoryRuleDescription
+ep:mandatoryRuleDescription rdf:type owl:DatatypeProperty ;
+    rdfs:domain ep:MandatoryRule ;
+    rdfs:range xsd:string ;
+    rdfs:label "mandatory rule description"@en ;
+    rdfs:comment "Description of the overriding mandatory rule that cannot be displaced by choice of law"@en ;
+    ep:glossaryTerm "MandatoryRule" .
+
+###  http://example.org/trust-domain/estate-planning#publicPolicyBasis
+ep:publicPolicyBasis rdf:type owl:DatatypeProperty ;
+    rdfs:domain ep:PublicPolicyException ;
+    rdfs:range xsd:string ;
+    rdfs:label "public policy basis"@en ;
+    rdfs:comment "Basis for public policy exception (fundamental principle that would be offended by recognizing foreign trust law)"@en ;
+    ep:glossaryTerm "PublicPolicy" .
+
+###  http://example.org/trust-domain/estate-planning#situsJurisdiction
+ep:situsJurisdiction rdf:type owl:DatatypeProperty ;
+    rdfs:domain ep:Asset ;
+    rdfs:range xsd:string ;
+    rdfs:label "situs jurisdiction"@en ;
+    rdfs:comment "Jurisdiction where property is located (determines applicable property law under situs rule)"@en ;
+    ep:glossaryTerm "Situs, PropertyLocation" .
+
+###  http://example.org/trust-domain/estate-planning#legitimePortion
+ep:legitimePortion rdf:type owl:DatatypeProperty ;
+    rdfs:domain ep:ForcedHeirship ;
+    rdfs:range xsd:decimal ;
+    rdfs:label "legitime portion"@en ;
+    rdfs:comment "Percentage of estate reserved for forced heirs (e.g., 0.50 for 50%)"@en ;
+    ep:glossaryTerm "LegitimePortion, ForcedShare" .
 
 
 #################################################################
@@ -1747,6 +2032,78 @@ ep:ConflictOfInterest rdf:type owl:Class ;
     rdfs:comment "Situation where fiduciary's personal interest conflicts with beneficiary's interest"@en ;
     ep:glossaryTerm "ConflictOfInterest" .
 
+###  Hague Trusts Convention Framework
+
+###  http://example.org/trust-domain/estate-planning#HagueTrustsConvention
+ep:HagueTrustsConvention rdf:type owl:Class ;
+    rdfs:subClassOf ep:LegalDoctrine ;
+    rdfs:label "Hague Trusts Convention"@en ;
+    rdfs:comment "Convention on the Law Applicable to Trusts and on their Recognition - provides recognition layer for cross-border trusts without harmonizing substantive trust law"@en ;
+    ep:glossaryTerm "HagueTrustsConvention, HagueConvention" .
+
+###  http://example.org/trust-domain/estate-planning#TrustRecognition
+ep:TrustRecognition rdf:type owl:Class ;
+    rdfs:subClassOf ep:LegalConcept ;
+    rdfs:label "Trust Recognition"@en ;
+    rdfs:comment "Recognition of validly created foreign trust without requiring domestic law to adopt foreign trust doctrines (recognition vs reinvention)"@en ;
+    ep:glossaryTerm "Recognition" .
+
+###  http://example.org/trust-domain/estate-planning#TrustValidity
+ep:TrustValidity rdf:type owl:Class ;
+    rdfs:subClassOf ep:LegalConcept ;
+    rdfs:label "Trust Validity"@en ;
+    rdfs:comment "Step one of Hague two-step model: whether trust instrument is validly created under applicable law"@en ;
+    ep:glossaryTerm "Validity" .
+
+###  http://example.org/trust-domain/estate-planning#AssetTransferValidity
+ep:AssetTransferValidity rdf:type owl:Class ;
+    rdfs:subClassOf ep:LegalConcept ;
+    rdfs:label "Asset Transfer Validity"@en ;
+    rdfs:comment "Step two of Hague two-step model: whether property was validly transferred into trust under applicable property law (analytically separate from trust validity)"@en ;
+    ep:glossaryTerm "TransferValidity" .
+
+###  http://example.org/trust-domain/estate-planning#ChoiceOfLaw
+ep:ChoiceOfLaw rdf:type owl:Class ;
+    rdfs:subClassOf ep:LegalConcept ;
+    rdfs:label "Choice of Law"@en ;
+    rdfs:comment "Settlor's choice of governing law for trust (honored under Hague Convention subject to meaningful connection and mandatory rules)"@en ;
+    ep:glossaryTerm "ChoiceOfLaw, GoverningLaw" .
+
+###  http://example.org/trust-domain/estate-planning#MandatoryRule
+ep:MandatoryRule rdf:type owl:Class ;
+    rdfs:subClassOf ep:LegalDoctrine ;
+    rdfs:label "Mandatory Rule"@en ;
+    rdfs:comment "Overriding rule of forum state that cannot be displaced by choice of law (creditor rights, forced heirship, public policy)"@en ;
+    ep:glossaryTerm "MandatoryRule, OverridingRule" .
+
+###  http://example.org/trust-domain/estate-planning#PublicPolicyException
+ep:PublicPolicyException rdf:type owl:Class ;
+    rdfs:subClassOf ep:LegalDoctrine ;
+    rdfs:label "Public Policy Exception"@en ;
+    rdfs:comment "Exception allowing forum state to disregard foreign trust law where recognition would offend fundamental public policy"@en ;
+    ep:glossaryTerm "PublicPolicy" .
+
+###  http://example.org/trust-domain/estate-planning#SitusRule
+ep:SitusRule rdf:type owl:Class ;
+    rdfs:subClassOf ep:LegalDoctrine ;
+    rdfs:label "Situs Rule"@en ;
+    rdfs:comment "Doctrine that law of property location (situs) controls title, conveyance, creditor rights, and recording - not displaced by Hague Convention"@en ;
+    ep:glossaryTerm "SitusRule, LexSitus" .
+
+###  http://example.org/trust-domain/estate-planning#CrossBorderTrust
+ep:CrossBorderTrust rdf:type owl:Class ;
+    rdfs:subClassOf ep:LegalConcept ;
+    rdfs:label "Cross-Border Trust"@en ;
+    rdfs:comment "Trust operating internationally with assets, trustees, or beneficiaries in multiple jurisdictions - primary beneficiary of Hague Convention"@en ;
+    ep:glossaryTerm "InternationalTrust, CrossBorderTrust" .
+
+###  http://example.org/trust-domain/estate-planning#ForcedHeirship
+ep:ForcedHeirship rdf:type owl:Class ;
+    rdfs:subClassOf ep:MandatoryRule ;
+    rdfs:label "Forced Heirship"@en ;
+    rdfs:comment "Mandatory rule reserving portion of estate for certain heirs - not displaced by trust or choice of law"@en ;
+    ep:glossaryTerm "ForcedHeirship, LegitimePortion" .
+
 ###  http://example.org/trust-domain/estate-planning#PropertyType
 ep:PropertyType rdf:type owl:Class ;
     rdfs:subClassOf ep:LegalConcept ;
@@ -1879,6 +2236,62 @@ ep:BelowMarketTransaction rdfs:subClassOf
     [ rdf:type owl:Restriction ;
       owl:onProperty ep:meetsArmsLengthStandard ;
       owl:maxCardinality "0"^^xsd:nonNegativeInteger ] .
+
+###  HAGUE TRUSTS CONVENTION AXIOMS
+
+###  CROSS-BORDER TRUST recognized under Hague Convention
+ep:CrossBorderTrust rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty ep:recognizedUnder ;
+      owl:someValuesFrom ep:HagueTrustsConvention ] .
+
+###  CROSS-BORDER TRUST operates in multiple jurisdictions
+ep:CrossBorderTrust rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty ep:operatesInJurisdiction ;
+      owl:minCardinality "2"^^xsd:nonNegativeInteger ] .
+
+###  TRUST VALIDITY is step one of two-step model (analytically separate from transfers)
+###  A trust can satisfy trust validity even if asset transfers fail
+:TrustEntity rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty ep:satisfiesTrustValidity ;
+      owl:maxCardinality "1"^^xsd:nonNegativeInteger ] .
+
+###  ASSET TRANSFER VALIDITY is step two (analytically separate from trust validity)
+###  Failed conveyance does not retroactively destroy trust agreement
+ep:Asset rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty ep:satisfiesTransferValidity ;
+      owl:maxCardinality "1"^^xsd:nonNegativeInteger ] .
+
+###  NOTE: Trust validity and asset transfer validity are INDEPENDENT
+###  satisfiesTrustValidity is on TrustEntity (step one)
+###  satisfiesTransferValidity is on Asset (step two)
+###  This separation models the Hague Convention's most consequential clarification:
+###  "A trust can exist even if a particular transfer fails, and a failed conveyance
+###   does not retroactively destroy the trust agreement itself."
+
+###  CHOICE OF LAW must specify applicable law
+ep:ChoiceOfLaw rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty ep:applicableLaw ;
+      owl:cardinality "1"^^xsd:nonNegativeInteger ] .
+
+###  MANDATORY RULE overrides choice of law (cannot be displaced)
+ep:MandatoryRule rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty ep:mandatoryRuleAppliesTo ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+
+###  ASSET governed by situs rule (law of property location)
+ep:Asset rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty ep:governedBySitusRule ;
+      owl:someValuesFrom ep:SitusRule ] .
+
+###  FORCED HEIRSHIP is subclass of mandatory rule
+###  (already axiomatized via rdfs:subClassOf ep:MandatoryRule)
 
 
 #################################################################

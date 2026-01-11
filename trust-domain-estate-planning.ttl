@@ -18,13 +18,34 @@ This extension adds:
 - Document/instrument hierarchy (Deeds, Trust Agreements, Amendments)
 - Property tenure and ownership forms (Fee Simple, Life Estate, Remainder)
 - Legal action/proceeding framework (Contests, Reformation, Accounting)
+- Transaction framework (Arm's Length, Related Party, Fair Value)
+- Common law trust doctrines (Rule Against Perpetuities, Cy Pres, Spendthrift Clauses)
+- Arm's length dealing standards (Arm's Length Standard, Fair Dealing, Conflict of Interest)
 - Comprehensive relationship properties with inverses
 - Cardinality constraints ensuring ontological integrity
 - Property chains for complex legal patterns
 
+COMMON LAW TRUST DOCTRINES:
+- Rule Against Perpetuities: Limits duration of future interests
+- Cy Pres Doctrine: Modification of charitable trusts when purpose becomes impossible
+- Merger Doctrine: Termination when legal and equitable title merge
+- Spendthrift Clauses: Protection from creditors
+- Discretionary Trust Standards: Trustee discretion over distributions
+- Ascertainable Standards: HEMS (Health, Education, Maintenance, Support)
+
+ARM'S LENGTH DEALING:
+- Arm's Length Transaction: Transactions between unrelated parties (DISJOINT from Related Party)
+- Related Party Transaction: Transactions requiring heightened scrutiny
+- Fair Value Transaction: Transactions at fair market value
+- Below Market Transaction: Transactions below FMV (potential prohibited transactions)
+- Arm's Length Standard: Unrelated party dealing requirement
+- Fair Dealing Standard: Fiduciary fair dealing requirement
+- Conflict of Interest: Fiduciary personal interest conflicts
+- Independent Trustee Requirement: Trustee without conflicts
+
 Designed for traditional estate planning while maintaining compatibility with
 the foundation-focused private trust framework in the base ontology."""@en ;
-    owl:versionInfo "1.0" .
+    owl:versionInfo "1.1" .
 
 #################################################################
 #    Annotation properties
@@ -862,6 +883,68 @@ ep:basisFor rdf:type owl:ObjectProperty ;
     rdfs:label "basis for"@en ;
     rdfs:comment "Tax basis is for asset"@en .
 
+###  Transaction Properties
+
+###  http://example.org/trust-domain/estate-planning#conductsTransaction
+ep:conductsTransaction rdf:type owl:ObjectProperty ;
+    rdfs:domain ep:Participant ;
+    rdfs:range ep:Transaction ;
+    owl:inverseOf ep:transactionBy ;
+    rdfs:label "conducts transaction"@en ;
+    rdfs:comment "Participant conducts transaction"@en .
+
+###  http://example.org/trust-domain/estate-planning#transactionBy
+ep:transactionBy rdf:type owl:ObjectProperty ;
+    rdfs:domain ep:Transaction ;
+    rdfs:range ep:Participant ;
+    owl:inverseOf ep:conductsTransaction ;
+    rdfs:label "transaction by"@en ;
+    rdfs:comment "Transaction conducted by participant"@en .
+
+###  http://example.org/trust-domain/estate-planning#transactionWith
+ep:transactionWith rdf:type owl:ObjectProperty ;
+    rdfs:domain ep:Transaction ;
+    rdfs:range ep:Participant ;
+    rdfs:label "transaction with"@en ;
+    rdfs:comment "Transaction with counterparty"@en .
+
+###  http://example.org/trust-domain/estate-planning#meetsArmsLengthStandard
+ep:meetsArmsLengthStandard rdf:type owl:ObjectProperty ;
+    rdfs:domain ep:Transaction ;
+    rdfs:range ep:ArmsLengthStandard ;
+    rdfs:label "meets arm's length standard"@en ;
+    rdfs:comment "Transaction satisfies arm's length dealing standard"@en .
+
+###  http://example.org/trust-domain/estate-planning#meetsFairDealingStandard
+ep:meetsFairDealingStandard rdf:type owl:ObjectProperty ;
+    rdfs:domain ep:Transaction ;
+    rdfs:range ep:FairDealingStandard ;
+    rdfs:label "meets fair dealing standard"@en ;
+    rdfs:comment "Transaction satisfies fair dealing standard for fiduciary"@en .
+
+###  http://example.org/trust-domain/estate-planning#hasConflictOfInterest
+ep:hasConflictOfInterest rdf:type owl:ObjectProperty ;
+    rdfs:domain ep:Transaction ;
+    rdfs:range ep:ConflictOfInterest ;
+    rdfs:label "has conflict of interest"@en ;
+    rdfs:comment "Transaction involves conflict of interest"@en .
+
+###  http://example.org/trust-domain/estate-planning#involvesAsset
+ep:involvesAsset rdf:type owl:ObjectProperty ;
+    rdfs:domain ep:Transaction ;
+    rdfs:range ep:Asset ;
+    owl:inverseOf ep:assetInvolvedIn ;
+    rdfs:label "involves asset"@en ;
+    rdfs:comment "Transaction involves specific asset"@en .
+
+###  http://example.org/trust-domain/estate-planning#assetInvolvedIn
+ep:assetInvolvedIn rdf:type owl:ObjectProperty ;
+    rdfs:domain ep:Asset ;
+    rdfs:range ep:Transaction ;
+    owl:inverseOf ep:involvesAsset ;
+    rdfs:label "asset involved in"@en ;
+    rdfs:comment "Asset involved in transaction"@en .
+
 ###############################################################
 ###  SECTION 4: DOCUMENT-CENTERED RELATIONSHIPS
 ###############################################################
@@ -1066,6 +1149,27 @@ ep:judgmentDate rdf:type owl:DatatypeProperty ;
     rdfs:range xsd:date ;
     rdfs:label "judgment date"@en ;
     rdfs:comment "Date judgment was entered"@en .
+
+###  http://example.org/trust-domain/estate-planning#transactionValue
+ep:transactionValue rdf:type owl:DatatypeProperty ;
+    rdfs:domain ep:Transaction ;
+    rdfs:range xsd:decimal ;
+    rdfs:label "transaction value"@en ;
+    rdfs:comment "Dollar value of transaction"@en .
+
+###  http://example.org/trust-domain/estate-planning#transactionDate
+ep:transactionDate rdf:type owl:DatatypeProperty ;
+    rdfs:domain ep:Transaction ;
+    rdfs:range xsd:date ;
+    rdfs:label "transaction date"@en ;
+    rdfs:comment "Date transaction occurred"@en .
+
+###  http://example.org/trust-domain/estate-planning#isArmsLength
+ep:isArmsLength rdf:type owl:DatatypeProperty ;
+    rdfs:domain ep:Transaction ;
+    rdfs:range xsd:boolean ;
+    rdfs:label "is arm's length"@en ;
+    rdfs:comment "Boolean indicating whether transaction was conducted at arm's length"@en .
 
 
 #################################################################
@@ -1393,6 +1497,45 @@ ep:TenancyInCommon rdf:type owl:Class ;
     ep:glossaryTerm "TenancyInCommon" .
 
 ###############################################################
+###  TRANSACTION HIERARCHY
+###############################################################
+
+###  http://example.org/trust-domain/estate-planning#Transaction
+ep:Transaction rdf:type owl:Class ;
+    rdfs:label "Transaction"@en ;
+    rdfs:comment "Business transaction or dealing between parties"@en ;
+    ep:glossaryTerm "Transaction" .
+
+###  http://example.org/trust-domain/estate-planning#ArmsLengthTransaction
+ep:ArmsLengthTransaction rdf:type owl:Class ;
+    rdfs:subClassOf ep:Transaction ;
+    rdfs:label "Arm's Length Transaction"@en ;
+    rdfs:comment "Transaction conducted between unrelated parties dealing at arm's length with no conflicts of interest"@en ;
+    ep:glossaryTerm "ArmsLengthTransaction, ArmsLength" .
+
+###  http://example.org/trust-domain/estate-planning#RelatedPartyTransaction
+ep:RelatedPartyTransaction rdf:type owl:Class ;
+    rdfs:subClassOf ep:Transaction ;
+    owl:disjointWith ep:ArmsLengthTransaction ;
+    rdfs:label "Related Party Transaction"@en ;
+    rdfs:comment "Transaction between related parties (family, controlled entities, etc.) requiring heightened scrutiny"@en ;
+    ep:glossaryTerm "RelatedPartyTransaction" .
+
+###  http://example.org/trust-domain/estate-planning#FairValueTransaction
+ep:FairValueTransaction rdf:type owl:Class ;
+    rdfs:subClassOf ep:Transaction ;
+    rdfs:label "Fair Value Transaction"@en ;
+    rdfs:comment "Transaction at fair market value regardless of relationship between parties"@en ;
+    ep:glossaryTerm "FairValue, FairMarketValue" .
+
+###  http://example.org/trust-domain/estate-planning#BelowMarketTransaction
+ep:BelowMarketTransaction rdf:type owl:Class ;
+    rdfs:subClassOf ep:Transaction ;
+    rdfs:label "Below Market Transaction"@en ;
+    rdfs:comment "Transaction at less than fair market value (may constitute gift or prohibited transaction)"@en ;
+    ep:glossaryTerm "BelowMarket, BargainSale" .
+
+###############################################################
 ###  LEGAL ACTION HIERARCHY
 ###############################################################
 
@@ -1530,6 +1673,80 @@ ep:Laches rdf:type owl:Class ;
     rdfs:comment "Doctrine barring claim due to unreasonable delay"@en ;
     ep:glossaryTerm "Laches" .
 
+###  Common Law Trust Doctrines
+
+###  http://example.org/trust-domain/estate-planning#RuleAgainstPerpetuities
+ep:RuleAgainstPerpetuities rdf:type owl:Class ;
+    rdfs:subClassOf ep:LegalDoctrine ;
+    rdfs:label "Rule Against Perpetuities"@en ;
+    rdfs:comment "Common law rule limiting duration of future interests (life in being plus 21 years)"@en ;
+    ep:glossaryTerm "RuleAgainstPerpetuities, RAP" .
+
+###  http://example.org/trust-domain/estate-planning#CyPresDoctrine
+ep:CyPresDoctrine rdf:type owl:Class ;
+    rdfs:subClassOf ep:LegalDoctrine ;
+    rdfs:label "Cy Pres Doctrine"@en ;
+    rdfs:comment "Doctrine allowing modification of charitable trust to effectuate general charitable intent when specific purpose becomes impossible or impractical"@en ;
+    ep:glossaryTerm "CyPres, CyPresAsPossible" .
+
+###  http://example.org/trust-domain/estate-planning#MergerDoctrine
+ep:MergerDoctrine rdf:type owl:Class ;
+    rdfs:subClassOf ep:LegalDoctrine ;
+    rdfs:label "Merger Doctrine"@en ;
+    rdfs:comment "Doctrine causing trust to terminate when legal and equitable title merge in same person"@en ;
+    ep:glossaryTerm "Merger" .
+
+###  http://example.org/trust-domain/estate-planning#SpendthriftClause
+ep:SpendthriftClause rdf:type owl:Class ;
+    rdfs:subClassOf ep:LegalDoctrine ;
+    rdfs:label "Spendthrift Clause"@en ;
+    rdfs:comment "Trust provision protecting beneficiary's interest from creditors and prohibiting voluntary assignment"@en ;
+    ep:glossaryTerm "SpendthriftClause, SpendthriftTrust" .
+
+###  http://example.org/trust-domain/estate-planning#DiscreTionaryTrustStandard
+ep:DiscretionaryTrustStandard rdf:type owl:Class ;
+    rdfs:subClassOf ep:LegalDoctrine ;
+    rdfs:label "Discretionary Trust Standard"@en ;
+    rdfs:comment "Standard giving trustee discretion over distributions (pure, limited, hybrid)"@en ;
+    ep:glossaryTerm "DiscretionaryTrust, PureDiscretion" .
+
+###  http://example.org/trust-domain/estate-planning#AscentibleStandard
+ep:AscertainableStandard rdf:type owl:Class ;
+    rdfs:subClassOf ep:LegalDoctrine ;
+    rdfs:label "Ascertainable Standard"@en ;
+    rdfs:comment "Standard limiting distributions to health, education, maintenance, support (HEMS)"@en ;
+    ep:glossaryTerm "AscertainableStandard, HEMS" .
+
+###  Arm's Length Dealing Concepts
+
+###  http://example.org/trust-domain/estate-planning#ArmsLengthStandard
+ep:ArmsLengthStandard rdf:type owl:Class ;
+    rdfs:subClassOf ep:LegalDoctrine ;
+    rdfs:label "Arm's Length Standard"@en ;
+    rdfs:comment "Standard requiring transactions to be conducted as if between unrelated parties in competitive market"@en ;
+    ep:glossaryTerm "ArmsLength, ArmsLengthTransaction" .
+
+###  http://example.org/trust-domain/estate-planning#FairDealingStandard
+ep:FairDealingStandard rdf:type owl:Class ;
+    rdfs:subClassOf ep:LegalDoctrine ;
+    rdfs:label "Fair Dealing Standard"@en ;
+    rdfs:comment "Standard requiring fiduciary to deal fairly with beneficiaries even in self-interested transactions"@en ;
+    ep:glossaryTerm "FairDealing" .
+
+###  http://example.org/trust-domain/estate-planning#IndependentTrusteeRequirement
+ep:IndependentTrusteeRequirement rdf:type owl:Class ;
+    rdfs:subClassOf ep:LegalDoctrine ;
+    rdfs:label "Independent Trustee Requirement"@en ;
+    rdfs:comment "Requirement for trustee without conflict of interest or family relationship"@en ;
+    ep:glossaryTerm "IndependentTrustee" .
+
+###  http://example.org/trust-domain/estate-planning#ConflictOfInterest
+ep:ConflictOfInterest rdf:type owl:Class ;
+    rdfs:subClassOf ep:LegalConcept ;
+    rdfs:label "Conflict of Interest"@en ;
+    rdfs:comment "Situation where fiduciary's personal interest conflicts with beneficiary's interest"@en ;
+    ep:glossaryTerm "ConflictOfInterest" .
+
 ###  http://example.org/trust-domain/estate-planning#PropertyType
 ep:PropertyType rdf:type owl:Class ;
     rdfs:subClassOf ep:LegalConcept ;
@@ -1631,6 +1848,37 @@ ep:LegalAction rdfs:subClassOf
     [ rdf:type owl:Restriction ;
       owl:onProperty ep:judgedBy ;
       owl:cardinality "1"^^xsd:nonNegativeInteger ] .
+
+###  TRANSACTION AXIOMS
+
+###  TRANSACTION must have at least two participants (buyer and seller)
+ep:Transaction rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty ep:transactionBy ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+
+ep:Transaction rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty ep:transactionWith ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+
+###  ARM'S LENGTH TRANSACTION meets arm's length standard
+ep:ArmsLengthTransaction rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty ep:meetsArmsLengthStandard ;
+      owl:someValuesFrom ep:ArmsLengthStandard ] .
+
+###  RELATED PARTY TRANSACTION may have conflict of interest
+ep:RelatedPartyTransaction rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty ep:hasConflictOfInterest ;
+      owl:someValuesFrom ep:ConflictOfInterest ] .
+
+###  BELOW MARKET TRANSACTION violates arm's length standard
+ep:BelowMarketTransaction rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty ep:meetsArmsLengthStandard ;
+      owl:maxCardinality "0"^^xsd:nonNegativeInteger ] .
 
 
 #################################################################

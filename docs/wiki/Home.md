@@ -1,6 +1,6 @@
 # Trust Domain Ontology
 
-**Version 4.0** | [View Ontology File](../../trust-domain-ontology.ttl)
+**Version 4.0** | [View Ontology File](https://github.com/dalaun/Finch-Dagen-Foundation/blob/claude/owl-ontology-trust-domain-2FLJj/trust-domain-ontology.ttl) | [Estate Planning Extension](https://github.com/dalaun/Finch-Dagen-Foundation/blob/claude/owl-ontology-trust-domain-2FLJj/trust-domain-estate-planning.ttl)
 
 ## Overview
 

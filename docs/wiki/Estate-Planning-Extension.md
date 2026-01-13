@@ -8,7 +8,28 @@ The **Trust Domain Estate Planning Extension** is a **closed, outcome-determinin
 
 > **"Define minimal classifications that determine outcomes, assign roles as non-overlapping constraint bundles, specify all admissible state transitions, and close the system such that from any valid state exactly one compliant outcome is reachable."**
 
-### Key Features (v2.0)
+### Key Features (v3.0) 🆕 DUAL-ONTOLOGY ARCHITECTURE
+
+**Breaking Change**: The ontology now exists as **TWO separate files** instead of one, implementing clean separation of semantic commitments from authority commitments following the principle:
+
+> **"Meaning can tolerate ambiguity. Authority cannot."**
+
+**Architecture**:
+- **trust-domain-vocabulary.ttl** (1,628 triples) - **SEMANTIC LAYER** - Defines what things MEAN
+- **trust-domain-compliance.ttl** (263 triples) - **AUTHORITY LAYER** - Enforces what is ALLOWED
+
+**Design Principle**: Every axiom passes this litmus test:
+- *"If I remove this rule, do I lose understanding?"* → VOCABULARY (semantic)
+- *"If I remove this rule, do I lose authority?"* → COMPLIANCE (operational)
+
+**Benefits**:
+- ✅ Clear distinction between what exists and what is allowed
+- ✅ Vocabulary can be used for data modeling without enforcement
+- ✅ Compliance adds authority layer when needed
+- ✅ No conflation of meaning rules with enforcement rules
+- ✅ Audit trail: every rule is explicitly categorized
+
+### Previous Features (v2.0)
 
 - **🔒 Complete Disjointness** - All major class hierarchies partitioned (transactions, roles, documents, legal actions)
 - **🔄 Trust State Machine** - 6 lifecycle states with admissible transitions and triggers
@@ -28,21 +49,337 @@ The **Trust Domain Estate Planning Extension** is a **closed, outcome-determinin
 - **Comprehensive relationships** with inverse properties
 - **Cardinality constraints** ensuring ontological integrity
 
-## File Structure
+## File Structure (v3.0)
 
 ```
 trust-domain-ontology.ttl          # Base ontology (v4.0)
-trust-domain-estate-planning.ttl   # Estate planning extension (v2.0)
-validate_ontology.py                # Validation tool (Python/rdflib)
+trust-domain-vocabulary.ttl        # Semantic layer (v3.0) - what things MEAN
+trust-domain-compliance.ttl        # Authority layer (v3.0) - what is ALLOWED
+trust-domain-estate-planning.ttl   # Original (v2.0) - superseded but retained for compatibility
+extract_semantic.py                 # Tool to extract semantic commitments
+extract_authority.py                # Tool to extract authority commitments
+validate_separated.py               # Tool to validate dual-ontology separation
+validate_ontology.py                # Original validation tool
 ```
 
-The extension **imports** the base ontology, allowing selective use:
+The vocabulary ontology **imports** the base ontology, and the compliance ontology **imports** the vocabulary:
 
 ```turtle
-<http://example.org/trust-domain/estate-planning> rdf:type owl:Ontology ;
+# Vocabulary (semantic layer)
+<http://example.org/trust-domain/estate-planning/vocabulary> rdf:type owl:Ontology ;
     owl:imports <http://example.org/trust-domain> ;
-    owl:versionInfo "2.0" .
+    owl:versionInfo "3.0" .
+
+# Compliance (authority layer)
+<http://example.org/trust-domain/estate-planning/compliance> rdf:type owl:Ontology ;
+    owl:imports <http://example.org/trust-domain/estate-planning/vocabulary> ;
+    owl:versionInfo "3.0" .
 ```
+
+---
+
+## 🆕 Dual-Ontology Architecture (v3.0)
+
+### The Separation Principle
+
+The v3.0 architecture separates the ontology into two distinct layers based on a fundamental insight:
+
+> **"Meaning can tolerate ambiguity. Authority cannot."**
+
+Every axiom in the original ontology was evaluated with this litmus test:
+- **"If I remove this axiom, do I lose understanding?"** → Belongs in **VOCABULARY** (semantic layer)
+- **"If I remove this axiom, do I lose authority?"** → Belongs in **COMPLIANCE** (operational layer)
+
+This clean separation enables:
+1. **Vocabulary** to define what concepts mean without enforcing rules
+2. **Compliance** to add authority commitments on top of meaning
+3. **Clear audit trail** of which axioms serve which purpose
+
+### Vocabulary Ontology (Semantic Layer)
+
+**File**: `trust-domain-vocabulary.ttl`
+**Triples**: 1,628 (86.1% of total)
+**Purpose**: Define what things MEAN in the trust and estate planning domain
+
+**Contains**:
+- ✅ All 131 class definitions (no disjointness)
+- ✅ All 160 property definitions (no functional declarations)
+- ✅ Taxonomy (rdfs:subClassOf)
+- ✅ Domain/range declarations
+- ✅ Inverse properties
+- ✅ Labels, comments, glossary mappings
+- ✅ Property chains (compositional meaning)
+- ✅ State definitions (what states mean, not transitions)
+
+**Does NOT contain**:
+- ❌ Cardinality constraints
+- ❌ Disjointness axioms
+- ❌ Functional property declarations
+- ❌ State machine transitions
+- ❌ Outcome determination rules
+- ❌ Closure axioms
+
+**Validation**: ✓ Clean (0 functional properties, 0 disjointness axioms)
+
+**Use Case**: Load vocabulary alone for:
+- **Interoperability** across systems
+- **Data exchange** without enforcement
+- **Understanding** the domain model
+- **Shared semantics** without operational constraints
+
+### Compliance Ontology (Authority Layer)
+
+**File**: `trust-domain-compliance.ttl`
+**Triples**: 263 (13.9% of total)
+**Purpose**: Enforce WHAT IS ALLOWED and determine outcomes
+
+**Imports**: `trust-domain-vocabulary.ttl` (gets all semantic commitments)
+
+**Contains**:
+- ✅ 14 functional property declarations
+- ✅ 39 disjointness axioms
+- ✅ 15 cardinality constraints
+- ✅ State machine transitions (canTransitionTo)
+- ✅ State enumeration (oneOf - closed world)
+- ✅ Outcome determination (equivalentClass with intersection/union)
+- ✅ Closure axioms (forcing classification)
+
+**Does NOT contain**:
+- ❌ Class definitions (imported from vocabulary)
+- ❌ Property definitions (imported from vocabulary)
+- ❌ Labels, comments (imported from vocabulary)
+
+**Validation**: ✓ Contains authority axioms as expected
+
+**Use Case**: Load compliance for:
+- **Legal compliance** checking
+- **Tax determination** (IRC §4941 self-dealing)
+- **Outcome inference** via OWL reasoner
+- **Enforcement** of what is permissible
+
+### Separation Statistics
+
+| Layer | Triples | Percentage | Purpose |
+|-------|---------|------------|---------|
+| **Vocabulary** | 1,628 | 86.1% | What things MEAN |
+| **Compliance** | 263 | 13.9% | What is ALLOWED |
+| **Combined** | 1,891 | 100% | Complete system |
+| **Original** | 1,887 | - | v2.0 monolithic |
+| **Difference** | +4 | - | Metadata only |
+
+### Examples of Separation
+
+#### Example 1: Trust State (Vocabulary vs Compliance)
+
+**Vocabulary Layer** (what states MEAN):
+```turtle
+ep:TrustCreated a owl:NamedIndividual ;
+    rdfs:label "Trust Created"@en ;
+    rdfs:comment "Trust instrument executed but not yet funded"@en ;
+    rdf:type ep:TrustState .
+
+ep:TrustFunded a owl:NamedIndividual ;
+    rdfs:label "Trust Funded"@en ;
+    rdfs:comment "Assets transferred to trustee"@en ;
+    rdf:type ep:TrustState .
+```
+
+**Compliance Layer** (what transitions are ALLOWED):
+```turtle
+# State enumeration (closed world - exactly these 6 states, no others)
+ep:TrustState owl:equivalentClass
+    [ owl:oneOf ( ep:TrustCreated ep:TrustFunded ep:TrustActive
+                  ep:TrustIrrevocable ep:TrustRevoked ep:TrustTerminated ) ] .
+
+# Admissible transitions
+ep:TrustCreated ep:canTransitionTo ep:TrustFunded, ep:TrustRevoked, ep:TrustTerminated .
+ep:TrustFunded ep:canTransitionTo ep:TrustActive, ep:TrustRevoked, ep:TrustTerminated .
+
+# Functional constraint (exactly ONE state at a time)
+:TrustEntity rdfs:subClassOf
+    [ owl:onProperty ep:hasState ;
+      owl:cardinality "1"^^xsd:nonNegativeInteger ] .
+```
+
+#### Example 2: Transaction Classification (Vocabulary vs Compliance)
+
+**Vocabulary Layer** (what transaction types MEAN):
+```turtle
+ep:ArmsLengthTransaction a owl:Class ;
+    rdfs:label "Arm's Length Transaction"@en ;
+    rdfs:comment "Transaction between unrelated parties dealing at arm's length"@en ;
+    rdfs:subClassOf ep:Transaction .
+
+ep:RelatedPartyTransaction a owl:Class ;
+    rdfs:label "Related Party Transaction"@en ;
+    rdfs:comment "Transaction involving related parties or conflicts of interest"@en ;
+    rdfs:subClassOf ep:Transaction .
+
+ep:BelowMarketTransaction a owl:Class ;
+    rdfs:label "Below Market Transaction"@en ;
+    rdfs:comment "Transaction at less than fair market value"@en ;
+    rdfs:subClassOf ep:Transaction .
+```
+
+**Compliance Layer** (what classifications are REQUIRED):
+```turtle
+# Mutual exclusion (cannot be both arms-length AND related party)
+ep:ArmsLengthTransaction owl:disjointWith ep:RelatedPartyTransaction .
+
+# Pricing partition
+ep:FairValueTransaction owl:disjointWith ep:BelowMarketTransaction, ep:AboveMarketTransaction .
+ep:AboveMarketTransaction owl:disjointWith ep:BelowMarketTransaction .
+
+# Closure axiom (MUST be classified on relationship dimension)
+ep:Transaction rdfs:subClassOf
+    [ owl:unionOf ( ep:ArmsLengthTransaction ep:RelatedPartyTransaction ) ] .
+
+# Closure axiom (MUST be classified on pricing dimension)
+ep:Transaction rdfs:subClassOf
+    [ owl:unionOf ( ep:FairValueTransaction ep:BelowMarketTransaction ep:AboveMarketTransaction ) ] .
+
+# Outcome determination (automatic IRC §4941 inference)
+ep:PotentialSelfDealingTransaction owl:equivalentClass
+    [ owl:intersectionOf ( ep:RelatedPartyTransaction ep:BelowMarketTransaction ) ] .
+```
+
+#### Example 3: Properties (Vocabulary vs Compliance)
+
+**Vocabulary Layer** (what the property MEANS):
+```turtle
+ep:governedBy a owl:ObjectProperty ;
+    rdfs:label "governed by"@en ;
+    rdfs:comment "Trust is governed by this document"@en ;
+    rdfs:domain :TrustEntity ;
+    rdfs:range ep:Document ;
+    owl:inverseOf ep:governs .
+```
+
+**Compliance Layer** (authority constraint):
+```turtle
+# Functional property (trust can have ONLY ONE governing document)
+ep:governedBy a owl:FunctionalProperty .
+```
+
+### Usage Patterns
+
+#### Pattern 1: Load Vocabulary Only (Interoperability)
+
+```python
+from rdflib import Graph
+
+# For shared semantics without enforcement
+g = Graph()
+g.parse("trust-domain-vocabulary.ttl", format="turtle")
+
+# Can model trusts, transactions, participants
+# WITHOUT triggering disjointness violations
+# Useful for data exchange between systems
+```
+
+#### Pattern 2: Load Compliance (Full Enforcement)
+
+```python
+from rdflib import Graph
+
+# For legal compliance and outcome determination
+g = Graph()
+g.parse("trust-domain-compliance.ttl", format="turtle")
+# Automatically imports vocabulary.ttl
+
+# OWL reasoner will:
+# - Detect inconsistencies (functional property violations)
+# - Infer outcomes (IRC §4941 self-dealing)
+# - Enforce state machine transitions
+```
+
+#### Pattern 3: Incremental Migration
+
+```python
+# Start with vocabulary for data modeling
+import_vocabulary()
+
+# Add compliance layer when ready for enforcement
+if ready_for_compliance:
+    import_compliance()
+```
+
+### Automation Tools
+
+#### extract_semantic.py
+
+Extracts semantic commitments from original ontology:
+
+```python
+python extract_semantic.py
+# Creates: trust-domain-vocabulary.ttl
+# Includes: Classes, properties, taxonomy, labels, comments
+# Excludes: Cardinality, disjointness, functional declarations
+```
+
+#### extract_authority.py
+
+Extracts authority commitments from original ontology:
+
+```python
+python extract_authority.py
+# Creates: trust-domain-compliance.ttl
+# Includes: Disjointness, cardinality, state machine, outcome rules
+# Excludes: Class/property definitions (imported from vocabulary)
+```
+
+#### validate_separated.py
+
+Validates the dual-ontology separation:
+
+```python
+python validate_separated.py
+# Checks:
+# ✓ Vocabulary has no functional properties
+# ✓ Vocabulary has no disjointness axioms
+# ✓ Compliance contains authority axioms
+# ✓ Combined triple count matches original
+# ✓ No semantic commitments lost
+```
+
+### Migration Guide
+
+**From v2.0 (monolithic) to v3.0 (dual-ontology)**:
+
+1. **For data modeling only**:
+   ```python
+   # Old (v2.0)
+   import trust_domain_estate_planning
+
+   # New (v3.0)
+   import trust_domain_vocabulary  # Semantic layer only
+   ```
+
+2. **For compliance checking**:
+   ```python
+   # Old (v2.0)
+   import trust_domain_estate_planning
+
+   # New (v3.0)
+   import trust_domain_compliance  # Imports vocabulary automatically
+   ```
+
+3. **Compatibility mode**:
+   ```python
+   # v2.0 file remains for backward compatibility
+   import trust_domain_estate_planning  # Still works (superseded)
+   ```
+
+### Benefits of Dual-Ontology Architecture
+
+| Benefit | Description |
+|---------|-------------|
+| **Clarity** | Every axiom explicitly categorized: semantic or authority |
+| **Modularity** | Use vocabulary without enforcement burden |
+| **Flexibility** | Add/remove authority layer as needed |
+| **Auditability** | Clear separation makes governance easier |
+| **Interoperability** | Vocabulary layer sharable across systems |
+| **Evolution** | Semantic and authority layers can evolve independently |
 
 ---
 

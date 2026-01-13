@@ -95,11 +95,24 @@ All violations are subclasses of `AuthorityCollapse` with disjoint classes preve
 
 ## Extensions
 
-### Estate Planning Extension (v2.0) 🆕 CLOSED DECISION SYSTEM
+### Estate Planning Extension (v3.0) 🆕 DUAL-ONTOLOGY ARCHITECTURE
 
-**[Estate Planning Extension](Estate-Planning-Extension.md)** - **Closed, outcome-determining decision system** for trust legal compliance
+**[Estate Planning Extension](Estate-Planning-Extension.md)** - **Dual-layer ontology** separating semantic commitments from authority commitments
 
-The base ontology focuses on **private foundations** (IRC §§4941-4945, grantmaking, temporal compliance). The estate planning extension transforms the descriptive ontology into an **executable decision framework**:
+The base ontology focuses on **private foundations** (IRC §§4941-4945, grantmaking, temporal compliance). The estate planning extension (v3.0) implements a **clean architectural separation**:
+
+#### v3.0 Dual-Ontology Architecture:
+- **📚 Vocabulary Layer** (trust-domain-vocabulary.ttl): Defines what things MEAN - 1,628 triples
+  - All class/property definitions, taxonomy, labels, domain/range, inverse properties
+  - Use for: Data modeling, interoperability, shared semantics WITHOUT enforcement
+
+- **⚖️ Compliance Layer** (trust-domain-compliance.ttl): Enforces what is ALLOWED - 263 triples
+  - Disjointness, cardinality, state machine, outcome determination rules
+  - Use for: Legal compliance, tax outcomes, automated reasoning
+
+- **Design Principle**: "Meaning can tolerate ambiguity. Authority cannot."
+  - Every axiom categorized: semantic (understanding) vs authority (enforcement)
+  - Vocabulary + Compliance = Complete system (1,891 triples)
 
 #### v2.0 Closed System Features:
 - **🔄 Trust State Machine**: 6 lifecycle states (Created → Funded → Active → Irrevocable → Terminated)
@@ -117,9 +130,11 @@ The base ontology focuses on **private foundations** (IRC §§4941-4945, grantma
 - **Hague Trusts Convention**: Two-step validity model, choice of law, mandatory rules
 - **160+ properties** with inverse relationships and cardinality constraints
 
-**Key Innovation**: Given transaction between grantor and trust at below-market price, reasoner **automatically infers** IRC §4941 self-dealing tax liability.
+**Key Innovation (v3.0)**: Clean separation enables vocabulary reuse without enforcement burden, while compliance layer adds authority when needed.
 
-Use **separately** or **together** depending on your trust modeling needs.
+**Key Innovation (v2.0)**: Given transaction between grantor and trust at below-market price, reasoner **automatically infers** IRC §4941 self-dealing tax liability.
+
+Use **vocabulary alone** for data modeling, **compliance** for enforcement, or **together** for complete system.
 
 ## Quick Start
 

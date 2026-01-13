@@ -964,42 +964,42 @@ Non-grantor and foreign trusts acquire operational instruments once control, jur
 :FringeBenefit rdfs:subClassOf
     [ rdf:type owl:Restriction ;
       owl:onProperty :governedBy ;
-      owl:hasValue :Pub_15B
+      owl:someValuesFrom :Pub_15B
     ] .
 
 ###  Wage Instrument governed by Pub 15
 :WageInstrument rdfs:subClassOf
     [ rdf:type owl:Restriction ;
       owl:onProperty :governedBy ;
-      owl:hasValue :Pub_15
+      owl:someValuesFrom :Pub_15
     ] .
 
 ###  Non-Cash Operational Instrument governed by IRC §132
 :NonCashOperationalInstrument rdfs:subClassOf
     [ rdf:type owl:Restriction ;
       owl:onProperty :governedBy ;
-      owl:hasValue :IRC_132
+      owl:someValuesFrom :IRC_132
     ] .
 
 ###  Mobility Instrument governed by Pub 463
 :MobilityInstrument rdfs:subClassOf
     [ rdf:type owl:Restriction ;
       owl:onProperty :governedBy ;
-      owl:hasValue :Pub_463
+      owl:someValuesFrom :Pub_463
     ] .
 
 ###  Ordinary and Necessary Expense governed by IRC §162
 :OrdinaryAndNecessaryExpense rdfs:subClassOf
     [ rdf:type owl:Restriction ;
       owl:onProperty :governedBy ;
-      owl:hasValue :IRC_162
+      owl:someValuesFrom :IRC_162
     ] .
 
 ###  Capital Expenditure governed by IRC §263
 :CapitalExpenditure rdfs:subClassOf
     [ rdf:type owl:Restriction ;
       owl:onProperty :governedBy ;
-      owl:hasValue :IRC_263
+      owl:someValuesFrom :IRC_263
     ] .
 
 ###  Capability Investment governed by IRC §117 or §127
@@ -1015,14 +1015,14 @@ Non-grantor and foreign trusts acquire operational instruments once control, jur
 :NonGrantorTrustSystem rdfs:subClassOf
     [ rdf:type owl:Restriction ;
       owl:onProperty :governedBy ;
-      owl:hasValue :IRC_671_679
+      owl:someValuesFrom :IRC_671_679
     ] .
 
 ###  Non-Grantor Trust operates as autonomous accounting system under IRC §§641-685
 :NonGrantorTrustSystem rdfs:subClassOf
     [ rdf:type owl:Restriction ;
       owl:onProperty :governedBy ;
-      owl:hasValue :IRC_641_685
+      owl:someValuesFrom :IRC_641_685
     ] .
 
 ###  Non-Grantor Trust must have system identifier (EIN)
@@ -1053,7 +1053,7 @@ Non-grantor and foreign trusts acquire operational instruments once control, jur
 ] rdfs:subClassOf
     [ rdf:type owl:Restriction ;
       owl:onProperty :governedBy ;
-      owl:hasValue :IRC_7701
+      owl:someValuesFrom :IRC_7701
     ] .
 
 ###  Domestic Trust must pass both court and control tests
@@ -1067,14 +1067,14 @@ Non-grantor and foreign trusts acquire operational instruments once control, jur
 :IncomeProductionExpense rdfs:subClassOf
     [ rdf:type owl:Restriction ;
       owl:onProperty :governedBy ;
-      owl:hasValue :IRC_212
+      owl:someValuesFrom :IRC_212
     ] .
 
 ###  Fiduciary-Specific Expense governed by IRC §67(e)
 :FiduciarySpecificExpense rdfs:subClassOf
     [ rdf:type owl:Restriction ;
       owl:onProperty :governedBy ;
-      owl:hasValue :IRC_67e
+      owl:someValuesFrom :IRC_67e
     ] .
 
 ###  Distribution must flow character through to beneficiary
@@ -1097,7 +1097,7 @@ Non-grantor and foreign trusts acquire operational instruments once control, jur
 :ForeignPrivateIrrevocableNonGrantorTrust rdfs:subClassOf
     [ rdf:type owl:Restriction ;
       owl:onProperty :governedBy ;
-      owl:hasValue :IRC_7701
+      owl:someValuesFrom :IRC_7701
     ] .
 
 #################################################################

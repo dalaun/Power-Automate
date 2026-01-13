@@ -95,17 +95,29 @@ All violations are subclasses of `AuthorityCollapse` with disjoint classes preve
 
 ## Extensions
 
-### Estate Planning Extension (v1.0)
+### Estate Planning Extension (v2.0) 🆕 CLOSED DECISION SYSTEM
 
-**[Estate Planning Extension](Estate-Planning-Extension.md)** - Comprehensive traditional trust & estate vocabulary
+**[Estate Planning Extension](Estate-Planning-Extension.md)** - **Closed, outcome-determining decision system** for trust legal compliance
 
-The base ontology focuses on **private foundations** (IRC §§4941-4945, grantmaking, temporal compliance). The estate planning extension adds:
+The base ontology focuses on **private foundations** (IRC §§4941-4945, grantmaking, temporal compliance). The estate planning extension transforms the descriptive ontology into an **executable decision framework**:
 
-- **Participant roles**: Grantor, Settlor, Trustee variants, Income/Remainder Beneficiaries
+#### v2.0 Closed System Features:
+- **🔄 Trust State Machine**: 6 lifecycle states (Created → Funded → Active → Irrevocable → Terminated)
+- **⚖️ Outcome Determination**: Automatic inference of IRC §4941 self-dealing, validity outcomes, recognition
+- **🔒 Complete Disjointness**: Transaction space partitioned (Relationship × Pricing = 2D classification)
+- **🎯 Closure Axioms**: Every trust MUST be in exactly one state, every transaction classified
+- **🤖 Automated Reasoning**: OWL reasoner determines legal consequences from trust configurations
+
+#### Traditional Features (v1.0-1.2):
+- **Participant roles** with disjointness: Grantor, Settlor, Trustee variants, Income/Remainder Beneficiaries
 - **Document hierarchy**: Trust Indentures, Deeds, Amendments, Restatements
 - **Property tenure**: Fee Simple, Life Estate, Remainder, Joint Tenancy
-- **Legal actions**: Trust Contests, Reformation, Accounting Proceedings
-- **250+ properties** with inverse relationships and cardinality constraints
+- **Legal actions** (all disjoint): Trust Contests, Reformation, Accounting Proceedings
+- **Common law doctrines**: Rule Against Perpetuities, Cy Pres, Spendthrift Clauses, Arm's Length
+- **Hague Trusts Convention**: Two-step validity model, choice of law, mandatory rules
+- **160+ properties** with inverse relationships and cardinality constraints
+
+**Key Innovation**: Given transaction between grantor and trust at below-market price, reasoner **automatically infers** IRC §4941 self-dealing tax liability.
 
 Use **separately** or **together** depending on your trust modeling needs.
 

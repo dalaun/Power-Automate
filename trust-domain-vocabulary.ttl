@@ -1,0 +1,1956 @@
+@prefix : <http://example.org/trust-domain#> .
+@prefix ep: <http://example.org/trust-domain/estate-planning#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ep:AboveMarketTransaction a owl:Class ;
+    rdfs:label "Above Market Transaction"@en ;
+    ep:glossaryTerm "AboveMarket" ;
+    rdfs:comment "Transaction above fair market value (may constitute prohibited transaction or excess benefit)"@en ;
+    rdfs:subClassOf ep:Transaction .
+
+ep:AccountingProceeding a owl:Class ;
+    rdfs:label "Accounting Proceeding"@en ;
+    ep:glossaryTerm "AccountingProceeding, FiduciaryAccounting" ;
+    rdfs:comment "Court proceeding for trustee to account for trust administration"@en ;
+    rdfs:subClassOf ep:LegalAction .
+
+ep:ArmsLengthTransaction a owl:Class ;
+    rdfs:label "Arm's Length Transaction"@en ;
+    ep:glossaryTerm "ArmsLengthTransaction, ArmsLength" ;
+    rdfs:comment "Transaction conducted between unrelated parties dealing at arm's length with no conflicts of interest"@en ;
+    rdfs:subClassOf ep:Transaction .
+
+ep:AscertainableStandard a owl:Class ;
+    rdfs:label "Ascertainable Standard"@en ;
+    ep:glossaryTerm "AscertainableStandard, HEMS" ;
+    rdfs:comment "Standard limiting distributions to health, education, maintenance, support (HEMS)"@en ;
+    rdfs:subClassOf ep:LegalDoctrine .
+
+ep:BelowMarketTransaction a owl:Class ;
+    rdfs:label "Below Market Transaction"@en ;
+    ep:glossaryTerm "BelowMarket, BargainSale" ;
+    rdfs:comment "Transaction at less than fair market value (may constitute gift or prohibited transaction)"@en ;
+    rdfs:subClassOf ep:Transaction .
+
+ep:BillOfSale a owl:Class ;
+    rdfs:label "Bill of Sale"@en ;
+    ep:glossaryTerm "BillOfSale" ;
+    rdfs:comment "Document transferring personal property"@en ;
+    rdfs:subClassOf ep:Document .
+
+ep:Complaint a owl:Class ;
+    rdfs:label "Complaint"@en ;
+    ep:glossaryTerm "Complaint" ;
+    rdfs:comment "Initial pleading commencing lawsuit"@en ;
+    rdfs:subClassOf ep:Document .
+
+ep:ConstructionProceeding a owl:Class ;
+    rdfs:label "Construction Proceeding"@en ;
+    ep:glossaryTerm "ConstructionProceeding" ;
+    rdfs:comment "Court proceeding to interpret ambiguous trust language"@en ;
+    rdfs:subClassOf ep:LegalAction .
+
+ep:ContingentBeneficiary a owl:Class ;
+    rdfs:label "Contingent Beneficiary"@en ;
+    ep:glossaryTerm "ContingentBeneficiary" ;
+    rdfs:comment "Beneficiary whose interest is contingent upon occurrence of specified event"@en ;
+    rdfs:subClassOf ep:Beneficiary .
+
+ep:ContingentInterest a owl:Class ;
+    rdfs:label "Contingent Interest"@en ;
+    ep:glossaryTerm "ContingentInterest" ;
+    rdfs:comment "Interest subject to condition precedent"@en ;
+    rdfs:subClassOf ep:BeneficialInterest .
+
+ep:CyPresDoctrine a owl:Class ;
+    rdfs:label "Cy Pres Doctrine"@en ;
+    ep:glossaryTerm "CyPres, CyPresAsPossible" ;
+    rdfs:comment "Doctrine allowing modification of charitable trust to effectuate general charitable intent when specific purpose becomes impossible or impractical"@en ;
+    rdfs:subClassOf ep:LegalDoctrine .
+
+ep:DeclarationOfTrust a owl:Class ;
+    rdfs:label "Declaration of Trust"@en ;
+    ep:glossaryTerm "DeclarationOfTrust" ;
+    rdfs:comment "Declaration by settlor creating trust"@en ;
+    rdfs:subClassOf ep:Document .
+
+ep:DiscretionaryTrustStandard a owl:Class ;
+    rdfs:label "Discretionary Trust Standard"@en ;
+    ep:glossaryTerm "DiscretionaryTrust, PureDiscretion" ;
+    rdfs:comment "Standard giving trustee discretion over distributions (pure, limited, hybrid)"@en ;
+    rdfs:subClassOf ep:LegalDoctrine .
+
+ep:DutyOfCare a owl:Class ;
+    rdfs:label "Duty of Care"@en ;
+    ep:glossaryTerm "DutyOfCare, PrudentInvestorRule" ;
+    rdfs:comment "Duty to administer trust with reasonable care and skill"@en ;
+    rdfs:subClassOf ep:FiduciaryDuty .
+
+ep:DutyOfLoyalty a owl:Class ;
+    rdfs:label "Duty of Loyalty"@en ;
+    ep:glossaryTerm "DutyOfLoyalty" ;
+    rdfs:comment "Duty to act solely in beneficiary's interest"@en ;
+    rdfs:subClassOf ep:FiduciaryDuty .
+
+ep:Estoppel a owl:Class ;
+    rdfs:label "Estoppel"@en ;
+    ep:glossaryTerm "Estoppel" ;
+    rdfs:comment "Doctrine preventing party from denying prior position"@en ;
+    rdfs:subClassOf ep:LegalDoctrine .
+
+ep:ExcessBenefitTransaction a owl:Class ;
+    rdfs:label "Excess Benefit Transaction"@en ;
+    ep:glossaryTerm "ExcessBenefit, IRC4958" ;
+    rdfs:comment "IRC §4958 excess benefit transaction (applicable to supporting organizations)"@en ;
+    rdfs:subClassOf ep:TaxConsequence .
+
+ep:ExplicitIrrevocability a owl:Class ;
+    rdfs:label "Explicit Irrevocability"@en ;
+    rdfs:comment "Grantor explicitly makes trust irrevocable"@en ;
+    rdfs:subClassOf ep:IrrevocabilityEvent .
+
+ep:FairValueTransaction a owl:Class ;
+    rdfs:label "Fair Value Transaction"@en ;
+    ep:glossaryTerm "FairValue, FairMarketValue" ;
+    rdfs:comment "Transaction at fair market value regardless of relationship between parties"@en ;
+    rdfs:subClassOf ep:Transaction .
+
+ep:FeeSimple a owl:Class ;
+    rdfs:label "Fee Simple"@en ;
+    ep:glossaryTerm "FeeSimple, FeeSimpleAbsolute" ;
+    rdfs:comment "Absolute ownership with unlimited duration and right to transfer"@en ;
+    rdfs:subClassOf ep:PropertyTenure .
+
+ep:FinalDistribution a owl:Class ;
+    rdfs:label "Final Distribution"@en ;
+    rdfs:comment "All corpus distributed to remainder beneficiaries"@en ;
+    rdfs:subClassOf ep:TerminationEvent .
+
+ep:GrantorDeath a owl:Class ;
+    rdfs:label "Grantor Death"@en ;
+    rdfs:comment "Death of grantor makes trust irrevocable"@en ;
+    rdfs:subClassOf ep:IrrevocabilityEvent .
+
+ep:GrantorTrustStatus a owl:Class ;
+    rdfs:label "Grantor Trust Status"@en ;
+    ep:glossaryTerm "GrantorTrust" ;
+    rdfs:comment "Trust income taxed to grantor (IRC §§671-679)"@en ;
+    rdfs:subClassOf ep:TaxConsequence .
+
+ep:IRC4941ExciseTax a owl:Class ;
+    rdfs:label "IRC §4941 Excise Tax"@en ;
+    ep:glossaryTerm "SelfDealing, IRC4941" ;
+    rdfs:comment "Excise tax on self-dealing (initial tax 10%, additional tax 200%)"@en ;
+    rdfs:subClassOf ep:TaxConsequence .
+
+ep:IRC4945TaxableExpenditure a owl:Class ;
+    rdfs:label "IRC §4945 Taxable Expenditure"@en ;
+    ep:glossaryTerm "TaxableExpenditure, IRC4945" ;
+    rdfs:comment "Excise tax on prohibited expenditures (initial tax 20%, additional tax 100%)"@en ;
+    rdfs:subClassOf ep:TaxConsequence .
+
+ep:IndependentTrusteeRequirement a owl:Class ;
+    rdfs:label "Independent Trustee Requirement"@en ;
+    ep:glossaryTerm "IndependentTrustee" ;
+    rdfs:comment "Requirement for trustee without conflict of interest or family relationship"@en ;
+    rdfs:subClassOf ep:LegalDoctrine .
+
+ep:InitialFundingEvent a owl:Class ;
+    rdfs:label "Initial Funding Event"@en ;
+    rdfs:comment "Event of first asset transfer to trust (triggers Created → Funded)"@en ;
+    rdfs:subClassOf ep:StateTransitionTrigger .
+
+ep:IntangibleProperty a owl:Class ;
+    rdfs:label "Intangible Property"@en ;
+    ep:glossaryTerm "IntangibleProperty" ;
+    rdfs:comment "Property without physical form (stocks, bonds, intellectual property)"@en ;
+    rdfs:subClassOf ep:Asset .
+
+ep:IrrevocableByTerms a owl:Class ;
+    rdfs:label "Irrevocable By Terms"@en ;
+    rdfs:comment "Trust terms specify irrevocability from inception"@en ;
+    rdfs:subClassOf ep:IrrevocabilityEvent .
+
+ep:JointTenancy a owl:Class ;
+    rdfs:label "Joint Tenancy"@en ;
+    ep:glossaryTerm "JointTenancy, JointTenancyWithRightOfSurvivorship" ;
+    rdfs:comment "Co-ownership with right of survivorship"@en ;
+    rdfs:subClassOf ep:PropertyTenure .
+
+ep:Laches a owl:Class ;
+    rdfs:label "Laches"@en ;
+    ep:glossaryTerm "Laches" ;
+    rdfs:comment "Doctrine barring claim due to unreasonable delay"@en ;
+    rdfs:subClassOf ep:LegalDoctrine .
+
+ep:LifeEstate a owl:Class ;
+    rdfs:label "Life Estate"@en ;
+    ep:glossaryTerm "LifeEstate" ;
+    rdfs:comment "Ownership interest for duration of holder's life or another's life"@en ;
+    rdfs:subClassOf ep:PropertyTenure .
+
+ep:MergerDoctrine a owl:Class ;
+    rdfs:label "Merger Doctrine"@en ;
+    ep:glossaryTerm "Merger" ;
+    rdfs:comment "Doctrine causing trust to terminate when legal and equitable title merge in same person"@en ;
+    rdfs:subClassOf ep:LegalDoctrine .
+
+ep:MergerEvent a owl:Class ;
+    rdfs:label "Merger Event"@en ;
+    rdfs:comment "Legal and equitable title merge in same person (Merger Doctrine)"@en ;
+    rdfs:subClassOf ep:TerminationEvent .
+
+ep:Mortgage a owl:Class ;
+    rdfs:label "Mortgage"@en ;
+    ep:glossaryTerm "Mortgage" ;
+    rdfs:comment "Document creating security interest in real property"@en ;
+    rdfs:subClassOf ep:Document .
+
+ep:NonGrantorTrustStatus a owl:Class ;
+    rdfs:label "Non-Grantor Trust Status"@en ;
+    ep:glossaryTerm "NonGrantorTrust" ;
+    rdfs:comment "Trust income taxed to trust or beneficiaries (not grantor)"@en ;
+    rdfs:subClassOf ep:TaxConsequence .
+
+ep:Partition a owl:Class ;
+    rdfs:label "Partition"@en ;
+    ep:glossaryTerm "Partition" ;
+    rdfs:comment "Action to divide co-owned property among owners"@en ;
+    rdfs:subClassOf ep:LegalAction .
+
+ep:PersonalProperty a owl:Class ;
+    rdfs:label "Personal Property"@en ;
+    ep:glossaryTerm "PersonalProperty, Chattel" ;
+    rdfs:comment "Movable property not affixed to land"@en ;
+    rdfs:subClassOf ep:Asset .
+
+ep:Petition a owl:Class ;
+    rdfs:label "Petition"@en ;
+    ep:glossaryTerm "Petition" ;
+    rdfs:comment "Formal written request to court"@en ;
+    rdfs:subClassOf ep:Document .
+
+ep:PotentialSelfDealingTransaction a owl:Class ;
+    rdfs:label "Potential Self-Dealing Transaction"@en ;
+    rdfs:comment "Transaction requiring IRC §4941 self-dealing analysis"@en .
+
+ep:Protector a owl:Class ;
+    rdfs:label "Protector"@en ;
+    ep:glossaryTerm "Protector, TrustProtector" ;
+    rdfs:comment "Person with power to oversee trustee or modify trust terms"@en ;
+    rdfs:subClassOf ep:Participant .
+
+ep:PurposeFulfilled a owl:Class ;
+    rdfs:label "Purpose Fulfilled"@en ;
+    rdfs:comment "Trust purpose has been accomplished"@en ;
+    rdfs:subClassOf ep:TerminationEvent .
+
+ep:QuitclaimDeed a owl:Class ;
+    rdfs:label "Quitclaim Deed"@en ;
+    ep:glossaryTerm "QuitclaimDeed" ;
+    rdfs:comment "Deed conveying only grantor's interest without warranty"@en ;
+    rdfs:subClassOf ep:Deed .
+
+ep:RAPViolation a owl:Class ;
+    rdfs:label "RAP Violation"@en ;
+    rdfs:comment "Trust violates Rule Against Perpetuities"@en ;
+    rdfs:subClassOf ep:TerminationEvent .
+
+ep:Reformation a owl:Class ;
+    rdfs:label "Reformation"@en ;
+    ep:glossaryTerm "Reformation" ;
+    rdfs:comment "Court action to reform trust terms to correct mistake or achieve intent"@en ;
+    rdfs:subClassOf ep:LegalAction .
+
+ep:RelatedPartyTransaction a owl:Class ;
+    rdfs:label "Related Party Transaction"@en ;
+    ep:glossaryTerm "RelatedPartyTransaction" ;
+    rdfs:comment "Transaction between related parties (family, controlled entities, etc.) requiring heightened scrutiny"@en ;
+    rdfs:subClassOf ep:Transaction .
+
+ep:Remainder a owl:Class ;
+    rdfs:label "Remainder"@en ;
+    ep:glossaryTerm "Remainder" ;
+    rdfs:comment "Future interest that becomes possessory after prior estate terminates"@en ;
+    rdfs:subClassOf ep:PropertyTenure .
+
+ep:Reversion a owl:Class ;
+    rdfs:label "Reversion"@en ;
+    ep:glossaryTerm "Reversion" ;
+    rdfs:comment "Future interest retained by grantor after granting lesser estate"@en ;
+    rdfs:subClassOf ep:PropertyTenure .
+
+ep:RevocationEvent a owl:Class ;
+    rdfs:label "Revocation Event"@en ;
+    rdfs:comment "Grantor exercises revocation power (triggers any state → Revoked, only if revocable)"@en ;
+    rdfs:subClassOf ep:StateTransitionTrigger .
+
+ep:RuleAgainstPerpetuities a owl:Class ;
+    rdfs:label "Rule Against Perpetuities"@en ;
+    ep:glossaryTerm "RuleAgainstPerpetuities, RAP" ;
+    rdfs:comment "Common law rule limiting duration of future interests (life in being plus 21 years)"@en ;
+    rdfs:subClassOf ep:LegalDoctrine .
+
+ep:SpendthriftClause a owl:Class ;
+    rdfs:label "Spendthrift Clause"@en ;
+    ep:glossaryTerm "SpendthriftClause, SpendthriftTrust" ;
+    rdfs:comment "Trust provision protecting beneficiary's interest from creditors and prohibiting voluntary assignment"@en ;
+    rdfs:subClassOf ep:LegalDoctrine .
+
+ep:TenancyInCommon a owl:Class ;
+    rdfs:label "Tenancy in Common"@en ;
+    ep:glossaryTerm "TenancyInCommon" ;
+    rdfs:comment "Co-ownership without right of survivorship"@en ;
+    rdfs:subClassOf ep:PropertyTenure .
+
+ep:TransferInvalid a owl:Class ;
+    rdfs:label "Transfer Invalid"@en ;
+    rdfs:comment "Asset transfer fails property law requirements (does NOT invalidate trust itself)"@en ;
+    rdfs:subClassOf ep:ValidityOutcome .
+
+ep:TransferValid a owl:Class ;
+    rdfs:label "Transfer Valid"@en ;
+    rdfs:comment "Asset transfer satisfies property law requirements (step two of Hague two-step)"@en ;
+    rdfs:subClassOf ep:ValidityOutcome .
+
+ep:TrustActive a ep:TrustState,
+        owl:NamedIndividual ;
+    rdfs:label "Trust Active"@en ;
+    rdfs:comment "Trust operating with all validity conditions satisfied"@en .
+
+ep:TrustAgreement a owl:Class ;
+    rdfs:label "Trust Agreement"@en ;
+    ep:glossaryTerm "TrustAgreement" ;
+    rdfs:comment "Agreement between grantor and trustee creating trust"@en ;
+    rdfs:subClassOf ep:Document .
+
+ep:TrustCreated a ep:TrustState,
+        owl:NamedIndividual ;
+    rdfs:label "Trust Created"@en ;
+    rdfs:comment "Trust instrument executed but not yet funded (no assets transferred)"@en .
+
+ep:TrustFunded a ep:TrustState,
+        owl:NamedIndividual ;
+    rdfs:label "Trust Funded"@en ;
+    rdfs:comment "Trust has received initial funding (assets transferred to trustee)"@en .
+
+ep:TrustIndenture a owl:Class ;
+    rdfs:label "Trust Indenture"@en ;
+    ep:glossaryTerm "TrustIndenture" ;
+    rdfs:comment "Formal agreement establishing trust between grantor and trustee"@en ;
+    rdfs:subClassOf ep:Document .
+
+ep:TrustInvalid a owl:Class ;
+    rdfs:label "Trust Invalid"@en ;
+    rdfs:comment "Trust instrument fails validity requirements"@en ;
+    rdfs:subClassOf ep:ValidityOutcome .
+
+ep:TrustIrrevocable a ep:TrustState,
+        owl:NamedIndividual ;
+    rdfs:label "Trust Irrevocable"@en ;
+    rdfs:comment "Trust became irrevocable (by grantor death, trust terms, or explicit irrevocability)"@en .
+
+ep:TrustNotRecognized a owl:Class ;
+    rdfs:label "Trust Not Recognized"@en ;
+    rdfs:comment "Foreign trust not recognized (public policy exception or other barrier)"@en ;
+    rdfs:subClassOf ep:RecognitionOutcome .
+
+ep:TrustRecognized a owl:Class ;
+    rdfs:label "Trust Recognized"@en ;
+    rdfs:comment "Foreign trust recognized under Hague Convention"@en ;
+    rdfs:subClassOf ep:RecognitionOutcome .
+
+ep:TrustRevoked a ep:TrustState,
+        owl:NamedIndividual ;
+    rdfs:label "Trust Revoked"@en ;
+    rdfs:comment "Trust revoked by grantor (only possible while revocable)"@en .
+
+ep:TrustTerminated a ep:TrustState,
+        owl:NamedIndividual ;
+    rdfs:label "Trust Terminated"@en ;
+    rdfs:comment "Trust terminated (merger, purpose fulfilled, RAP violation, or final distribution)"@en .
+
+ep:TrustValid a owl:Class ;
+    rdfs:label "Trust Valid"@en ;
+    rdfs:comment "Trust instrument satisfies all validity requirements (step one of Hague two-step)"@en ;
+    rdfs:subClassOf ep:ValidityOutcome .
+
+ep:ValidityConfirmation a owl:Class ;
+    rdfs:label "Validity Confirmation"@en ;
+    rdfs:comment "Confirmation all validity conditions satisfied (triggers Funded → Active)"@en ;
+    rdfs:subClassOf ep:StateTransitionTrigger .
+
+ep:VestedInterest a owl:Class ;
+    rdfs:label "Vested Interest"@en ;
+    ep:glossaryTerm "VestedInterest" ;
+    rdfs:comment "Interest not subject to condition precedent"@en ;
+    rdfs:subClassOf ep:BeneficialInterest .
+
+ep:WarrantyDeed a owl:Class ;
+    rdfs:label "Warranty Deed"@en ;
+    ep:glossaryTerm "WarrantyDeed" ;
+    rdfs:comment "Deed with warranty of title"@en ;
+    rdfs:subClassOf ep:Deed .
+
+ep:amendmentDate a owl:DatatypeProperty ;
+    rdfs:label "amendment date"@en ;
+    rdfs:comment "Date amendment was executed"@en ;
+    rdfs:domain ep:TrustAmendment ;
+    rdfs:range xsd:date .
+
+ep:applicableLaw a owl:DatatypeProperty ;
+    rdfs:label "applicable law"@en ;
+    ep:glossaryTerm "ApplicableLaw" ;
+    rdfs:comment "Name of the jurisdiction's law chosen to govern the trust (e.g., 'Nevis Trust Law', 'Delaware Trust Code')"@en ;
+    rdfs:domain ep:ChoiceOfLaw ;
+    rdfs:range xsd:string .
+
+ep:basisAmount a owl:DatatypeProperty ;
+    rdfs:label "basis amount"@en ;
+    rdfs:comment "Dollar amount of tax basis"@en ;
+    rdfs:domain ep:TaxBasis ;
+    rdfs:range xsd:decimal .
+
+ep:beneficialInterestInCorpus a owl:ObjectProperty ;
+    rdfs:label "beneficial interest in corpus"@en ;
+    rdfs:comment "Beneficiary holds beneficial interest in trust corpus"@en ;
+    owl:propertyChainAxiom [ rdf:first ep:holdsInterest ;
+            rdf:rest [ ] ] .
+
+ep:canTransitionTo a owl:ObjectProperty ;
+    rdfs:label "can transition to"@en ;
+    rdfs:comment "Admissible state transition from current state to next state"@en ;
+    rdfs:domain ep:TrustState ;
+    rdfs:range ep:TrustState .
+
+ep:choiceOfLawClause a owl:DatatypeProperty ;
+    rdfs:label "choice of law clause"@en ;
+    ep:glossaryTerm "ChoiceOfLaw, GoverningLaw" ;
+    rdfs:comment "Text of the choice of law provision specifying governing law"@en ;
+    rdfs:domain ep:ChoiceOfLaw ;
+    rdfs:range xsd:string .
+
+ep:dateOfDeath a owl:DatatypeProperty ;
+    rdfs:label "date of death"@en ;
+    rdfs:comment "Date of participant's death"@en ;
+    rdfs:domain ep:Participant ;
+    rdfs:range xsd:date .
+
+ep:executionDate a owl:DatatypeProperty ;
+    rdfs:label "execution date"@en ;
+    rdfs:comment "Date document was executed"@en ;
+    rdfs:domain ep:Document ;
+    rdfs:range xsd:date .
+
+ep:fairMarketValue a owl:DatatypeProperty ;
+    rdfs:label "fair market value"@en ;
+    rdfs:comment "Fair market value of asset"@en ;
+    rdfs:domain ep:Asset ;
+    rdfs:range xsd:decimal .
+
+ep:filingDate a owl:DatatypeProperty ;
+    rdfs:label "filing date"@en ;
+    rdfs:comment "Date legal action was filed"@en ;
+    rdfs:domain ep:LegalAction ;
+    rdfs:range xsd:date .
+
+ep:glossaryTerm a owl:AnnotationProperty ;
+    rdfs:label "glossary term"@en ;
+    rdfs:comment "Maps to specific term from Passbuckdefs glossary"@en .
+
+ep:hasAssetIn a owl:ObjectProperty ;
+    rdfs:label "has asset in"@en ;
+    ep:glossaryTerm "AssetLocation, Situs" ;
+    rdfs:comment "Cross-border trust has assets located in this jurisdiction (relevant for situs rule)"@en ;
+    rdfs:domain ep:CrossBorderTrust ;
+    rdfs:range ep:Jurisdiction .
+
+ep:hasConflictOfInterest a owl:ObjectProperty ;
+    rdfs:label "has conflict of interest"@en ;
+    rdfs:comment "Transaction involves conflict of interest"@en ;
+    rdfs:domain ep:Transaction ;
+    rdfs:range ep:ConflictOfInterest .
+
+ep:hasOutcome a owl:ObjectProperty ;
+    rdfs:label "has outcome"@en ;
+    rdfs:comment "Trust has this determined legal outcome"@en ;
+    rdfs:domain :TrustEntity ;
+    rdfs:range ep:LegalOutcome .
+
+ep:hasState a owl:ObjectProperty ;
+    rdfs:label "has state"@en ;
+    rdfs:comment "Trust is in this lifecycle state (functional: exactly one state at a time)"@en ;
+    rdfs:domain :TrustEntity ;
+    rdfs:range ep:TrustState .
+
+ep:isArmsLength a owl:DatatypeProperty ;
+    rdfs:label "is arm's length"@en ;
+    rdfs:comment "Boolean indicating whether transaction was conducted at arm's length"@en ;
+    rdfs:domain ep:Transaction ;
+    rdfs:range xsd:boolean .
+
+ep:judgmentDate a owl:DatatypeProperty ;
+    rdfs:label "judgment date"@en ;
+    rdfs:comment "Date judgment was entered"@en ;
+    rdfs:domain ep:Judgment ;
+    rdfs:range xsd:date .
+
+ep:legitimePortion a owl:DatatypeProperty ;
+    rdfs:label "legitime portion"@en ;
+    ep:glossaryTerm "LegitimePortion, ForcedShare" ;
+    rdfs:comment "Percentage of estate reserved for forced heirs (e.g., 0.50 for 50%)"@en ;
+    rdfs:domain ep:ForcedHeirship ;
+    rdfs:range xsd:decimal .
+
+ep:mandatoryRuleDescription a owl:DatatypeProperty ;
+    rdfs:label "mandatory rule description"@en ;
+    ep:glossaryTerm "MandatoryRule" ;
+    rdfs:comment "Description of the overriding mandatory rule that cannot be displaced by choice of law"@en ;
+    rdfs:domain ep:MandatoryRule ;
+    rdfs:range xsd:string .
+
+ep:meetsArmsLengthStandard a owl:ObjectProperty ;
+    rdfs:label "meets arm's length standard"@en ;
+    rdfs:comment "Transaction satisfies arm's length dealing standard"@en ;
+    rdfs:domain ep:Transaction ;
+    rdfs:range ep:ArmsLengthStandard .
+
+ep:meetsFairDealingStandard a owl:ObjectProperty ;
+    rdfs:label "meets fair dealing standard"@en ;
+    rdfs:comment "Transaction satisfies fair dealing standard for fiduciary"@en ;
+    rdfs:domain ep:Transaction ;
+    rdfs:range ep:FairDealingStandard .
+
+ep:operatesInJurisdiction a owl:ObjectProperty ;
+    rdfs:label "operates in jurisdiction"@en ;
+    ep:glossaryTerm "Jurisdiction, Forum" ;
+    rdfs:comment "Cross-border trust operates in this jurisdiction"@en ;
+    rdfs:domain ep:CrossBorderTrust ;
+    rdfs:range ep:Jurisdiction .
+
+ep:publicPolicyBasis a owl:DatatypeProperty ;
+    rdfs:label "public policy basis"@en ;
+    ep:glossaryTerm "PublicPolicy" ;
+    rdfs:comment "Basis for public policy exception (fundamental principle that would be offended by recognizing foreign trust law)"@en ;
+    rdfs:domain ep:PublicPolicyException ;
+    rdfs:range xsd:string .
+
+ep:recognitionDate a owl:DatatypeProperty ;
+    rdfs:label "recognition date"@en ;
+    ep:glossaryTerm "Recognition" ;
+    rdfs:comment "Date foreign trust was recognized under Hague Convention"@en ;
+    rdfs:domain ep:TrustRecognition ;
+    rdfs:range xsd:date .
+
+ep:requiresFiduciaryDuty a owl:ObjectProperty ;
+    rdfs:label "requires fiduciary duty"@en ;
+    rdfs:comment "Trust requires fiduciary duty through trustee relationship"@en ;
+    owl:propertyChainAxiom [ rdf:first :hasTrustee ;
+            rdf:rest [ ] ] .
+
+ep:situsJurisdiction a owl:DatatypeProperty ;
+    rdfs:label "situs jurisdiction"@en ;
+    ep:glossaryTerm "Situs, PropertyLocation" ;
+    rdfs:comment "Jurisdiction where property is located (determines applicable property law under situs rule)"@en ;
+    rdfs:domain ep:Asset ;
+    rdfs:range xsd:string .
+
+ep:transactionDate a owl:DatatypeProperty ;
+    rdfs:label "transaction date"@en ;
+    rdfs:comment "Date transaction occurred"@en ;
+    rdfs:domain ep:Transaction ;
+    rdfs:range xsd:date .
+
+ep:transactionValue a owl:DatatypeProperty ;
+    rdfs:label "transaction value"@en ;
+    rdfs:comment "Dollar value of transaction"@en ;
+    rdfs:domain ep:Transaction ;
+    rdfs:range xsd:decimal .
+
+ep:transactionWith a owl:ObjectProperty ;
+    rdfs:label "transaction with"@en ;
+    rdfs:comment "Transaction with counterparty"@en ;
+    rdfs:domain ep:Transaction ;
+    rdfs:range ep:Participant .
+
+ep:transferValidityDate a owl:DatatypeProperty ;
+    rdfs:label "transfer validity date"@en ;
+    ep:glossaryTerm "TransferValidity" ;
+    rdfs:comment "Date asset transfer validity was determined (step two of two-step model - analytically separate from trust validity)"@en ;
+    rdfs:domain ep:AssetTransferValidity ;
+    rdfs:range xsd:date .
+
+ep:triggeredBy a owl:ObjectProperty ;
+    rdfs:label "triggered by"@en ;
+    rdfs:comment "Trust state transition triggered by this event"@en ;
+    rdfs:domain :TrustEntity ;
+    rdfs:range ep:StateTransitionTrigger .
+
+ep:trustDate a owl:DatatypeProperty ;
+    rdfs:label "trust date"@en ;
+    rdfs:comment "Date trust was established"@en ;
+    rdfs:domain :TrustEntity ;
+    rdfs:range xsd:date .
+
+ep:ultimatelyHolds a owl:ObjectProperty ;
+    rdfs:label "ultimately holds"@en ;
+    rdfs:comment "Trust ultimately holds assets through corpus"@en ;
+    owl:propertyChainAxiom [ rdf:first ep:holdsCorpus ;
+            rdf:rest [ ] ] .
+
+ep:validityDeterminationDate a owl:DatatypeProperty ;
+    rdfs:label "validity determination date"@en ;
+    ep:glossaryTerm "Validity" ;
+    rdfs:comment "Date trust validity was determined (step one of two-step model)"@en ;
+    rdfs:domain ep:TrustValidity ;
+    rdfs:range xsd:date .
+
+<http://example.org/trust-domain/estate-planning/vocabulary> a owl:Ontology ;
+    rdfs:label "Trust Domain Estate Planning Vocabulary (Data-Centric Layer)"@en ;
+    rdfs:comment """SEMANTIC COMMITMENTS (Data-Centric Layer)
+
+This ontology defines WHAT THINGS MEAN in the trust and estate planning domain.
+It does NOT enforce what is allowed - that is the job of the compliance layer.
+
+Litmus test: "If I remove this axiom, do I lose understanding?"
+If yes → it belongs here. If no (lose authority instead) → belongs in compliance layer.
+
+Contains:
+- Class definitions (taxonomy only, no disjointness)
+- Property definitions (relationships only, no cardinality)
+- Domain and range (what connects to what)
+- Inverse properties (bidirectional navigation)
+- Labels, comments, glossary mappings
+- Property chains (compositional meaning)
+- State definitions (what states mean, not transitions)
+
+Does NOT contain:
+- Cardinality constraints
+- Disjointness axioms
+- Functional property declarations
+- State machine transitions
+- Outcome determination rules
+- Closure axioms
+
+For enforcement of what is allowed, see: trust-domain-compliance.ttl"""@en ;
+    owl:imports <http://example.org/trust-domain> ;
+    owl:versionInfo "3.0" .
+
+ep:ArmsLengthStandard a owl:Class ;
+    rdfs:label "Arm's Length Standard"@en ;
+    ep:glossaryTerm "ArmsLength, ArmsLengthTransaction" ;
+    rdfs:comment "Standard requiring transactions to be conducted as if between unrelated parties in competitive market"@en ;
+    rdfs:subClassOf ep:LegalDoctrine .
+
+ep:ConflictOfInterest a owl:Class ;
+    rdfs:label "Conflict of Interest"@en ;
+    ep:glossaryTerm "ConflictOfInterest" ;
+    rdfs:comment "Situation where fiduciary's personal interest conflicts with beneficiary's interest"@en ;
+    rdfs:subClassOf ep:LegalConcept .
+
+ep:FairDealingStandard a owl:Class ;
+    rdfs:label "Fair Dealing Standard"@en ;
+    ep:glossaryTerm "FairDealing" ;
+    rdfs:comment "Standard requiring fiduciary to deal fairly with beneficiaries even in self-interested transactions"@en ;
+    rdfs:subClassOf ep:LegalDoctrine .
+
+ep:TrustRecognition a owl:Class ;
+    rdfs:label "Trust Recognition"@en ;
+    ep:glossaryTerm "Recognition" ;
+    rdfs:comment "Recognition of validly created foreign trust without requiring domestic law to adopt foreign trust doctrines (recognition vs reinvention)"@en ;
+    rdfs:subClassOf ep:LegalConcept .
+
+ep:amendedBy a owl:ObjectProperty ;
+    rdfs:label "amended by"@en ;
+    ep:glossaryTerm "TrustAmendment" ;
+    rdfs:comment "Trust amended by amendment document"@en ;
+    rdfs:domain :TrustEntity ;
+    rdfs:range ep:TrustAmendment ;
+    owl:inverseOf ep:amends .
+
+ep:amends a owl:ObjectProperty ;
+    rdfs:label "amends"@en ;
+    rdfs:comment "Amendment modifies trust"@en ;
+    rdfs:domain ep:TrustAmendment ;
+    rdfs:range :TrustEntity ;
+    owl:inverseOf ep:amendedBy .
+
+ep:assetInvolvedIn a owl:ObjectProperty ;
+    rdfs:label "asset involved in"@en ;
+    rdfs:comment "Asset involved in transaction"@en ;
+    rdfs:domain ep:Asset ;
+    rdfs:range ep:Transaction ;
+    owl:inverseOf ep:involvesAsset .
+
+ep:basisFor a owl:ObjectProperty ;
+    rdfs:label "basis for"@en ;
+    rdfs:comment "Tax basis is for asset"@en ;
+    rdfs:domain ep:TaxBasis ;
+    rdfs:range ep:Asset ;
+    owl:inverseOf ep:hasBasis .
+
+ep:benefitsFrom a owl:ObjectProperty ;
+    rdfs:label "benefits from"@en ;
+    rdfs:comment "Participant benefits from document"@en ;
+    rdfs:domain ep:Participant ;
+    rdfs:range ep:Document ;
+    owl:inverseOf ep:benefitsParty .
+
+ep:benefitsParty a owl:ObjectProperty ;
+    rdfs:label "benefits party"@en ;
+    ep:glossaryTerm "Grantee, Beneficiary" ;
+    rdfs:comment "Document benefits party"@en ;
+    rdfs:domain ep:Document ;
+    rdfs:range ep:Participant ;
+    owl:inverseOf ep:benefitsFrom .
+
+ep:bequeathedBy a owl:ObjectProperty ;
+    rdfs:label "bequeathed by"@en ;
+    rdfs:comment "Asset bequeathed by testator"@en ;
+    rdfs:domain ep:Asset ;
+    rdfs:range ep:Testator ;
+    owl:inverseOf ep:bequeaths .
+
+ep:bequeaths a owl:ObjectProperty ;
+    rdfs:label "bequeaths"@en ;
+    ep:glossaryTerm "Testator, Bequest" ;
+    rdfs:comment "Testator bequeaths asset via will"@en ;
+    rdfs:domain ep:Testator ;
+    rdfs:range ep:Asset ;
+    owl:inverseOf ep:bequeathedBy .
+
+ep:binds a owl:ObjectProperty ;
+    rdfs:label "binds"@en ;
+    rdfs:comment "Legal doctrine binds participant"@en ;
+    rdfs:domain ep:LegalDoctrine ;
+    rdfs:range ep:Participant ;
+    owl:inverseOf ep:boundBy .
+
+ep:boundBy a owl:ObjectProperty ;
+    rdfs:label "bound by"@en ;
+    ep:glossaryTerm "Estoppel, Laches" ;
+    rdfs:comment "Participant bound by legal doctrine"@en ;
+    rdfs:domain ep:Participant ;
+    rdfs:range ep:LegalDoctrine ;
+    owl:inverseOf ep:binds .
+
+ep:capacityOf a owl:ObjectProperty ;
+    rdfs:label "capacity of"@en ;
+    rdfs:comment "Legal capacity belongs to participant"@en ;
+    rdfs:domain ep:LegalCapacity ;
+    rdfs:range ep:Participant ;
+    owl:inverseOf ep:hasCapacity .
+
+ep:characterizedAs a owl:ObjectProperty ;
+    rdfs:label "characterized as"@en ;
+    ep:glossaryTerm "RealProperty, PersonalProperty, IntangibleProperty, Chattel" ;
+    rdfs:comment "Asset characterized as property type (real, personal, intangible)"@en ;
+    rdfs:domain ep:Asset ;
+    rdfs:range ep:PropertyType ;
+    owl:inverseOf ep:characterizes .
+
+ep:characterizes a owl:ObjectProperty ;
+    rdfs:label "characterizes"@en ;
+    rdfs:comment "Property type characterizes asset"@en ;
+    rdfs:domain ep:PropertyType ;
+    rdfs:range ep:Asset ;
+    owl:inverseOf ep:characterizedAs .
+
+ep:choosesGoverningLaw a owl:ObjectProperty ;
+    rdfs:label "chooses governing law"@en ;
+    ep:glossaryTerm "ChoiceOfLaw, GoverningLaw" ;
+    rdfs:comment "Settlor chooses governing law for trust (honored under Hague Convention subject to meaningful connection and mandatory rules)"@en ;
+    rdfs:domain :TrustEntity ;
+    rdfs:range ep:ChoiceOfLaw ;
+    owl:inverseOf ep:governingLawFor .
+
+ep:conductsTransaction a owl:ObjectProperty ;
+    rdfs:label "conducts transaction"@en ;
+    rdfs:comment "Participant conducts transaction"@en ;
+    rdfs:domain ep:Participant ;
+    rdfs:range ep:Transaction ;
+    owl:inverseOf ep:transactionBy .
+
+ep:containsDocument a owl:ObjectProperty ;
+    rdfs:label "contains document"@en ;
+    rdfs:comment "Legal action contains filed document"@en ;
+    rdfs:domain ep:LegalAction ;
+    rdfs:range ep:Document ;
+    owl:inverseOf ep:filedIn .
+
+ep:contestedBy a owl:ObjectProperty ;
+    rdfs:label "contested by"@en ;
+    ep:glossaryTerm "TrustContest" ;
+    rdfs:comment "Trust contested by legal action"@en ;
+    rdfs:domain :TrustEntity ;
+    rdfs:range ep:TrustContest ;
+    owl:inverseOf ep:contests .
+
+ep:contests a owl:ObjectProperty ;
+    rdfs:label "contests"@en ;
+    rdfs:comment "Legal contest challenges trust"@en ;
+    rdfs:domain ep:TrustContest ;
+    rdfs:range :TrustEntity ;
+    owl:inverseOf ep:contestedBy .
+
+ep:conveyedBy a owl:ObjectProperty ;
+    rdfs:label "conveyed by"@en ;
+    ep:glossaryTerm "Deed, WarrantyDeed, QuitclaimDeed" ;
+    rdfs:comment "Asset conveyed by deed"@en ;
+    rdfs:domain ep:Asset ;
+    rdfs:range ep:Deed ;
+    owl:inverseOf ep:conveys .
+
+ep:conveys a owl:ObjectProperty ;
+    rdfs:label "conveys"@en ;
+    rdfs:comment "Deed conveys asset"@en ;
+    rdfs:domain ep:Deed ;
+    rdfs:range ep:Asset ;
+    owl:inverseOf ep:conveyedBy .
+
+ep:createdBy a owl:ObjectProperty ;
+    rdfs:label "created by"@en ;
+    rdfs:comment "Interest created by trust"@en ;
+    rdfs:domain ep:BeneficialInterest ;
+    rdfs:range :TrustEntity ;
+    owl:inverseOf ep:createsInterest .
+
+ep:creates a owl:ObjectProperty ;
+    rdfs:label "creates"@en ;
+    rdfs:comment "Grantor creates trust"@en ;
+    rdfs:domain ep:Grantor ;
+    rdfs:range :TrustEntity ;
+    rdfs:subPropertyOf ep:participatesIn ;
+    owl:inverseOf ep:hasGrantor .
+
+ep:createsInterest a owl:ObjectProperty ;
+    rdfs:label "creates interest"@en ;
+    ep:glossaryTerm "BeneficialInterest, EquitableInterest, VestedInterest, ContingentInterest" ;
+    rdfs:comment "Trust creates beneficial or equitable interest"@en ;
+    rdfs:domain :TrustEntity ;
+    rdfs:range ep:BeneficialInterest ;
+    owl:inverseOf ep:createdBy .
+
+ep:createsRight a owl:ObjectProperty ;
+    rdfs:label "creates right"@en ;
+    rdfs:comment "Document creates legal right"@en ;
+    rdfs:domain ep:Document ;
+    rdfs:range ep:LegalRight ;
+    owl:inverseOf ep:rightCreatedBy .
+
+ep:defendedBy a owl:ObjectProperty ;
+    rdfs:label "defended by"@en ;
+    rdfs:comment "Legal action defended by participant"@en ;
+    rdfs:domain ep:LegalAction ;
+    rdfs:range ep:Participant ;
+    owl:inverseOf ep:defends .
+
+ep:defends a owl:ObjectProperty ;
+    rdfs:label "defends"@en ;
+    ep:glossaryTerm "Defendant, Respondent" ;
+    rdfs:comment "Participant defends against legal action"@en ;
+    rdfs:domain ep:Participant ;
+    rdfs:range ep:LegalAction ;
+    owl:inverseOf ep:defendedBy .
+
+ep:describedIn a owl:ObjectProperty ;
+    rdfs:label "described in"@en ;
+    ep:glossaryTerm "LegalDescription" ;
+    rdfs:comment "Asset described in document (legal description)"@en ;
+    rdfs:domain ep:Asset ;
+    rdfs:range ep:Document ;
+    owl:inverseOf ep:describes .
+
+ep:describes a owl:ObjectProperty ;
+    rdfs:label "describes"@en ;
+    rdfs:comment "Document describes asset"@en ;
+    rdfs:domain ep:Document ;
+    rdfs:range ep:Asset ;
+    owl:inverseOf ep:describedIn .
+
+ep:devisedBy a owl:ObjectProperty ;
+    rdfs:label "devised by"@en ;
+    rdfs:comment "Real property devised by testator"@en ;
+    rdfs:domain ep:RealProperty ;
+    rdfs:range ep:Testator ;
+    owl:inverseOf ep:devises .
+
+ep:devises a owl:ObjectProperty ;
+    rdfs:label "devises"@en ;
+    ep:glossaryTerm "Devisor, Devise" ;
+    rdfs:comment "Testator devises real property via will"@en ;
+    rdfs:domain ep:Testator ;
+    rdfs:range ep:RealProperty ;
+    owl:inverseOf ep:devisedBy .
+
+ep:distributedFrom a owl:ObjectProperty ;
+    rdfs:label "distributed from"@en ;
+    rdfs:comment "Asset distributed from trust"@en ;
+    rdfs:domain ep:Asset ;
+    rdfs:range :TrustEntity ;
+    owl:inverseOf ep:distributesAsset .
+
+ep:distributesAsset a owl:ObjectProperty ;
+    rdfs:label "distributes asset"@en ;
+    ep:glossaryTerm "Distribution" ;
+    rdfs:comment "Trust distributes asset to beneficiary"@en ;
+    rdfs:domain :TrustEntity ;
+    rdfs:range ep:Asset ;
+    owl:inverseOf ep:distributedFrom .
+
+ep:embodiedIn a owl:ObjectProperty ;
+    rdfs:label "embodied in"@en ;
+    rdfs:comment "Legal principle embodied in document"@en ;
+    rdfs:domain ep:LegalPrinciple ;
+    rdfs:range ep:Document ;
+    owl:inverseOf ep:embodies .
+
+ep:embodies a owl:ObjectProperty ;
+    rdfs:label "embodies"@en ;
+    ep:glossaryTerm "Contract, Covenant, Consideration" ;
+    rdfs:comment "Document embodies legal principle"@en ;
+    rdfs:domain ep:Document ;
+    rdfs:range ep:LegalPrinciple ;
+    owl:inverseOf ep:embodiedIn .
+
+ep:encumberedByDocument a owl:ObjectProperty ;
+    rdfs:label "encumbered by document"@en ;
+    ep:glossaryTerm "Mortgage, Lien, SecurityAgreement" ;
+    rdfs:comment "Asset encumbered by mortgage, lien, or security agreement"@en ;
+    rdfs:domain ep:Asset ;
+    rdfs:range ep:Document ;
+    owl:inverseOf ep:encumbersAsset .
+
+ep:encumbersAsset a owl:ObjectProperty ;
+    rdfs:label "encumbers asset"@en ;
+    rdfs:comment "Document encumbers asset"@en ;
+    rdfs:domain ep:Document ;
+    rdfs:range ep:Asset ;
+    owl:inverseOf ep:encumberedByDocument .
+
+ep:establishedBy a owl:ObjectProperty ;
+    rdfs:label "established by"@en ;
+    ep:glossaryTerm "TrustIndenture, DeclarationOfTrust" ;
+    rdfs:comment "Trust established by specific document (functional - only one establishment document)"@en ;
+    rdfs:domain :TrustEntity ;
+    rdfs:range ep:Document ;
+    owl:inverseOf ep:establishes .
+
+ep:establishes a owl:ObjectProperty ;
+    rdfs:label "establishes"@en ;
+    rdfs:comment "Document establishes trust"@en ;
+    rdfs:domain ep:Document ;
+    rdfs:range :TrustEntity ;
+    owl:inverseOf ep:establishedBy .
+
+ep:evidencedBy a owl:ObjectProperty ;
+    rdfs:label "evidenced by"@en ;
+    ep:glossaryTerm "Certificate, Title, Deed" ;
+    rdfs:comment "Asset evidenced by document"@en ;
+    rdfs:domain ep:Asset ;
+    rdfs:range ep:Document ;
+    owl:inverseOf ep:evidences .
+
+ep:evidences a owl:ObjectProperty ;
+    rdfs:label "evidences"@en ;
+    rdfs:comment "Document evidences asset ownership"@en ;
+    rdfs:domain ep:Document ;
+    rdfs:range ep:Asset ;
+    owl:inverseOf ep:evidencedBy .
+
+ep:executedBy a owl:ObjectProperty ;
+    rdfs:label "executed by"@en ;
+    rdfs:comment "Document executed by participant"@en ;
+    rdfs:domain ep:Document ;
+    rdfs:range ep:Participant ;
+    owl:inverseOf ep:executes .
+
+ep:executes a owl:ObjectProperty ;
+    rdfs:label "executes"@en ;
+    ep:glossaryTerm "Grantor, Testator, Settlor" ;
+    rdfs:comment "Participant executes document"@en ;
+    rdfs:domain ep:Participant ;
+    rdfs:range ep:Document ;
+    owl:inverseOf ep:executedBy .
+
+ep:exhibitIn a owl:ObjectProperty ;
+    rdfs:label "exhibit in"@en ;
+    ep:glossaryTerm "Exhibit" ;
+    rdfs:comment "Document serves as exhibit in legal action"@en ;
+    rdfs:domain ep:Document ;
+    rdfs:range ep:LegalAction ;
+    owl:inverseOf ep:hasExhibit .
+
+ep:filedIn a owl:ObjectProperty ;
+    rdfs:label "filed in"@en ;
+    ep:glossaryTerm "Petition, Complaint, Motion" ;
+    rdfs:comment "Document filed in legal action"@en ;
+    rdfs:domain ep:Document ;
+    rdfs:range ep:LegalAction ;
+    owl:inverseOf ep:containsDocument .
+
+ep:forcedHeirshipAppliesTo a owl:ObjectProperty ;
+    rdfs:label "forced heirship applies to"@en ;
+    rdfs:comment "Forced heirship rule applies to this trust"@en ;
+    rdfs:domain ep:ForcedHeirship ;
+    rdfs:range :TrustEntity ;
+    owl:inverseOf ep:subjectToForcedHeirship .
+
+ep:formOfHolding a owl:ObjectProperty ;
+    rdfs:label "form of holding"@en ;
+    rdfs:comment "Tenure represents form of holding asset"@en ;
+    rdfs:domain ep:PropertyTenure ;
+    rdfs:range ep:Asset ;
+    owl:inverseOf ep:heldAs .
+
+ep:governedBy a owl:ObjectProperty ;
+    rdfs:label "governed by"@en ;
+    ep:glossaryTerm "TrustIndenture, TrustAgreement" ;
+    rdfs:comment "Trust governed by trust indenture or agreement (functional - only one governing document)"@en ;
+    rdfs:domain :TrustEntity ;
+    rdfs:range ep:Document ;
+    owl:inverseOf ep:governs .
+
+ep:governedBySitusRule a owl:ObjectProperty ;
+    rdfs:label "governed by situs rule"@en ;
+    ep:glossaryTerm "SitusRule, LexSitus" ;
+    rdfs:comment "Asset governed by situs rule (law of property location controls title, conveyance, creditor rights, recording - not displaced by Hague Convention)"@en ;
+    rdfs:domain ep:Asset ;
+    rdfs:range ep:SitusRule ;
+    owl:inverseOf ep:situsRuleGoverns .
+
+ep:governingLawFor a owl:ObjectProperty ;
+    rdfs:label "governing law for"@en ;
+    rdfs:comment "Choice of law governs this trust"@en ;
+    rdfs:domain ep:ChoiceOfLaw ;
+    rdfs:range :TrustEntity ;
+    owl:inverseOf ep:choosesGoverningLaw .
+
+ep:governs a owl:ObjectProperty ;
+    rdfs:label "governs"@en ;
+    rdfs:comment "Document governs trust operations"@en ;
+    rdfs:domain ep:Document ;
+    rdfs:range :TrustEntity ;
+    owl:inverseOf ep:governedBy .
+
+ep:hasBasis a owl:ObjectProperty ;
+    rdfs:label "has basis"@en ;
+    ep:glossaryTerm "Basis, AdjustedBasis, StepUpInBasis" ;
+    rdfs:comment "Asset has tax basis (functional - one basis at a time)"@en ;
+    rdfs:domain ep:Asset ;
+    rdfs:range ep:TaxBasis ;
+    owl:inverseOf ep:basisFor .
+
+ep:hasCapacity a owl:ObjectProperty ;
+    rdfs:label "has capacity"@en ;
+    ep:glossaryTerm "Capacity, LegalCapacity, Competent" ;
+    rdfs:comment "Participant has legal capacity (functional - one capacity status)"@en ;
+    rdfs:domain ep:Participant ;
+    rdfs:range ep:LegalCapacity ;
+    owl:inverseOf ep:capacityOf .
+
+ep:hasCoTrustee a owl:ObjectProperty ;
+    rdfs:label "has co-trustee"@en ;
+    ep:glossaryTerm "CoTrustee" ;
+    rdfs:comment "Trust has co-trustee serving jointly with other trustees"@en ;
+    rdfs:domain :TrustEntity ;
+    rdfs:range ep:CoTrustee ;
+    rdfs:subPropertyOf ep:participatesIn ;
+    owl:inverseOf ep:servesAs .
+
+ep:hasExhibit a owl:ObjectProperty ;
+    rdfs:label "has exhibit"@en ;
+    rdfs:comment "Legal action has document as exhibit"@en ;
+    rdfs:domain ep:LegalAction ;
+    rdfs:range ep:Document ;
+    owl:inverseOf ep:exhibitIn .
+
+ep:hasGrantor a owl:ObjectProperty ;
+    rdfs:label "has grantor"@en ;
+    ep:glossaryTerm "Grantor, Creator, Trustor" ;
+    rdfs:comment "Trust has grantor who created and funded it"@en ;
+    rdfs:domain :TrustEntity ;
+    rdfs:range ep:Grantor ;
+    rdfs:subPropertyOf ep:participatesIn ;
+    owl:inverseOf ep:creates .
+
+ep:hasIncomeBeneficiary a owl:ObjectProperty ;
+    rdfs:label "has income beneficiary"@en ;
+    ep:glossaryTerm "IncomeBeneficiary" ;
+    rdfs:comment "Trust has income beneficiary entitled to income distributions"@en ;
+    rdfs:domain :TrustEntity ;
+    rdfs:range ep:IncomeBeneficiary ;
+    rdfs:subPropertyOf ep:participatesIn ;
+    owl:inverseOf ep:receivesIncomeFrom .
+
+ep:hasRemainderBeneficiary a owl:ObjectProperty ;
+    rdfs:label "has remainder beneficiary"@en ;
+    ep:glossaryTerm "Remainderman, RemainderBeneficiary" ;
+    rdfs:comment "Trust has remainder beneficiary (remainderman) entitled to corpus upon termination"@en ;
+    rdfs:domain :TrustEntity ;
+    rdfs:range ep:RemainderBeneficiary ;
+    rdfs:subPropertyOf ep:participatesIn ;
+    owl:inverseOf ep:receivesCorpusFrom .
+
+ep:hasSettlor a owl:ObjectProperty ;
+    rdfs:label "has settlor"@en ;
+    ep:glossaryTerm "Settlor" ;
+    rdfs:comment "Trust has settlor who settled property into it"@en ;
+    rdfs:domain :TrustEntity ;
+    rdfs:range ep:Settlor ;
+    rdfs:subPropertyOf ep:participatesIn ;
+    owl:inverseOf ep:settles .
+
+ep:hasSitus a owl:ObjectProperty ;
+    rdfs:label "has situs"@en ;
+    ep:glossaryTerm "Situs" ;
+    rdfs:comment "Trust has situs (legal location)"@en ;
+    rdfs:domain :TrustEntity ;
+    rdfs:range ep:Situs ;
+    owl:inverseOf ep:locationOf .
+
+ep:hasSuccessorTrustee a owl:ObjectProperty ;
+    rdfs:label "has successor trustee"@en ;
+    ep:glossaryTerm "SuccessorTrustee" ;
+    rdfs:comment "Trust has successor trustee designated to serve upon predecessor's removal"@en ;
+    rdfs:domain :TrustEntity ;
+    rdfs:range ep:SuccessorTrustee ;
+    rdfs:subPropertyOf ep:participatesIn ;
+    owl:inverseOf ep:willServe .
+
+ep:heldAs a owl:ObjectProperty ;
+    rdfs:label "held as"@en ;
+    ep:glossaryTerm "FeeSimple, LifeEstate, Remainder" ;
+    rdfs:comment "Asset held as specific tenure type (fee simple, life estate, etc.)"@en ;
+    rdfs:domain ep:Asset ;
+    rdfs:range ep:PropertyTenure ;
+    owl:inverseOf ep:formOfHolding .
+
+ep:inheritedBy a owl:ObjectProperty ;
+    rdfs:label "inherited by"@en ;
+    rdfs:comment "Asset inherited by heir"@en ;
+    rdfs:domain ep:Asset ;
+    rdfs:range ep:Heir ;
+    owl:inverseOf ep:inherits .
+
+ep:inherits a owl:ObjectProperty ;
+    rdfs:label "inherits"@en ;
+    ep:glossaryTerm "Heir, HeirAtLaw, Devisee, Legatee" ;
+    rdfs:comment "Heir inherits asset"@en ;
+    rdfs:domain ep:Heir ;
+    rdfs:range ep:Asset ;
+    owl:inverseOf ep:inheritedBy .
+
+ep:initiatedBy a owl:ObjectProperty ;
+    rdfs:label "initiated by"@en ;
+    rdfs:comment "Legal action initiated by participant (functional - one initiator)"@en ;
+    rdfs:domain ep:LegalAction ;
+    rdfs:range ep:Participant ;
+    owl:inverseOf ep:initiates .
+
+ep:initiates a owl:ObjectProperty ;
+    rdfs:label "initiates"@en ;
+    ep:glossaryTerm "Plaintiff, Petitioner" ;
+    rdfs:comment "Participant initiates legal action"@en ;
+    rdfs:domain ep:Participant ;
+    rdfs:range ep:LegalAction ;
+    owl:inverseOf ep:initiatedBy .
+
+ep:interestHeldBy a owl:ObjectProperty ;
+    rdfs:label "interest held by"@en ;
+    rdfs:comment "Interest held by participant"@en ;
+    rdfs:domain ep:BeneficialInterest ;
+    rdfs:range ep:Participant ;
+    owl:inverseOf ep:holdsInterest .
+
+ep:involves a owl:ObjectProperty ;
+    rdfs:label "involves"@en ;
+    rdfs:comment "Legal action involves trust"@en ;
+    rdfs:domain ep:LegalAction ;
+    rdfs:range :TrustEntity ;
+    owl:inverseOf ep:subjectOfProceeding .
+
+ep:involvesAsset a owl:ObjectProperty ;
+    rdfs:label "involves asset"@en ;
+    rdfs:comment "Transaction involves specific asset"@en ;
+    rdfs:domain ep:Transaction ;
+    rdfs:range ep:Asset ;
+    owl:inverseOf ep:assetInvolvedIn .
+
+ep:isCorpusOf a owl:ObjectProperty ;
+    rdfs:label "is corpus of"@en ;
+    rdfs:comment "Corpus belongs to trust"@en ;
+    rdfs:domain ep:Corpus ;
+    rdfs:range :TrustEntity ;
+    owl:inverseOf ep:holdsCorpus .
+
+ep:judgedBy a owl:ObjectProperty ;
+    rdfs:label "judged by"@en ;
+    rdfs:comment "Legal action judged by judge (functional - one presiding judge)"@en ;
+    rdfs:domain ep:LegalAction ;
+    rdfs:range ep:Judge ;
+    owl:inverseOf ep:judgesIn .
+
+ep:judgesIn a owl:ObjectProperty ;
+    rdfs:label "judges in"@en ;
+    ep:glossaryTerm "Judge, Magistrate" ;
+    rdfs:comment "Judge presides over legal action"@en ;
+    rdfs:domain ep:Judge ;
+    rdfs:range ep:LegalAction ;
+    owl:inverseOf ep:judgedBy .
+
+ep:jurisdictionOver a owl:ObjectProperty ;
+    rdfs:label "jurisdiction over"@en ;
+    rdfs:comment "Jurisdiction governs trust"@en ;
+    rdfs:domain ep:Jurisdiction ;
+    rdfs:range :TrustEntity ;
+    owl:inverseOf ep:operatesUnder .
+
+ep:locationOf a owl:ObjectProperty ;
+    rdfs:label "location of"@en ;
+    rdfs:comment "Situs is location of trust"@en ;
+    rdfs:domain ep:Situs ;
+    rdfs:range :TrustEntity ;
+    owl:inverseOf ep:hasSitus .
+
+ep:mandatoryRuleAppliesTo a owl:ObjectProperty ;
+    rdfs:label "mandatory rule applies to"@en ;
+    rdfs:comment "Mandatory rule applies to this trust"@en ;
+    rdfs:domain ep:MandatoryRule ;
+    rdfs:range :TrustEntity ;
+    owl:inverseOf ep:subjectToMandatoryRule .
+
+ep:modifiedByOrder a owl:ObjectProperty ;
+    rdfs:label "modified by order"@en ;
+    ep:glossaryTerm "Reformation, DeclaratoryJudgment" ;
+    rdfs:comment "Trust modified by court order from legal proceeding"@en ;
+    rdfs:domain :TrustEntity ;
+    rdfs:range ep:LegalAction ;
+    owl:inverseOf ep:modifies .
+
+ep:modifies a owl:ObjectProperty ;
+    rdfs:label "modifies"@en ;
+    rdfs:comment "Legal action modifies trust"@en ;
+    rdfs:domain ep:LegalAction ;
+    rdfs:range :TrustEntity ;
+    owl:inverseOf ep:modifiedByOrder .
+
+ep:notarizedBy a owl:ObjectProperty ;
+    rdfs:label "notarized by"@en ;
+    rdfs:comment "Document notarized by notary (functional - one notary per document)"@en ;
+    rdfs:domain ep:Document ;
+    rdfs:range ep:NotaryPublic ;
+    owl:inverseOf ep:notarizes .
+
+ep:notarizes a owl:ObjectProperty ;
+    rdfs:label "notarizes"@en ;
+    ep:glossaryTerm "NotaryPublic, Acknowledgment" ;
+    rdfs:comment "Notary public notarizes document"@en ;
+    rdfs:domain ep:NotaryPublic ;
+    rdfs:range ep:Document ;
+    owl:inverseOf ep:notarizedBy .
+
+ep:operatesUnder a owl:ObjectProperty ;
+    rdfs:label "operates under"@en ;
+    ep:glossaryTerm "Jurisdiction, Situs, Domicile" ;
+    rdfs:comment "Trust operates under specific jurisdiction"@en ;
+    rdfs:domain :TrustEntity ;
+    rdfs:range ep:Jurisdiction ;
+    owl:inverseOf ep:jurisdictionOver .
+
+ep:owedBy a owl:ObjectProperty ;
+    rdfs:label "owed by"@en ;
+    rdfs:comment "Duty owed by participant"@en ;
+    rdfs:domain ep:FiduciaryDuty ;
+    rdfs:range ep:Participant ;
+    owl:inverseOf ep:owes .
+
+ep:owes a owl:ObjectProperty ;
+    rdfs:label "owes"@en ;
+    ep:glossaryTerm "FiduciaryDuty, DutyOfLoyalty, DutyOfCare" ;
+    rdfs:comment "Participant owes fiduciary duty"@en ;
+    rdfs:domain ep:Participant ;
+    rdfs:range ep:FiduciaryDuty ;
+    owl:inverseOf ep:owedBy .
+
+ep:ownedBy a owl:ObjectProperty ;
+    rdfs:label "owned by"@en ;
+    rdfs:comment "Asset owned by participant"@en ;
+    rdfs:domain ep:Asset ;
+    rdfs:range ep:Participant ;
+    owl:inverseOf ep:owns .
+
+ep:owns a owl:ObjectProperty ;
+    rdfs:label "owns"@en ;
+    ep:glossaryTerm "Owner" ;
+    rdfs:comment "Participant owns asset"@en ;
+    rdfs:domain ep:Participant ;
+    rdfs:range ep:Asset ;
+    owl:inverseOf ep:ownedBy .
+
+ep:possessedBy a owl:ObjectProperty ;
+    rdfs:label "possessed by"@en ;
+    ep:glossaryTerm "JointTenancy, TenancyInCommon" ;
+    rdfs:comment "Tenure possessed by participant"@en ;
+    rdfs:domain ep:PropertyTenure ;
+    rdfs:range ep:Participant ;
+    owl:inverseOf ep:possesses .
+
+ep:possesses a owl:ObjectProperty ;
+    rdfs:label "possesses"@en ;
+    rdfs:comment "Participant possesses property tenure"@en ;
+    rdfs:domain ep:Participant ;
+    rdfs:range ep:PropertyTenure ;
+    owl:inverseOf ep:possessedBy .
+
+ep:publicPolicyExceptionAppliesTo a owl:ObjectProperty ;
+    rdfs:label "public policy exception applies to"@en ;
+    rdfs:comment "Public policy exception applies to this trust"@en ;
+    rdfs:domain ep:PublicPolicyException ;
+    rdfs:range :TrustEntity ;
+    owl:inverseOf ep:subjectToPublicPolicyException .
+
+ep:receivedBy a owl:ObjectProperty ;
+    rdfs:label "received by"@en ;
+    rdfs:comment "Asset received by participant"@en ;
+    rdfs:domain ep:Asset ;
+    rdfs:range ep:Participant ;
+    owl:inverseOf ep:receives .
+
+ep:receives a owl:ObjectProperty ;
+    rdfs:label "receives"@en ;
+    ep:glossaryTerm "Transferee, Donee, Grantee" ;
+    rdfs:comment "Participant receives asset"@en ;
+    rdfs:domain ep:Participant ;
+    rdfs:range ep:Asset ;
+    owl:inverseOf ep:receivedBy .
+
+ep:receivesCorpusFrom a owl:ObjectProperty ;
+    rdfs:label "receives corpus from"@en ;
+    rdfs:comment "Remainder beneficiary receives corpus from trust upon termination"@en ;
+    rdfs:domain ep:RemainderBeneficiary ;
+    rdfs:range :TrustEntity ;
+    owl:inverseOf ep:hasRemainderBeneficiary .
+
+ep:receivesIncomeFrom a owl:ObjectProperty ;
+    rdfs:label "receives income from"@en ;
+    rdfs:comment "Income beneficiary receives income from trust"@en ;
+    rdfs:domain ep:IncomeBeneficiary ;
+    rdfs:range :TrustEntity ;
+    owl:inverseOf ep:hasIncomeBeneficiary .
+
+ep:receivesProperty a owl:ObjectProperty ;
+    rdfs:label "receives property"@en ;
+    ep:glossaryTerm "Contribution, Transfer" ;
+    rdfs:comment "Trust receives property via transfer or contribution"@en ;
+    rdfs:domain :TrustEntity ;
+    rdfs:range ep:Asset ;
+    owl:inverseOf ep:transferredTo .
+
+ep:recognizedUnder a owl:ObjectProperty ;
+    rdfs:label "recognized under"@en ;
+    ep:glossaryTerm "Recognition" ;
+    rdfs:comment "Trust recognized under Hague Trusts Convention framework (recognition vs reinvention)"@en ;
+    rdfs:domain :TrustEntity ;
+    rdfs:range ep:HagueTrustsConvention ;
+    owl:inverseOf ep:recognizesTrust .
+
+ep:recognizesTrust a owl:ObjectProperty ;
+    rdfs:label "recognizes trust"@en ;
+    rdfs:comment "Hague Convention provides recognition for trust"@en ;
+    rdfs:domain ep:HagueTrustsConvention ;
+    rdfs:range :TrustEntity ;
+    owl:inverseOf ep:recognizedUnder .
+
+ep:representedBy a owl:ObjectProperty ;
+    rdfs:label "represented by"@en ;
+    rdfs:comment "Legal action has party represented by attorney"@en ;
+    rdfs:domain ep:LegalAction ;
+    rdfs:range ep:Attorney ;
+    owl:inverseOf ep:represents .
+
+ep:represents a owl:ObjectProperty ;
+    rdfs:label "represents"@en ;
+    ep:glossaryTerm "Attorney, Counsel" ;
+    rdfs:comment "Attorney represents party in legal action"@en ;
+    rdfs:domain ep:Attorney ;
+    rdfs:range ep:LegalAction ;
+    owl:inverseOf ep:representedBy .
+
+ep:restatedBy a owl:ObjectProperty ;
+    rdfs:label "restated by"@en ;
+    ep:glossaryTerm "Restatement" ;
+    rdfs:comment "Trust restated by restatement document"@en ;
+    rdfs:domain :TrustEntity ;
+    rdfs:range ep:Restatement ;
+    owl:inverseOf ep:restates .
+
+ep:restates a owl:ObjectProperty ;
+    rdfs:label "restates"@en ;
+    rdfs:comment "Restatement restates entire trust"@en ;
+    rdfs:domain ep:Restatement ;
+    rdfs:range :TrustEntity ;
+    owl:inverseOf ep:restatedBy .
+
+ep:resultOf a owl:ObjectProperty ;
+    rdfs:label "result of"@en ;
+    rdfs:comment "Judgment is result of legal action"@en ;
+    rdfs:domain ep:Judgment ;
+    rdfs:range ep:LegalAction ;
+    owl:inverseOf ep:resultsIn .
+
+ep:resultsIn a owl:ObjectProperty ;
+    rdfs:label "results in"@en ;
+    ep:glossaryTerm "Judgment, Decree, Order" ;
+    rdfs:comment "Legal action results in judgment or decree (functional - one final judgment)"@en ;
+    rdfs:domain ep:LegalAction ;
+    rdfs:range ep:Judgment ;
+    owl:inverseOf ep:resultOf .
+
+ep:rightCreatedBy a owl:ObjectProperty ;
+    rdfs:label "right created by"@en ;
+    rdfs:comment "Legal right created by document"@en ;
+    rdfs:domain ep:LegalRight ;
+    rdfs:range ep:Document ;
+    owl:inverseOf ep:createsRight .
+
+ep:satisfiesTransferValidity a owl:ObjectProperty ;
+    rdfs:label "satisfies transfer validity"@en ;
+    ep:glossaryTerm "TransferValidity, Conveyance" ;
+    rdfs:comment "Asset transfer satisfies property law requirements (step two of Hague two-step model - analytically separate from trust validity). A trust can exist even if particular transfers fail."@en ;
+    rdfs:domain ep:Asset ;
+    rdfs:range ep:AssetTransferValidity ;
+    owl:inverseOf ep:validityOfTransfer .
+
+ep:satisfiesTrustValidity a owl:ObjectProperty ;
+    rdfs:label "satisfies trust validity"@en ;
+    ep:glossaryTerm "Validity" ;
+    rdfs:comment "Trust instrument satisfies validity requirements (step one of Hague two-step model - analytically separate from asset transfers)"@en ;
+    rdfs:domain :TrustEntity ;
+    rdfs:range ep:TrustValidity ;
+    owl:inverseOf ep:validityOfTrust .
+
+ep:servesAs a owl:ObjectProperty ;
+    rdfs:label "serves as"@en ;
+    rdfs:comment "Co-trustee serves trust"@en ;
+    rdfs:domain ep:CoTrustee ;
+    rdfs:range :TrustEntity ;
+    owl:inverseOf ep:hasCoTrustee .
+
+ep:settles a owl:ObjectProperty ;
+    rdfs:label "settles"@en ;
+    rdfs:comment "Settlor settles property into trust"@en ;
+    rdfs:domain ep:Settlor ;
+    rdfs:range :TrustEntity ;
+    owl:inverseOf ep:hasSettlor .
+
+ep:situsRuleGoverns a owl:ObjectProperty ;
+    rdfs:label "situs rule governs"@en ;
+    rdfs:comment "Situs rule governs this asset"@en ;
+    rdfs:domain ep:SitusRule ;
+    rdfs:range ep:Asset ;
+    owl:inverseOf ep:governedBySitusRule .
+
+ep:subjectOfProceeding a owl:ObjectProperty ;
+    rdfs:label "subject of proceeding"@en ;
+    ep:glossaryTerm "TrustContest, AccountingProceeding, Reformation" ;
+    rdfs:comment "Trust is subject of legal proceeding"@en ;
+    rdfs:domain :TrustEntity ;
+    rdfs:range ep:LegalAction ;
+    owl:inverseOf ep:involves .
+
+ep:subjectToForcedHeirship a owl:ObjectProperty ;
+    rdfs:label "subject to forced heirship"@en ;
+    ep:glossaryTerm "ForcedHeirship, LegitimePortion" ;
+    rdfs:comment "Trust subject to forced heirship rules reserving portion of estate for heirs - not displaced by trust or choice of law"@en ;
+    rdfs:domain :TrustEntity ;
+    rdfs:range ep:ForcedHeirship ;
+    rdfs:subPropertyOf ep:subjectToMandatoryRule ;
+    owl:inverseOf ep:forcedHeirshipAppliesTo .
+
+ep:subjectToPublicPolicyException a owl:ObjectProperty ;
+    rdfs:label "subject to public policy exception"@en ;
+    ep:glossaryTerm "PublicPolicy" ;
+    rdfs:comment "Trust subject to public policy exception allowing forum state to disregard foreign trust law"@en ;
+    rdfs:domain :TrustEntity ;
+    rdfs:range ep:PublicPolicyException ;
+    owl:inverseOf ep:publicPolicyExceptionAppliesTo .
+
+ep:terminatedBy a owl:ObjectProperty ;
+    rdfs:label "terminated by"@en ;
+    ep:glossaryTerm "TerminationAgreement, CertificateOfTermination" ;
+    rdfs:comment "Trust terminated by termination agreement or certificate"@en ;
+    rdfs:domain :TrustEntity ;
+    rdfs:range ep:TerminationAgreement ;
+    owl:inverseOf ep:terminates .
+
+ep:terminates a owl:ObjectProperty ;
+    rdfs:label "terminates"@en ;
+    rdfs:comment "Document terminates trust"@en ;
+    rdfs:domain ep:TerminationAgreement ;
+    rdfs:range :TrustEntity ;
+    owl:inverseOf ep:terminatedBy .
+
+ep:transactionBy a owl:ObjectProperty ;
+    rdfs:label "transaction by"@en ;
+    rdfs:comment "Transaction conducted by participant"@en ;
+    rdfs:domain ep:Transaction ;
+    rdfs:range ep:Participant ;
+    owl:inverseOf ep:conductsTransaction .
+
+ep:transferredBy a owl:ObjectProperty ;
+    rdfs:label "transferred by"@en ;
+    rdfs:comment "Asset transferred by participant"@en ;
+    rdfs:domain ep:Asset ;
+    rdfs:range ep:Participant ;
+    owl:inverseOf ep:transfers .
+
+ep:transferredTo a owl:ObjectProperty ;
+    rdfs:label "transferred to"@en ;
+    rdfs:comment "Asset transferred to trust"@en ;
+    rdfs:domain ep:Asset ;
+    rdfs:range :TrustEntity ;
+    owl:inverseOf ep:receivesProperty .
+
+ep:transfers a owl:ObjectProperty ;
+    rdfs:label "transfers"@en ;
+    ep:glossaryTerm "Transferor, Donor" ;
+    rdfs:comment "Participant transfers asset"@en ;
+    rdfs:domain ep:Participant ;
+    rdfs:range ep:Asset ;
+    owl:inverseOf ep:transferredBy .
+
+ep:validityOfTransfer a owl:ObjectProperty ;
+    rdfs:label "validity of transfer"@en ;
+    rdfs:comment "Transfer validity determination applies to this asset"@en ;
+    rdfs:domain ep:AssetTransferValidity ;
+    rdfs:range ep:Asset ;
+    owl:inverseOf ep:satisfiesTransferValidity .
+
+ep:validityOfTrust a owl:ObjectProperty ;
+    rdfs:label "validity of trust"@en ;
+    rdfs:comment "Validity determination applies to this trust"@en ;
+    rdfs:domain ep:TrustValidity ;
+    rdfs:range :TrustEntity ;
+    owl:inverseOf ep:satisfiesTrustValidity .
+
+ep:valuationOf a owl:ObjectProperty ;
+    rdfs:label "valuation of"@en ;
+    rdfs:comment "Valuation is of asset"@en ;
+    rdfs:domain ep:Valuation ;
+    rdfs:range ep:Asset ;
+    owl:inverseOf ep:valuedAt .
+
+ep:valuedAt a owl:ObjectProperty ;
+    rdfs:label "valued at"@en ;
+    ep:glossaryTerm "FairMarketValue, Valuation, Appraisal" ;
+    rdfs:comment "Asset valued at specific valuation"@en ;
+    rdfs:domain ep:Asset ;
+    rdfs:range ep:Valuation ;
+    owl:inverseOf ep:valuationOf .
+
+ep:vestingTypeFor a owl:ObjectProperty ;
+    rdfs:label "vesting type for"@en ;
+    rdfs:comment "Tenure type represents vesting for trust"@en ;
+    rdfs:domain ep:PropertyTenure ;
+    rdfs:range :TrustEntity ;
+    owl:inverseOf ep:vestsInterestAs .
+
+ep:vestsInterestAs a owl:ObjectProperty ;
+    rdfs:label "vests interest as"@en ;
+    ep:glossaryTerm "LegalTitle, EquitableTitle, BeneficialOwnership" ;
+    rdfs:comment "Trust vests beneficial interest as specific tenure type"@en ;
+    rdfs:domain :TrustEntity ;
+    rdfs:range ep:PropertyTenure ;
+    owl:inverseOf ep:vestingTypeFor .
+
+ep:willServe a owl:ObjectProperty ;
+    rdfs:label "will serve"@en ;
+    rdfs:comment "Successor trustee will serve trust upon triggering event"@en ;
+    rdfs:domain ep:SuccessorTrustee ;
+    rdfs:range :TrustEntity ;
+    owl:inverseOf ep:hasSuccessorTrustee .
+
+ep:witnessedBy a owl:ObjectProperty ;
+    rdfs:label "witnessed by"@en ;
+    rdfs:comment "Document witnessed by witness"@en ;
+    rdfs:domain ep:Document ;
+    rdfs:range ep:Witness ;
+    owl:inverseOf ep:witnesses .
+
+ep:witnesses a owl:ObjectProperty ;
+    rdfs:label "witnesses"@en ;
+    ep:glossaryTerm "Witness, AttestingWitness, SubscribingWitness" ;
+    rdfs:comment "Witness attests to document execution"@en ;
+    rdfs:domain ep:Witness ;
+    rdfs:range ep:Document ;
+    owl:inverseOf ep:witnessedBy .
+
+ep:Attorney a owl:Class ;
+    rdfs:label "Attorney"@en ;
+    ep:glossaryTerm "Attorney, Counsel, Advocate" ;
+    rdfs:comment "Legal counsel representing party in legal action"@en ;
+    rdfs:subClassOf ep:Participant .
+
+ep:CoTrustee a owl:Class ;
+    rdfs:label "Co-Trustee"@en ;
+    ep:glossaryTerm "CoTrustee" ;
+    rdfs:comment "Joint trustee serving with one or more other trustees"@en ;
+    rdfs:subClassOf ep:Trustee .
+
+ep:Corpus a owl:Class ;
+    rdfs:label "Corpus"@en ;
+    ep:glossaryTerm "Corpus, Res, TrustEstate, Principal" ;
+    rdfs:comment "Principal or body of trust (res)"@en ;
+    rdfs:subClassOf ep:Asset .
+
+ep:CrossBorderTrust a owl:Class ;
+    rdfs:label "Cross-Border Trust"@en ;
+    ep:glossaryTerm "InternationalTrust, CrossBorderTrust" ;
+    rdfs:comment "Trust operating internationally with assets, trustees, or beneficiaries in multiple jurisdictions - primary beneficiary of Hague Convention"@en ;
+    rdfs:subClassOf ep:LegalConcept .
+
+ep:Grantor a owl:Class ;
+    rdfs:label "Grantor"@en ;
+    ep:glossaryTerm "Grantor, Creator, Trustor" ;
+    rdfs:comment "Person creating and funding trust"@en ;
+    rdfs:subClassOf ep:Participant .
+
+ep:HagueTrustsConvention a owl:Class ;
+    rdfs:label "Hague Trusts Convention"@en ;
+    ep:glossaryTerm "HagueTrustsConvention, HagueConvention" ;
+    rdfs:comment "Convention on the Law Applicable to Trusts and on their Recognition - provides recognition layer for cross-border trusts without harmonizing substantive trust law"@en ;
+    rdfs:subClassOf ep:LegalDoctrine .
+
+ep:Heir a owl:Class ;
+    rdfs:label "Heir"@en ;
+    ep:glossaryTerm "Heir, HeirAtLaw, Devisee, Legatee" ;
+    rdfs:comment "Person entitled to inherit under intestacy laws"@en ;
+    rdfs:subClassOf ep:Participant .
+
+ep:IncomeBeneficiary a owl:Class ;
+    rdfs:label "Income Beneficiary"@en ;
+    ep:glossaryTerm "IncomeBeneficiary" ;
+    rdfs:comment "Beneficiary entitled to receive income distributions from trust"@en ;
+    rdfs:subClassOf ep:Beneficiary .
+
+ep:Judge a owl:Class ;
+    rdfs:label "Judge"@en ;
+    ep:glossaryTerm "Judge, Magistrate" ;
+    rdfs:comment "Judicial officer presiding over legal proceeding"@en ;
+    rdfs:subClassOf ep:Participant .
+
+ep:LegalCapacity a owl:Class ;
+    rdfs:label "Legal Capacity"@en ;
+    ep:glossaryTerm "Capacity, LegalCapacity, Competent" ;
+    rdfs:comment "Legal ability to execute binding documents"@en ;
+    rdfs:subClassOf ep:LegalConcept .
+
+ep:LegalPrinciple a owl:Class ;
+    rdfs:label "Legal Principle"@en ;
+    ep:glossaryTerm "Principle" ;
+    rdfs:comment "Fundamental legal principle"@en ;
+    rdfs:subClassOf ep:LegalConcept .
+
+ep:LegalRight a owl:Class ;
+    rdfs:label "Legal Right"@en ;
+    ep:glossaryTerm "Right" ;
+    rdfs:comment "Legal entitlement or right"@en ;
+    rdfs:subClassOf ep:LegalConcept .
+
+ep:NotaryPublic a owl:Class ;
+    rdfs:label "Notary Public"@en ;
+    ep:glossaryTerm "NotaryPublic" ;
+    rdfs:comment "Official authorized to notarize documents"@en ;
+    rdfs:subClassOf ep:Participant .
+
+ep:PropertyType a owl:Class ;
+    rdfs:label "Property Type"@en ;
+    ep:glossaryTerm "PropertyType" ;
+    rdfs:comment "Classification of property (real, personal, intangible)"@en ;
+    rdfs:subClassOf ep:LegalConcept .
+
+ep:RealProperty a owl:Class ;
+    rdfs:label "Real Property"@en ;
+    ep:glossaryTerm "RealProperty, Realty" ;
+    rdfs:comment "Land and improvements affixed to land"@en ;
+    rdfs:subClassOf ep:Asset .
+
+ep:RecognitionOutcome a owl:Class ;
+    rdfs:label "Recognition Outcome"@en ;
+    rdfs:comment "Determination whether foreign trust is recognized under Hague Convention"@en ;
+    rdfs:subClassOf ep:LegalOutcome .
+
+ep:RemainderBeneficiary a owl:Class ;
+    rdfs:label "Remainder Beneficiary"@en ;
+    ep:glossaryTerm "Remainderman, RemainderBeneficiary" ;
+    rdfs:comment "Beneficiary (remainderman) entitled to receive corpus upon trust termination"@en ;
+    rdfs:subClassOf ep:Beneficiary .
+
+ep:Restatement a owl:Class ;
+    rdfs:label "Restatement"@en ;
+    ep:glossaryTerm "Restatement" ;
+    rdfs:comment "Complete restatement of trust incorporating all prior amendments"@en ;
+    rdfs:subClassOf ep:Document .
+
+ep:Settlor a owl:Class ;
+    rdfs:label "Settlor"@en ;
+    ep:glossaryTerm "Settlor" ;
+    rdfs:comment "Person settling property into trust"@en ;
+    rdfs:subClassOf ep:Participant .
+
+ep:Situs a owl:Class ;
+    rdfs:label "Situs"@en ;
+    ep:glossaryTerm "Situs, Domicile" ;
+    rdfs:comment "Legal location of trust or property"@en ;
+    rdfs:subClassOf ep:LegalConcept .
+
+ep:SitusRule a owl:Class ;
+    rdfs:label "Situs Rule"@en ;
+    ep:glossaryTerm "SitusRule, LexSitus" ;
+    rdfs:comment "Doctrine that law of property location (situs) controls title, conveyance, creditor rights, and recording - not displaced by Hague Convention"@en ;
+    rdfs:subClassOf ep:LegalDoctrine .
+
+ep:SuccessorTrustee a owl:Class ;
+    rdfs:label "Successor Trustee"@en ;
+    ep:glossaryTerm "SuccessorTrustee" ;
+    rdfs:comment "Trustee designated to serve upon predecessor's removal, resignation, or death"@en ;
+    rdfs:subClassOf ep:Trustee .
+
+ep:TerminationAgreement a owl:Class ;
+    rdfs:label "Termination Agreement"@en ;
+    ep:glossaryTerm "TerminationAgreement, CertificateOfTermination" ;
+    rdfs:comment "Agreement or certificate terminating trust"@en ;
+    rdfs:subClassOf ep:Document .
+
+ep:TrustContest a owl:Class ;
+    rdfs:label "Trust Contest"@en ;
+    ep:glossaryTerm "TrustContest" ;
+    rdfs:comment "Legal challenge to validity of trust"@en ;
+    rdfs:subClassOf ep:LegalAction .
+
+ep:Trustee a owl:Class ;
+    rdfs:label "Trustee"@en ;
+    ep:glossaryTerm "Trustee" ;
+    rdfs:comment "Person managing trust property as fiduciary"@en ;
+    rdfs:subClassOf ep:Participant .
+
+ep:Valuation a owl:Class ;
+    rdfs:label "Valuation"@en ;
+    ep:glossaryTerm "Valuation, FairMarketValue, Appraisal" ;
+    rdfs:comment "Determination of asset's fair market value"@en .
+
+ep:Witness a owl:Class ;
+    rdfs:label "Witness"@en ;
+    ep:glossaryTerm "Witness, AttestingWitness, SubscribingWitness" ;
+    rdfs:comment "Person who witnesses execution of document"@en ;
+    rdfs:subClassOf ep:Participant .
+
+ep:holdsCorpus a owl:ObjectProperty ;
+    rdfs:label "holds corpus"@en ;
+    ep:glossaryTerm "Corpus, Res, TrustEstate, Principal" ;
+    rdfs:comment "Trust holds corpus (principal, res) - functional property"@en ;
+    rdfs:domain :TrustEntity ;
+    rdfs:range ep:Corpus ;
+    owl:inverseOf ep:isCorpusOf .
+
+ep:holdsInterest a owl:ObjectProperty ;
+    rdfs:label "holds interest"@en ;
+    ep:glossaryTerm "BeneficialInterest, EquitableInterest" ;
+    rdfs:comment "Participant holds beneficial interest"@en ;
+    rdfs:domain ep:Participant ;
+    rdfs:range ep:BeneficialInterest ;
+    owl:inverseOf ep:interestHeldBy .
+
+ep:subjectToMandatoryRule a owl:ObjectProperty ;
+    rdfs:label "subject to mandatory rule"@en ;
+    ep:glossaryTerm "MandatoryRule, OverridingRule" ;
+    rdfs:comment "Trust subject to overriding mandatory rules that cannot be displaced by choice of law (creditor rights, forced heirship, public policy)"@en ;
+    rdfs:domain :TrustEntity ;
+    rdfs:range ep:MandatoryRule ;
+    owl:inverseOf ep:mandatoryRuleAppliesTo .
+
+ep:AssetTransferValidity a owl:Class ;
+    rdfs:label "Asset Transfer Validity"@en ;
+    ep:glossaryTerm "TransferValidity" ;
+    rdfs:comment "Step two of Hague two-step model: whether property was validly transferred into trust under applicable property law (analytically separate from trust validity)"@en ;
+    rdfs:subClassOf ep:LegalConcept .
+
+ep:Beneficiary a owl:Class ;
+    rdfs:label "Beneficiary"@en ;
+    ep:glossaryTerm "Beneficiary" ;
+    rdfs:comment "Person entitled to benefit from trust"@en ;
+    rdfs:subClassOf ep:Participant .
+
+ep:ForcedHeirship a owl:Class ;
+    rdfs:label "Forced Heirship"@en ;
+    ep:glossaryTerm "ForcedHeirship, LegitimePortion" ;
+    rdfs:comment "Mandatory rule reserving portion of estate for certain heirs - not displaced by trust or choice of law"@en ;
+    rdfs:subClassOf ep:MandatoryRule .
+
+ep:IrrevocabilityEvent a owl:Class ;
+    rdfs:label "Irrevocability Event"@en ;
+    rdfs:comment "Event making trust irrevocable: grantor death, terms, or explicit declaration (triggers Active → Irrevocable)"@en ;
+    rdfs:subClassOf ep:StateTransitionTrigger .
+
+ep:Judgment a owl:Class ;
+    rdfs:label "Judgment"@en ;
+    ep:glossaryTerm "Judgment, Decree, Order" ;
+    rdfs:comment "Court's final determination of rights and obligations"@en ;
+    rdfs:subClassOf ep:Document .
+
+ep:PublicPolicyException a owl:Class ;
+    rdfs:label "Public Policy Exception"@en ;
+    ep:glossaryTerm "PublicPolicy" ;
+    rdfs:comment "Exception allowing forum state to disregard foreign trust law where recognition would offend fundamental public policy"@en ;
+    rdfs:subClassOf ep:LegalDoctrine .
+
+ep:TaxBasis a owl:Class ;
+    rdfs:label "Tax Basis"@en ;
+    ep:glossaryTerm "Basis, AdjustedBasis, StepUpInBasis" ;
+    rdfs:comment "Tax basis of asset for capital gains purposes"@en .
+
+ep:TrustAmendment a owl:Class ;
+    rdfs:label "Trust Amendment"@en ;
+    ep:glossaryTerm "TrustAmendment" ;
+    rdfs:comment "Document amending existing trust"@en ;
+    rdfs:subClassOf ep:Document .
+
+ep:TrustValidity a owl:Class ;
+    rdfs:label "Trust Validity"@en ;
+    ep:glossaryTerm "Validity" ;
+    rdfs:comment "Step one of Hague two-step model: whether trust instrument is validly created under applicable law"@en ;
+    rdfs:subClassOf ep:LegalConcept .
+
+ep:ChoiceOfLaw a owl:Class ;
+    rdfs:label "Choice of Law"@en ;
+    ep:glossaryTerm "ChoiceOfLaw, GoverningLaw" ;
+    rdfs:comment "Settlor's choice of governing law for trust (honored under Hague Convention subject to meaningful connection and mandatory rules)"@en ;
+    rdfs:subClassOf ep:LegalConcept .
+
+ep:Deed a owl:Class ;
+    rdfs:label "Deed"@en ;
+    ep:glossaryTerm "Deed" ;
+    rdfs:comment "Instrument conveying real property"@en ;
+    rdfs:subClassOf ep:Document .
+
+ep:FiduciaryDuty a owl:Class ;
+    rdfs:label "Fiduciary Duty"@en ;
+    ep:glossaryTerm "FiduciaryDuty" ;
+    rdfs:comment "Duty owed by fiduciary to beneficiary"@en ;
+    rdfs:subClassOf ep:LegalConcept .
+
+ep:Jurisdiction a owl:Class ;
+    rdfs:label "Jurisdiction"@en ;
+    ep:glossaryTerm "Jurisdiction" ;
+    rdfs:comment "Authority of court or governing law over trust"@en ;
+    rdfs:subClassOf ep:LegalConcept .
+
+ep:LegalOutcome a owl:Class ;
+    rdfs:label "Legal Outcome"@en ;
+    rdfs:comment "Determined legal consequence based on trust state and classifications"@en .
+
+ep:MandatoryRule a owl:Class ;
+    rdfs:label "Mandatory Rule"@en ;
+    ep:glossaryTerm "MandatoryRule, OverridingRule" ;
+    rdfs:comment "Overriding rule of forum state that cannot be displaced by choice of law (creditor rights, forced heirship, public policy)"@en ;
+    rdfs:subClassOf ep:LegalDoctrine .
+
+ep:TerminationEvent a owl:Class ;
+    rdfs:label "Termination Event"@en ;
+    rdfs:comment "Event terminating trust: merger, purpose fulfilled, RAP violation, final distribution"@en ;
+    rdfs:subClassOf ep:StateTransitionTrigger .
+
+ep:Testator a owl:Class ;
+    rdfs:label "Testator"@en ;
+    ep:glossaryTerm "Testator, Testatrix" ;
+    rdfs:comment "Person who executes a will (testatrix if female)"@en ;
+    rdfs:subClassOf ep:Participant .
+
+ep:ValidityOutcome a owl:Class ;
+    rdfs:label "Validity Outcome"@en ;
+    rdfs:comment "Determination whether trust or transfer is valid"@en ;
+    rdfs:subClassOf ep:LegalOutcome .
+
+ep:TaxConsequence a owl:Class ;
+    rdfs:label "Tax Consequence"@en ;
+    rdfs:comment "Tax outcome determined by trust type and transaction classification"@en ;
+    rdfs:subClassOf ep:LegalOutcome .
+
+ep:BeneficialInterest a owl:Class ;
+    rdfs:label "Beneficial Interest"@en ;
+    ep:glossaryTerm "BeneficialInterest, EquitableInterest" ;
+    rdfs:comment "Equitable interest held by beneficiary in trust property"@en ;
+    rdfs:subClassOf ep:LegalConcept .
+
+ep:StateTransitionTrigger a owl:Class ;
+    rdfs:label "State Transition Trigger"@en ;
+    rdfs:comment "Event that triggers state transition in trust lifecycle"@en .
+
+ep:participatesIn a owl:ObjectProperty ;
+    rdfs:label "participates in"@en ;
+    rdfs:comment "Participant has some role in trust"@en ;
+    rdfs:domain ep:Participant ;
+    rdfs:range :TrustEntity .
+
+ep:TrustState a owl:Class ;
+    rdfs:label "Trust State"@en ;
+    rdfs:comment "Lifecycle state of trust determining admissible operations and transitions"@en .
+
+ep:PropertyTenure a owl:Class ;
+    rdfs:label "Property Tenure"@en ;
+    ep:glossaryTerm "Tenure, Estate" ;
+    rdfs:comment "Form or manner of property holding or ownership"@en .
+
+ep:LegalConcept a owl:Class ;
+    rdfs:label "Legal Concept"@en ;
+    rdfs:comment "Abstract legal concept, principle, or doctrine"@en .
+
+ep:Transaction a owl:Class ;
+    rdfs:label "Transaction"@en ;
+    ep:glossaryTerm "Transaction" ;
+    rdfs:comment "Business transaction or dealing between parties"@en .
+
+ep:LegalDoctrine a owl:Class ;
+    rdfs:label "Legal Doctrine"@en ;
+    ep:glossaryTerm "Doctrine" ;
+    rdfs:comment "Established legal principle or rule"@en ;
+    rdfs:subClassOf ep:LegalConcept .
+
+ep:LegalAction a owl:Class ;
+    rdfs:label "Legal Action"@en ;
+    ep:glossaryTerm "LegalAction, Proceeding, Litigation" ;
+    rdfs:comment "Legal proceeding or action in court"@en .
+
+ep:Document a owl:Class ;
+    rdfs:label "Document"@en ;
+    ep:glossaryTerm "Document, Instrument" ;
+    rdfs:comment "Legal document or instrument"@en .
+
+ep:Participant a owl:Class ;
+    rdfs:label "Participant"@en ;
+    ep:glossaryTerm "Participant, Party" ;
+    rdfs:comment "Natural or legal person participating in trust or estate"@en .
+
+ep:Asset a owl:Class ;
+    rdfs:label "Asset"@en ;
+    ep:glossaryTerm "Asset, Property" ;
+    rdfs:comment "Property or item of value"@en .
+
+[] a owl:Class .
+
+[] a owl:Class .
+
+[] a owl:Class .
+
+[] a owl:Class .
+
+[] a owl:Class .
+
+[] a owl:Class .
+
+[] a owl:Class .
+

@@ -19,8 +19,52 @@ CRITICAL ARCHITECTURE:
 - IRC §162/§212/§67(e): The EXPENSE INSTRUMENTS - operational spending power for trusts
 - EIN: System identifier (MAC address, not protocol) - NOT an instrument
 
+THE KEYSTONE CONSTRAINT:
+Private enablement is permissible when and only when it is BOTH:
+  1. Incidental to purpose-driven execution (not the primary purpose), AND
+  2. Inseparable from purpose-driven execution (necessarily coupled with mission advancement)
+
+This constraint is the fundamental boundary between legitimate operations and private inurement.
+All compensation, benefits, and private enablement must satisfy both tests to be permissible.
+
+THE AUTHORITY CASCADE (PROOF OF LEGITIMACY):
+Mission → Purpose Domains → Authorized Activities → Operators in Role → Expense Domains → Actual Spend
+
+Every dollar spent MUST trace back through this cascade to mission/purpose. This traceable chain PROVES
+keystone constraint satisfaction. If spend cannot trace back to purpose through authorized activity and
+required operator, it fails the keystone constraint and constitutes private inurement.
+
+The cascade enforces:
+- Mission legitimizes Authority (purpose → power)
+- Purpose authorizes Activities (what trust may do)
+- Activities require Operators (who executes)
+- Operators necessitate Expense Domains (enablement categories)
+- Expense Domains manifest as Actual Spend (dollars out)
+- Actual Spend traces back to Purpose (closes the loop)
+
+TEMPORAL DIMENSION:
+- All expenditures occur during temporal periods (fiscal years, quarters, months)
+- DNI computed annually per fiscal year
+- Qualifying distributions tracked against minimum distribution requirements (IRC §4942)
+- Enables time-series queries and fiscal year compliance tracking
+
+GRANTMAKING (DISTINCT FROM OPERATIONS):
+- GrantmakingActivity as separate authorized activity class
+- Grants to public charities count as qualifying distributions
+- Non-exempt grantees require expenditure responsibility
+- Program-Related Investments (PRIs) as grants for charitable purpose
+
+IRC §§4941-4945 SAFEGUARDS (FULLY AXIOMATIZED):
+- §4941: Self-dealing prohibition - transactions with disqualified persons
+- §4942: Minimum distribution requirements - qualifying distributions vs. minimum
+- §4943: Excess business holdings - ownership percentage limits
+- §4944: Jeopardizing investments - investments endangering mission
+- §4945: Taxable expenditures - lobbying, political, grants without responsibility
+
+All safeguards are disjoint classes with prohibited behaviors triggering AuthorityCollapse.
+
 Non-grantor and foreign trusts acquire operational instruments once control, jurisdiction, and fiduciary authority are cleanly separated under the doctrinal stack."""@en ;
-    owl:versionInfo "2.0" .
+    owl:versionInfo "4.0" .
 
 #################################################################
 #    Object Properties
@@ -175,6 +219,195 @@ Non-grantor and foreign trusts acquire operational instruments once control, jur
     rdfs:label "requires filing"@en ;
     rdfs:comment "Trust must file fiduciary tax return (Form 1041)"@en .
 
+###  http://example.org/trust-domain#hasPurpose
+:hasPurpose rdf:type owl:ObjectProperty ;
+    rdfs:domain :TrustEntity ;
+    rdfs:range :Purpose ;
+    rdfs:label "has purpose"@en ;
+    rdfs:comment "Trust entity has stated purpose that legitimizes its authority"@en .
+
+###  http://example.org/trust-domain#hasSubPurpose
+:hasSubPurpose rdf:type owl:ObjectProperty ;
+    rdfs:domain :Purpose ;
+    rdfs:range :Purpose ;
+    rdfs:label "has sub-purpose"@en ;
+    rdfs:comment "Purpose composed of multiple sub-purposes or mission areas"@en .
+
+###  http://example.org/trust-domain#isIncidentalTo
+:isIncidentalTo rdf:type owl:ObjectProperty ;
+    rdfs:domain :PrivateEnablement ;
+    rdfs:range :Purpose ;
+    rdfs:label "is incidental to"@en ;
+    rdfs:comment "Private enablement is incidental to purpose-driven execution"@en .
+
+###  http://example.org/trust-domain#isInseparableFrom
+:isInseparableFrom rdf:type owl:ObjectProperty ;
+    rdfs:domain :PrivateEnablement ;
+    rdfs:range :OperationalActivity ;
+    rdfs:label "is inseparable from"@en ;
+    rdfs:comment "Private enablement is inseparable from operational execution"@en .
+
+###  http://example.org/trust-domain#enablesPrivately
+:enablesPrivately rdf:type owl:ObjectProperty ;
+    rdfs:domain :Instrument ;
+    rdfs:range :PrivateEnablement ;
+    rdfs:label "enables privately"@en ;
+    rdfs:comment "Instrument provides private enablement (compensation, benefits, etc.)"@en .
+
+###  http://example.org/trust-domain#satisfiesKeystoneConstraint
+:satisfiesKeystoneConstraint rdf:type owl:ObjectProperty ;
+    rdfs:domain :PrivateEnablement ;
+    rdfs:range :KeystoneConstraint ;
+    rdfs:label "satisfies keystone constraint"@en ;
+    rdfs:comment "Private enablement satisfies the keystone constraint: incidental to AND inseparable from purpose-driven execution"@en .
+
+###  http://example.org/trust-domain#violatesKeystoneConstraint
+:violatesKeystoneConstraint rdf:type owl:ObjectProperty ;
+    rdfs:domain :PrivateEnablement ;
+    rdfs:range :KeystoneConstraint ;
+    rdfs:label "violates keystone constraint"@en ;
+    rdfs:comment "Private enablement violates keystone constraint - not incidental or separable from purpose"@en .
+
+###  http://example.org/trust-domain#legitimizes
+:legitimizes rdf:type owl:ObjectProperty ;
+    rdfs:domain :Purpose ;
+    rdfs:range :Authority ;
+    rdfs:label "legitimizes"@en ;
+    rdfs:comment "Mission/Purpose legitimizes the exercise of Authority"@en .
+
+###  http://example.org/trust-domain#authorizes
+:authorizes rdf:type owl:ObjectProperty ;
+    rdfs:domain :Purpose ;
+    rdfs:range :AuthorizedActivity ;
+    rdfs:label "authorizes"@en ;
+    rdfs:comment "Purpose domain authorizes specific operational activities"@en .
+
+###  http://example.org/trust-domain#requires
+:requires rdf:type owl:ObjectProperty ;
+    rdfs:domain :AuthorizedActivity ;
+    rdfs:range :OperatorInRole ;
+    rdfs:label "requires"@en ;
+    rdfs:comment "Authorized activity requires operators in specific roles"@en .
+
+###  http://example.org/trust-domain#necessitates
+:necessitates rdf:type owl:ObjectProperty ;
+    rdfs:domain :OperatorInRole ;
+    rdfs:range :ExpenseDomain ;
+    rdfs:label "necessitates"@en ;
+    rdfs:comment "Operator in role necessitates expense domains (enablement)"@en .
+
+###  http://example.org/trust-domain#manifestsAs
+:manifestsAs rdf:type owl:ObjectProperty ;
+    rdfs:domain :ExpenseDomain ;
+    rdfs:range :ActualSpend ;
+    rdfs:label "manifests as"@en ;
+    rdfs:comment "Expense domain manifests as actual spend/expenditure"@en .
+
+###  http://example.org/trust-domain#tracesBackTo
+:tracesBackTo rdf:type owl:ObjectProperty ;
+    rdfs:domain :ActualSpend ;
+    rdfs:range :Purpose ;
+    rdfs:label "traces back to"@en ;
+    rdfs:comment "Actual spend traces back through the authority cascade to mission/purpose"@en .
+
+###  http://example.org/trust-domain#performedBy
+:performedBy rdf:type owl:ObjectProperty ;
+    rdfs:domain :AuthorizedActivity ;
+    rdfs:range :OperatorInRole ;
+    rdfs:label "performed by"@en ;
+    rdfs:comment "Authorized activity is performed by operator in role"@en .
+
+###  http://example.org/trust-domain#sustains
+:sustains rdf:type owl:ObjectProperty ;
+    rdfs:domain :ExpenseDomain ;
+    rdfs:range :OperatorInRole ;
+    rdfs:label "sustains"@en ;
+    rdfs:comment "Expense domain sustains the operator's capability to perform"@en .
+
+###  http://example.org/trust-domain#servesActivity
+:servesActivity rdf:type owl:ObjectProperty ;
+    rdfs:domain :OperatorInRole ;
+    rdfs:range :AuthorizedActivity ;
+    rdfs:label "serves activity"@en ;
+    rdfs:comment "Operator in role serves the authorized activity"@en .
+
+###  http://example.org/trust-domain#occursDuring
+:occursDuring rdf:type owl:ObjectProperty ;
+    rdfs:domain :ActualSpend ;
+    rdfs:range :TemporalPeriod ;
+    rdfs:label "occurs during"@en ;
+    rdfs:comment "Expenditure occurs during temporal period (fiscal year, quarter, etc.)"@en .
+
+###  http://example.org/trust-domain#computedFor
+:computedFor rdf:type owl:ObjectProperty ;
+    rdfs:domain :DistributableNetIncome ;
+    rdfs:range :FiscalYear ;
+    rdfs:label "computed for"@en ;
+    rdfs:comment "DNI computed for specific fiscal year"@en .
+
+###  http://example.org/trust-domain#hasTemporalExtent
+:hasTemporalExtent rdf:type owl:ObjectProperty ;
+    rdfs:domain :OperationalActivity ;
+    rdfs:range :TemporalPeriod ;
+    rdfs:label "has temporal extent"@en ;
+    rdfs:comment "Activity spans temporal period"@en .
+
+###  http://example.org/trust-domain#makesGrant
+:makesGrant rdf:type owl:ObjectProperty ;
+    rdfs:domain :TrustEntity ;
+    rdfs:range :Grant ;
+    rdfs:label "makes grant"@en ;
+    rdfs:comment "Trust entity makes charitable grant"@en .
+
+###  http://example.org/trust-domain#receivesGrant
+:receivesGrant rdf:type owl:ObjectProperty ;
+    rdfs:domain :Grantee ;
+    rdfs:range :Grant ;
+    rdfs:label "receives grant"@en ;
+    rdfs:comment "Grantee receives grant from trust"@en .
+
+###  http://example.org/trust-domain#satisfiesQualifyingDistribution
+:satisfiesQualifyingDistribution rdf:type owl:ObjectProperty ;
+    rdfs:domain :Grant ;
+    rdfs:range :QualifyingDistribution ;
+    rdfs:label "satisfies qualifying distribution"@en ;
+    rdfs:comment "Grant counts toward qualifying distribution requirement (IRC §4942)"@en .
+
+###  http://example.org/trust-domain#involvesDisqualifiedPerson
+:involvesDisqualifiedPerson rdf:type owl:ObjectProperty ;
+    rdfs:domain :Transaction ;
+    rdfs:range :DisqualifiedPerson ;
+    rdfs:label "involves disqualified person"@en ;
+    rdfs:comment "Transaction involves disqualified person (triggers IRC §4941 review)"@en .
+
+###  http://example.org/trust-domain#constitutesExcessBenefit
+:constitutesExcessBenefit rdf:type owl:ObjectProperty ;
+    rdfs:domain :Transaction ;
+    rdfs:range :ExcessBenefit ;
+    rdfs:label "constitutes excess benefit"@en ;
+    rdfs:comment "Transaction provides excess benefit to disqualified person"@en .
+
+###  http://example.org/trust-domain#jeopardizesMission
+:jeopardizesMission rdf:type owl:ObjectProperty ;
+    rdfs:domain :Investment ;
+    rdfs:range :Purpose ;
+    rdfs:label "jeopardizes mission"@en ;
+    rdfs:comment "Investment jeopardizes ability to carry out mission (IRC §4944 violation)"@en .
+
+###  http://example.org/trust-domain#constitutesExcessHolding
+:constitutesExcessHolding rdf:type owl:ObjectProperty ;
+    rdfs:domain :Investment ;
+    rdfs:range :ExcessBusinessHolding ;
+    rdfs:label "constitutes excess holding"@en ;
+    rdfs:comment "Investment constitutes excess business holding (IRC §4943 violation)"@en .
+
+###  http://example.org/trust-domain#isTaxableExpenditure
+:isTaxableExpenditure rdf:type owl:ObjectProperty ;
+    rdfs:domain :Expenditure ;
+    rdfs:range :TaxableExpenditure ;
+    rdfs:label "is taxable expenditure"@en ;
+    rdfs:comment "Expenditure is taxable expenditure under IRC §4945"@en .
+
 #################################################################
 #    Data Properties
 #################################################################
@@ -269,6 +502,76 @@ Non-grantor and foreign trusts acquire operational instruments once control, jur
     rdfs:label "has control location"@en ;
     rdfs:comment "Location where substantial trust decisions are made"@en .
 
+###  http://example.org/trust-domain#hasMissionStatement
+:hasMissionStatement rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Purpose ;
+    rdfs:range xsd:string ;
+    rdfs:label "has mission statement"@en ;
+    rdfs:comment "The formal mission statement articulating the purpose"@en .
+
+###  http://example.org/trust-domain#purposeDescription
+:purposeDescription rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Purpose ;
+    rdfs:range xsd:string ;
+    rdfs:label "purpose description"@en ;
+    rdfs:comment "Detailed description of the purpose and how it will be advanced"@en .
+
+###  http://example.org/trust-domain#fiscalYearStart
+:fiscalYearStart rdf:type owl:DatatypeProperty ;
+    rdfs:domain :FiscalYear ;
+    rdfs:range xsd:date ;
+    rdfs:label "fiscal year start"@en ;
+    rdfs:comment "Start date of fiscal year"@en .
+
+###  http://example.org/trust-domain#fiscalYearEnd
+:fiscalYearEnd rdf:type owl:DatatypeProperty ;
+    rdfs:domain :FiscalYear ;
+    rdfs:range xsd:date ;
+    rdfs:label "fiscal year end"@en ;
+    rdfs:comment "End date of fiscal year"@en .
+
+###  http://example.org/trust-domain#yearNumber
+:yearNumber rdf:type owl:DatatypeProperty ;
+    rdfs:domain :FiscalYear ;
+    rdfs:range xsd:integer ;
+    rdfs:label "year number"@en ;
+    rdfs:comment "Calendar year number (e.g., 2024)"@en .
+
+###  http://example.org/trust-domain#expenditureDate
+:expenditureDate rdf:type owl:DatatypeProperty ;
+    rdfs:domain :ActualSpend ;
+    rdfs:range xsd:date ;
+    rdfs:label "expenditure date"@en ;
+    rdfs:comment "Date expenditure was made"@en .
+
+###  http://example.org/trust-domain#grantAmount
+:grantAmount rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Grant ;
+    rdfs:range xsd:decimal ;
+    rdfs:label "grant amount"@en ;
+    rdfs:comment "Amount of charitable grant"@en .
+
+###  http://example.org/trust-domain#minimumDistributionRequired
+:minimumDistributionRequired rdf:type owl:DatatypeProperty ;
+    rdfs:domain :FiscalYear ;
+    rdfs:range xsd:decimal ;
+    rdfs:label "minimum distribution required"@en ;
+    rdfs:comment "Minimum qualifying distribution required for fiscal year (IRC §4942)"@en .
+
+###  http://example.org/trust-domain#qualifyingDistributionsMade
+:qualifyingDistributionsMade rdf:type owl:DatatypeProperty ;
+    rdfs:domain :FiscalYear ;
+    rdfs:range xsd:decimal ;
+    rdfs:label "qualifying distributions made"@en ;
+    rdfs:comment "Total qualifying distributions made during fiscal year"@en .
+
+###  http://example.org/trust-domain#excessHoldingPercentage
+:excessHoldingPercentage rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Investment ;
+    rdfs:range xsd:decimal ;
+    rdfs:label "excess holding percentage"@en ;
+    rdfs:comment "Percentage ownership that constitutes excess business holding"@en .
+
 #################################################################
 #    Classes
 #################################################################
@@ -335,6 +638,36 @@ Non-grantor and foreign trusts acquire operational instruments once control, jur
     rdfs:subClassOf :Purpose ;
     rdfs:label "Exempt Purpose"@en ;
     rdfs:comment "A purpose recognized as tax-exempt"@en .
+
+###  http://example.org/trust-domain#CharitablePurpose
+:CharitablePurpose rdf:type owl:Class ;
+    rdfs:subClassOf :ExemptPurpose ;
+    rdfs:label "Charitable Purpose"@en ;
+    rdfs:comment "Purpose advancing charitable, educational, scientific, or other exempt activities"@en .
+
+###  http://example.org/trust-domain#HealthPurpose
+:HealthPurpose rdf:type owl:Class ;
+    rdfs:subClassOf :CharitablePurpose ;
+    rdfs:label "Health Purpose"@en ;
+    rdfs:comment "Purpose advancing health and wellness"@en .
+
+###  http://example.org/trust-domain#EducationalPurpose
+:EducationalPurpose rdf:type owl:Class ;
+    rdfs:subClassOf :CharitablePurpose ;
+    rdfs:label "Educational Purpose"@en ;
+    rdfs:comment "Purpose advancing education and knowledge dissemination"@en .
+
+###  http://example.org/trust-domain#InnovationPurpose
+:InnovationPurpose rdf:type owl:Class ;
+    rdfs:subClassOf :CharitablePurpose ;
+    rdfs:label "Innovation Purpose"@en ;
+    rdfs:comment "Purpose advancing scientific research, technological development, and innovation"@en .
+
+###  http://example.org/trust-domain#OpportunityPurpose
+:OpportunityPurpose rdf:type owl:Class ;
+    rdfs:subClassOf :CharitablePurpose ;
+    rdfs:label "Opportunity Purpose"@en ;
+    rdfs:comment "Purpose advancing economic opportunity, social mobility, and human capability"@en .
 
 ###  http://example.org/trust-domain#BusinessPurpose
 :BusinessPurpose rdf:type owl:Class ;
@@ -887,6 +1220,296 @@ Non-grantor and foreign trusts acquire operational instruments once control, jur
     rdfs:label "Fiduciary-Specific Expense"@en ;
     rdfs:comment "Expense that would not exist but for fiduciary status (IRC §67(e))"@en .
 
+###  http://example.org/trust-domain#PrivateEnablement
+:PrivateEnablement rdf:type owl:Class ;
+    rdfs:label "Private Enablement"@en ;
+    rdfs:comment "Any benefit, compensation, or resource provided to private individuals (employees, contractors, beneficiaries, etc.) by the trust entity"@en .
+
+###  http://example.org/trust-domain#PermissiblePrivateEnablement
+:PermissiblePrivateEnablement rdf:type owl:Class ;
+    rdfs:subClassOf :PrivateEnablement ,
+        [ rdf:type owl:Restriction ;
+          owl:onProperty :isIncidentalTo ;
+          owl:minCardinality "1"^^xsd:nonNegativeInteger
+        ] ,
+        [ rdf:type owl:Restriction ;
+          owl:onProperty :isInseparableFrom ;
+          owl:minCardinality "1"^^xsd:nonNegativeInteger
+        ] ;
+    rdfs:label "Permissible Private Enablement"@en ;
+    rdfs:comment "Private enablement that is BOTH incidental to AND inseparable from purpose-driven execution - the ONLY permissible form per the keystone constraint"@en .
+
+###  http://example.org/trust-domain#ImproperPrivateEnablement
+:ImproperPrivateEnablement rdf:type owl:Class ;
+    rdfs:subClassOf :PrivateEnablement ;
+    owl:disjointWith :PermissiblePrivateEnablement ;
+    rdfs:label "Improper Private Enablement"@en ;
+    rdfs:comment "Private enablement that fails the keystone constraint - either not incidental to purpose OR separable from execution. This constitutes private inurement or excessive private benefit."@en .
+
+###  http://example.org/trust-domain#KeystoneConstraint
+:KeystoneConstraint rdf:type owl:Class ;
+    rdfs:label "Keystone Constraint"@en ;
+    rdfs:comment "The fundamental constraint governing all private enablement: Private enablement is permissible when and only when it is BOTH incidental to AND inseparable from purpose-driven execution. This is the boundary between legitimate operations and private inurement."@en .
+
+###  http://example.org/trust-domain#IncidentalityTest
+:IncidentalityTest rdf:type owl:Class ;
+    rdfs:subClassOf :KeystoneConstraint ;
+    rdfs:label "Incidentality Test"@en ;
+    rdfs:comment "Tests whether private enablement is incidental to (not the primary purpose of) the operational activity"@en .
+
+###  http://example.org/trust-domain#InseparabilityTest
+:InseparabilityTest rdf:type owl:Class ;
+    rdfs:subClassOf :KeystoneConstraint ;
+    rdfs:label "Inseparability Test"@en ;
+    rdfs:comment "Tests whether private enablement is inseparable from (necessarily coupled with) purpose-driven execution"@en .
+
+###  http://example.org/trust-domain#EmployeeCompensationEnablement
+:EmployeeCompensationEnablement rdf:type owl:Class ;
+    rdfs:subClassOf :PermissiblePrivateEnablement ;
+    rdfs:label "Employee Compensation Enablement"@en ;
+    rdfs:comment "Compensation to employees for work advancing the mission - incidental to and inseparable from execution"@en .
+
+###  http://example.org/trust-domain#OperationalBenefitEnablement
+:OperationalBenefitEnablement rdf:type owl:Class ;
+    rdfs:subClassOf :PermissiblePrivateEnablement ;
+    rdfs:label "Operational Benefit Enablement"@en ;
+    rdfs:comment "Benefits (health insurance, retirement, etc.) necessary to sustain workforce capability - incidental to and inseparable from mission execution"@en .
+
+###  http://example.org/trust-domain#BeneficiaryDistributionEnablement
+:BeneficiaryDistributionEnablement rdf:type owl:Class ;
+    rdfs:subClassOf :PrivateEnablement ;
+    rdfs:label "Beneficiary Distribution Enablement"@en ;
+    rdfs:comment "Distributions to trust beneficiaries - may be permissible or improper depending on keystone constraint satisfaction"@en .
+
+###  http://example.org/trust-domain#AuthorizedActivity
+:AuthorizedActivity rdf:type owl:Class ;
+    rdfs:subClassOf :OperationalActivity ;
+    rdfs:label "Authorized Activity"@en ;
+    rdfs:comment "Operational activity explicitly authorized by a purpose domain in the mission - this is what the trust is allowed to do"@en .
+
+###  http://example.org/trust-domain#OperatorInRole
+:OperatorInRole rdf:type owl:Class ;
+    rdfs:label "Operator In Role"@en ;
+    rdfs:comment "A human capability (employee, contractor, etc.) operating in a specific role to execute authorized activities"@en .
+
+###  http://example.org/trust-domain#Role
+:Role rdf:type owl:Class ;
+    rdfs:label "Role"@en ;
+    rdfs:comment "A defined function or position within the trust's operational structure"@en .
+
+###  http://example.org/trust-domain#ResearchScientistRole
+:ResearchScientistRole rdf:type owl:Class ;
+    rdfs:subClassOf :Role ;
+    rdfs:label "Research Scientist Role"@en ;
+    rdfs:comment "Role of research scientist conducting studies and experiments"@en .
+
+###  http://example.org/trust-domain#ProgramDirectorRole
+:ProgramDirectorRole rdf:type owl:Class ;
+    rdfs:subClassOf :Role ;
+    rdfs:label "Program Director Role"@en ;
+    rdfs:comment "Role of program director managing charitable programs"@en .
+
+###  http://example.org/trust-domain#EducatorRole
+:EducatorRole rdf:type owl:Class ;
+    rdfs:subClassOf :Role ;
+    rdfs:label "Educator Role"@en ;
+    rdfs:comment "Role of educator providing education services"@en .
+
+###  http://example.org/trust-domain#ExpenseDomain
+:ExpenseDomain rdf:type owl:Class ;
+    rdfs:label "Expense Domain"@en ;
+    rdfs:comment "A category of expense/enablement necessary to sustain operators - this is WHERE private enablement occurs (compensation domain, benefits domain, etc.)"@en .
+
+###  http://example.org/trust-domain#CompensationDomain
+:CompensationDomain rdf:type owl:Class ;
+    rdfs:subClassOf :ExpenseDomain ;
+    rdfs:label "Compensation Domain"@en ;
+    rdfs:comment "Domain of wages, salaries, and direct compensation"@en .
+
+###  http://example.org/trust-domain#BenefitsDomain
+:BenefitsDomain rdf:type owl:Class ;
+    rdfs:subClassOf :ExpenseDomain ;
+    rdfs:label "Benefits Domain"@en ;
+    rdfs:comment "Domain of employee benefits (health, retirement, etc.)"@en .
+
+###  http://example.org/trust-domain#ProfessionalDevelopmentDomain
+:ProfessionalDevelopmentDomain rdf:type owl:Class ;
+    rdfs:subClassOf :ExpenseDomain ;
+    rdfs:label "Professional Development Domain"@en ;
+    rdfs:comment "Domain of training, education, and capability enhancement"@en .
+
+###  http://example.org/trust-domain#OperationalSupportDomain
+:OperationalSupportDomain rdf:type owl:Class ;
+    rdfs:subClassOf :ExpenseDomain ;
+    rdfs:label "Operational Support Domain"@en ;
+    rdfs:comment "Domain of tools, equipment, workspace, and operational support"@en .
+
+###  http://example.org/trust-domain#ActualSpend
+:ActualSpend rdf:type owl:Class ;
+    rdfs:subClassOf :Expenditure ;
+    rdfs:label "Actual Spend"@en ;
+    rdfs:comment "Concrete expenditure - the actual dollars spent, traceable back through the authority cascade to mission"@en .
+
+###  http://example.org/trust-domain#AuthorityCascade
+:AuthorityCascade rdf:type owl:Class ;
+    rdfs:label "Authority Cascade"@en ;
+    rdfs:comment "The complete traceable chain: Mission → Purpose Domains → Authorized Activities → Operators in Role → Expense Domains → Actual Spend. This cascade PROVES keystone constraint satisfaction."@en .
+
+###  http://example.org/trust-domain#TemporalPeriod
+:TemporalPeriod rdf:type owl:Class ;
+    rdfs:label "Temporal Period"@en ;
+    rdfs:comment "A time interval during which activities occur and expenditures are made"@en .
+
+###  http://example.org/trust-domain#FiscalYear
+:FiscalYear rdf:type owl:Class ;
+    rdfs:subClassOf :TemporalPeriod ;
+    rdfs:label "Fiscal Year"@en ;
+    rdfs:comment "12-month accounting period for trust operations, DNI computation, and distribution requirements"@en .
+
+###  http://example.org/trust-domain#Quarter
+:Quarter rdf:type owl:Class ;
+    rdfs:subClassOf :TemporalPeriod ;
+    rdfs:label "Quarter"@en ;
+    rdfs:comment "3-month period within fiscal year"@en .
+
+###  http://example.org/trust-domain#Month
+:Month rdf:type owl:Class ;
+    rdfs:subClassOf :TemporalPeriod ;
+    rdfs:label "Month"@en ;
+    rdfs:comment "Monthly period for operational tracking"@en .
+
+###  http://example.org/trust-domain#GrantmakingActivity
+:GrantmakingActivity rdf:type owl:Class ;
+    rdfs:subClassOf :AuthorizedActivity ;
+    rdfs:label "Grantmaking Activity"@en ;
+    rdfs:comment "Activity of making charitable grants to advance mission - DISTINCT from operations"@en .
+
+###  http://example.org/trust-domain#Grant
+:Grant rdf:type owl:Class ;
+    rdfs:label "Grant"@en ;
+    rdfs:comment "Charitable grant made to grantee to advance exempt purpose"@en .
+
+###  http://example.org/trust-domain#ProgramRelatedInvestment
+:ProgramRelatedInvestment rdf:type owl:Class ;
+    rdfs:subClassOf :Grant ;
+    rdfs:label "Program-Related Investment (PRI)"@en ;
+    rdfs:comment "Investment primarily to accomplish charitable purpose, not investment return"@en .
+
+###  http://example.org/trust-domain#Grantee
+:Grantee rdf:type owl:Class ;
+    rdfs:label "Grantee"@en ;
+    rdfs:comment "Organization or individual receiving charitable grant"@en .
+
+###  http://example.org/trust-domain#PublicCharity
+:PublicCharity rdf:type owl:Class ;
+    rdfs:subClassOf :Grantee ;
+    rdfs:label "Public Charity"@en ;
+    rdfs:comment "IRC §509(a) public charity - qualifying grantee"@en .
+
+###  http://example.org/trust-domain#NonExemptGrantee
+:NonExemptGrantee rdf:type owl:Class ;
+    rdfs:subClassOf :Grantee ;
+    rdfs:label "Non-Exempt Grantee"@en ;
+    rdfs:comment "Non-exempt organization requiring expenditure responsibility"@en .
+
+###  http://example.org/trust-domain#QualifyingDistribution
+:QualifyingDistribution rdf:type owl:Class ;
+    rdfs:label "Qualifying Distribution"@en ;
+    rdfs:comment "Distribution that counts toward IRC §4942 minimum distribution requirement"@en .
+
+###  http://example.org/trust-domain#DisqualifiedPerson
+:DisqualifiedPerson rdf:type owl:Class ;
+    rdfs:label "Disqualified Person"@en ;
+    rdfs:comment "Person defined in IRC §4946 - substantial contributor, foundation manager, or related party"@en .
+
+###  http://example.org/trust-domain#SubstantialContributor
+:SubstantialContributor rdf:type owl:Class ;
+    rdfs:subClassOf :DisqualifiedPerson ;
+    rdfs:label "Substantial Contributor"@en ;
+    rdfs:comment "Person who contributed over $5,000 if that exceeds 2% of total contributions"@en .
+
+###  http://example.org/trust-domain#FoundationManager
+:FoundationManager rdf:type owl:Class ;
+    rdfs:subClassOf :DisqualifiedPerson ;
+    rdfs:label "Foundation Manager"@en ;
+    rdfs:comment "Officer, director, trustee, or person with similar powers"@en .
+
+###  http://example.org/trust-domain#Transaction
+:Transaction rdf:type owl:Class ;
+    rdfs:label "Transaction"@en ;
+    rdfs:comment "Any exchange, transfer, or dealing involving trust assets or income"@en .
+
+###  http://example.org/trust-domain#SelfDealingTransaction
+:SelfDealingTransaction rdf:type owl:Class ;
+    rdfs:subClassOf :Transaction ;
+    rdfs:label "Self-Dealing Transaction"@en ;
+    rdfs:comment "Transaction between foundation and disqualified person - PROHIBITED under IRC §4941"@en .
+
+###  http://example.org/trust-domain#PermittedTransaction
+:PermittedTransaction rdf:type owl:Class ;
+    rdfs:subClassOf :Transaction ;
+    owl:disjointWith :SelfDealingTransaction ;
+    rdfs:label "Permitted Transaction"@en ;
+    rdfs:comment "Transaction that does not involve self-dealing or is explicitly permitted"@en .
+
+###  http://example.org/trust-domain#ExcessBenefit
+:ExcessBenefit rdf:type owl:Class ;
+    rdfs:label "Excess Benefit"@en ;
+    rdfs:comment "Benefit exceeding fair market value provided to disqualified person"@en .
+
+###  http://example.org/trust-domain#Investment
+:Investment rdf:type owl:Class ;
+    rdfs:label "Investment"@en ;
+    rdfs:comment "Trust investment in securities, property, or business interests"@en .
+
+###  http://example.org/trust-domain#JeopardizingInvestment
+:JeopardizingInvestment rdf:type owl:Class ;
+    rdfs:subClassOf :Investment ;
+    rdfs:label "Jeopardizing Investment"@en ;
+    rdfs:comment "Investment that jeopardizes carrying out exempt purpose - PROHIBITED under IRC §4944"@en .
+
+###  http://example.org/trust-domain#PrudentInvestment
+:PrudentInvestment rdf:type owl:Class ;
+    rdfs:subClassOf :Investment ;
+    owl:disjointWith :JeopardizingInvestment ;
+    rdfs:label "Prudent Investment"@en ;
+    rdfs:comment "Investment exercising ordinary business care and prudence"@en .
+
+###  http://example.org/trust-domain#ExcessBusinessHolding
+:ExcessBusinessHolding rdf:type owl:Class ;
+    rdfs:label "Excess Business Holding"@en ;
+    rdfs:comment "Business holdings exceeding permitted percentage - PROHIBITED under IRC §4943"@en .
+
+###  http://example.org/trust-domain#PermittedBusinessHolding
+:PermittedBusinessHolding rdf:type owl:Class ;
+    rdfs:subClassOf :Investment ;
+    rdfs:label "Permitted Business Holding"@en ;
+    rdfs:comment "Business holding within IRC §4943 limits (generally 20% or 2% depending on control)"@en .
+
+###  http://example.org/trust-domain#TaxableExpenditure
+:TaxableExpenditure rdf:type owl:Class ;
+    rdfs:subClassOf :Expenditure ;
+    rdfs:label "Taxable Expenditure"@en ;
+    rdfs:comment "Expenditure for prohibited purpose under IRC §4945 (lobbying, political, non-charitable grants without expenditure responsibility)"@en .
+
+###  http://example.org/trust-domain#LobbyingExpenditure
+:LobbyingExpenditure rdf:type owl:Class ;
+    rdfs:subClassOf :TaxableExpenditure ;
+    rdfs:label "Lobbying Expenditure"@en ;
+    rdfs:comment "Expenditure to influence legislation - taxable under IRC §4945"@en .
+
+###  http://example.org/trust-domain#PoliticalExpenditure
+:PoliticalExpenditure rdf:type owl:Class ;
+    rdfs:subClassOf :TaxableExpenditure ;
+    rdfs:label "Political Expenditure"@en ;
+    rdfs:comment "Expenditure to influence election or carry on voter registration - taxable under IRC §4945"@en .
+
+###  http://example.org/trust-domain#GrantWithoutExpenditureResponsibility
+:GrantWithoutExpenditureResponsibility rdf:type owl:Class ;
+    rdfs:subClassOf :TaxableExpenditure ;
+    rdfs:label "Grant Without Expenditure Responsibility"@en ;
+    rdfs:comment "Grant to non-qualifying organization without required oversight - taxable under IRC §4945"@en .
+
 #################################################################
 #    Restrictions and Axioms
 #################################################################
@@ -1100,6 +1723,358 @@ Non-grantor and foreign trusts acquire operational instruments once control, jur
       owl:hasValue :IRC_7701
     ] .
 
+###  Trust Entity must have Purpose - Purpose legitimizes Authority
+:TrustEntity rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :hasPurpose ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger
+    ] .
+
+###  Exempt Purpose enables use of Charitable Instruments
+:ExemptPurpose rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :implementedBy ;
+      owl:someValuesFrom :Instrument
+    ] .
+
+###  THE KEYSTONE CONSTRAINT - Permissible Private Enablement MUST satisfy both tests
+:PermissiblePrivateEnablement rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :satisfiesKeystoneConstraint ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger
+    ] .
+
+###  Improper Private Enablement violates the Keystone Constraint
+:ImproperPrivateEnablement rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :violatesKeystoneConstraint ;
+      owl:someValuesFrom :KeystoneConstraint
+    ] .
+
+###  Improper Private Enablement leads to Authority Collapse (Private Inurement)
+:ImproperPrivateEnablement rdfs:subClassOf :PrivateInurement .
+
+###  Compensation Instruments may enable privately - must satisfy Keystone Constraint
+:CompensationInstrument rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :enablesPrivately ;
+      owl:someValuesFrom :PrivateEnablement
+    ] .
+
+###  Employee Compensation Enablement is incidental to Purpose
+:EmployeeCompensationEnablement rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :isIncidentalTo ;
+      owl:someValuesFrom :Purpose
+    ] .
+
+###  Employee Compensation Enablement is inseparable from Operational Activity
+:EmployeeCompensationEnablement rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :isInseparableFrom ;
+      owl:someValuesFrom :OperationalActivity
+    ] .
+
+###  Operational Benefit Enablement is incidental to Purpose
+:OperationalBenefitEnablement rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :isIncidentalTo ;
+      owl:someValuesFrom :Purpose
+    ] .
+
+###  Operational Benefit Enablement is inseparable from sustaining HumanCapability
+:OperationalBenefitEnablement rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :isInseparableFrom ;
+      owl:someValuesFrom :OperationalActivity
+    ] .
+
+###  Keystone Constraint prevents Authority Collapse
+:KeystoneConstraint rdfs:subClassOf :SafeguardMechanism .
+
+###  THE AUTHORITY CASCADE - Enforcing the traceable chain
+
+###  Authorized Activity MUST be authorized by a Purpose
+:AuthorizedActivity rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty [ owl:inverseOf :authorizes ] ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger
+    ] .
+
+###  Authorized Activity MUST require at least one Operator in Role
+:AuthorizedActivity rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :requires ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger
+    ] .
+
+###  Operator in Role MUST serve an Authorized Activity
+:OperatorInRole rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :servesActivity ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger
+    ] .
+
+###  Operator in Role MUST necessitate at least one Expense Domain
+:OperatorInRole rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :necessitates ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger
+    ] .
+
+###  Expense Domain MUST sustain an Operator in Role
+:ExpenseDomain rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :sustains ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger
+    ] .
+
+###  Expense Domain MUST manifest as Actual Spend
+:ExpenseDomain rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :manifestsAs ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger
+    ] .
+
+###  Actual Spend MUST trace back to a Purpose (PROOF of keystone constraint)
+:ActualSpend rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :tracesBackTo ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger
+    ] .
+
+###  Purpose legitimizes Authority - without Purpose, no Authority
+:Purpose rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :legitimizes ;
+      owl:someValuesFrom :Authority
+    ] .
+
+###  Expense Domain is a type of Private Enablement
+:ExpenseDomain rdfs:subClassOf :PrivateEnablement .
+
+###  Compensation Domain creates Employee Compensation Enablement
+:CompensationDomain rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :enablesPrivately ;
+      owl:someValuesFrom :EmployeeCompensationEnablement
+    ] .
+
+###  Benefits Domain creates Operational Benefit Enablement
+:BenefitsDomain rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :enablesPrivately ;
+      owl:someValuesFrom :OperationalBenefitEnablement
+    ] .
+
+###  TEMPORAL AXIOMS - Expenditures and DNI bound to time
+
+###  Actual Spend MUST occur during a temporal period
+:ActualSpend rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :occursDuring ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger
+    ] .
+
+###  DNI MUST be computed for a fiscal year
+:DistributableNetIncome rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :computedFor ;
+      owl:someValuesFrom :FiscalYear
+    ] .
+
+###  Fiscal Year MUST have start and end dates
+:FiscalYear rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :fiscalYearStart ;
+      owl:cardinality "1"^^xsd:nonNegativeInteger
+    ] ,
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :fiscalYearEnd ;
+      owl:cardinality "1"^^xsd:nonNegativeInteger
+    ] .
+
+###  GRANTMAKING AXIOMS - Grants distinct from operations
+
+###  Grantmaking Activity MUST produce Grants
+:GrantmakingActivity rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty [ owl:inverseOf :makesGrant ] ;
+      owl:someValuesFrom :Grant
+    ] .
+
+###  Grant MUST be received by Grantee
+:Grant rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty [ owl:inverseOf :receivesGrant ] ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger
+    ] .
+
+###  Grant MUST have amount
+:Grant rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :grantAmount ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger
+    ] .
+
+###  Grant to Public Charity is Qualifying Distribution
+:Grant rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :receivesGrant ;
+      owl:allValuesFrom [
+        rdf:type owl:Restriction ;
+        owl:onProperty rdf:type ;
+        owl:hasValue :PublicCharity
+      ] ;
+      owl:onProperty :satisfiesQualifyingDistribution ;
+      owl:someValuesFrom :QualifyingDistribution
+    ] .
+
+###  IRC §4941 AXIOMS - Self-Dealing Prohibition (FULLY AXIOMATIZED)
+
+###  Self-Dealing Transaction MUST involve Disqualified Person
+:SelfDealingTransaction rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :involvesDisqualifiedPerson ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger
+    ] .
+
+###  Self-Dealing Transaction triggers IRC §4941 violation
+:SelfDealingTransaction rdfs:subClassOf :PrivateInurement .
+
+###  Self-Dealing Prohibition prevents Self-Dealing Transactions
+:SelfDealingProhibition rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :preventsMisuse ;
+      owl:hasValue :SelfDealingTransaction
+    ] .
+
+###  Transaction with Disqualified Person is presumptively Self-Dealing
+[ rdf:type owl:Restriction ;
+  owl:onProperty :involvesDisqualifiedPerson ;
+  owl:someValuesFrom :DisqualifiedPerson
+] rdfs:subClassOf :SelfDealingTransaction .
+
+###  Permitted Transactions are DISJOINT from Self-Dealing
+:PermittedTransaction owl:disjointWith :SelfDealingTransaction .
+
+###  IRC §4942 AXIOMS - Minimum Distribution Requirements (FULLY AXIOMATIZED)
+
+###  Private Foundation MUST make Qualifying Distributions
+:ForeignPrivateIrrevocableNonGrantorTrust rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :makesGrant ;
+      owl:someValuesFrom [
+        rdf:type owl:Restriction ;
+        owl:onProperty :satisfiesQualifyingDistribution ;
+        owl:someValuesFrom :QualifyingDistribution
+      ]
+    ] .
+
+###  Fiscal Year tracks minimum distribution requirement
+:FiscalYear rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :minimumDistributionRequired ;
+      owl:someValuesFrom xsd:decimal
+    ] .
+
+###  Failure to meet minimum distribution is Authority Collapse
+[ rdf:type owl:Class ;
+  owl:intersectionOf (
+    :FiscalYear
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :qualifyingDistributionsMade ;
+      owl:someValuesFrom [
+        rdf:type rdfs:Datatype ;
+        owl:onDatatype xsd:decimal
+      ]
+    ]
+  )
+] .
+
+###  IRC §4943 AXIOMS - Excess Business Holdings (FULLY AXIOMATIZED)
+
+###  Excess Business Holding MUST have percentage
+:ExcessBusinessHolding rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :excessHoldingPercentage ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger
+    ] .
+
+###  Investment with excessive percentage is Excess Holding
+[ rdf:type owl:Restriction ;
+  owl:onProperty :excessHoldingPercentage ;
+  owl:someValuesFrom [
+    rdf:type rdfs:Datatype ;
+    owl:onDatatype xsd:decimal ;
+    owl:withRestrictions ([xsd:minInclusive "20.0"^^xsd:decimal])
+  ]
+] rdfs:subClassOf :ExcessBusinessHolding .
+
+###  Excess Business Holding triggers IRC §4943 violation
+:ExcessBusinessHolding rdfs:subClassOf :AuthorityCollapse .
+
+###  Permitted Holdings are DISJOINT from Excess Holdings
+:PermittedBusinessHolding owl:disjointWith :ExcessBusinessHolding .
+
+###  IRC §4944 AXIOMS - Jeopardizing Investments (FULLY AXIOMATIZED)
+
+###  Jeopardizing Investment MUST jeopardize a Purpose
+:JeopardizingInvestment rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :jeopardizesMission ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger
+    ] .
+
+###  Jeopardizing Investment is Authority Collapse
+:JeopardizingInvestment rdfs:subClassOf :AuthorityCollapse .
+
+###  Jeopardizing Investment Rule prevents Jeopardizing Investments
+:JeopardizingInvestmentRule rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :preventsMisuse ;
+      owl:hasValue :JeopardizingInvestment
+    ] .
+
+###  Prudent Investment is DISJOINT from Jeopardizing Investment
+:PrudentInvestment owl:disjointWith :JeopardizingInvestment .
+
+###  IRC §4945 AXIOMS - Taxable Expenditures (FULLY AXIOMATIZED)
+
+###  Taxable Expenditure is Authority Collapse
+:TaxableExpenditure rdfs:subClassOf :AuthorityCollapse .
+
+###  Lobbying Expenditure triggers IRC §4945(d)(1)
+:LobbyingExpenditure rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :isTaxableExpenditure ;
+      owl:hasValue :TaxableExpenditure
+    ] .
+
+###  Political Expenditure triggers IRC §4945(d)(2)
+:PoliticalExpenditure rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :isTaxableExpenditure ;
+      owl:hasValue :TaxableExpenditure
+    ] .
+
+###  Grant Without Expenditure Responsibility triggers IRC §4945(d)(4)
+:GrantWithoutExpenditureResponsibility rdfs:subClassOf
+    [ rdf:type owl:Restriction ;
+      owl:onProperty :isTaxableExpenditure ;
+      owl:hasValue :TaxableExpenditure
+    ] .
+
+###  Grant to Non-Exempt Grantee requires Expenditure Responsibility
+[ rdf:type owl:Restriction ;
+  owl:onProperty :receivesGrant ;
+  owl:someValuesFrom [
+    rdf:type owl:Restriction ;
+    owl:onProperty rdf:type ;
+    owl:hasValue :NonExemptGrantee
+  ]
+] rdfs:subClassOf :GrantWithoutExpenditureResponsibility .
+
 #################################################################
 #    Individuals (Example Instances)
 #################################################################
@@ -1170,5 +2145,316 @@ Non-grantor and foreign trusts acquire operational instruments once control, jur
                                         :IRC_7701 ;
     rdfs:label "IRC §7701 Jurisdictional Identity"@en ;
     rdfs:comment "Determines which sovereign's rules apply via court test and control test"@en .
+
+###  http://example.org/trust-domain#FoundationMission
+:FoundationMission rdf:type owl:NamedIndividual ,
+                            :CharitablePurpose ;
+    :hasMissionStatement "Empowering lives through health, education, innovation, and opportunity" ;
+    :purposeDescription "The foundation advances charitable purposes by investing in health initiatives, educational programs, innovation and scientific research, and economic opportunity for underserved communities. This multi-faceted mission legitimizes the foundation's authority to deploy resources across four complementary domains." ;
+    :hasSubPurpose :FoundationHealthMission ,
+                   :FoundationEducationMission ,
+                   :FoundationInnovationMission ,
+                   :FoundationOpportunityMission ;
+    rdfs:label "Foundation Mission: Empowering Lives"@en ;
+    rdfs:comment "The overarching exempt purpose that legitimizes the foundation's authority and governs instrument selection"@en .
+
+###  http://example.org/trust-domain#FoundationHealthMission
+:FoundationHealthMission rdf:type owl:NamedIndividual ,
+                                  :HealthPurpose ;
+    :purposeDescription "Advancing health and wellness through medical research grants, healthcare access programs, and public health initiatives" ;
+    rdfs:label "Health Mission Component"@en ;
+    rdfs:comment "Health sub-purpose of the foundation mission"@en .
+
+###  http://example.org/trust-domain#FoundationEducationMission
+:FoundationEducationMission rdf:type owl:NamedIndividual ,
+                                     :EducationalPurpose ;
+    :purposeDescription "Advancing education through scholarship programs, educational technology, curriculum development, and teacher training initiatives" ;
+    rdfs:label "Education Mission Component"@en ;
+    rdfs:comment "Educational sub-purpose of the foundation mission"@en .
+
+###  http://example.org/trust-domain#FoundationInnovationMission
+:FoundationInnovationMission rdf:type owl:NamedIndividual ,
+                                      :InnovationPurpose ;
+    :purposeDescription "Advancing innovation through scientific research grants, technology development, and support for breakthrough discoveries" ;
+    rdfs:label "Innovation Mission Component"@en ;
+    rdfs:comment "Innovation sub-purpose of the foundation mission"@en .
+
+###  http://example.org/trust-domain#FoundationOpportunityMission
+:FoundationOpportunityMission rdf:type owl:NamedIndividual ,
+                                       :OpportunityPurpose ;
+    :purposeDescription "Advancing economic opportunity through workforce development, entrepreneurship programs, and initiatives that expand access to capital and resources for underserved populations" ;
+    rdfs:label "Opportunity Mission Component"@en ;
+    rdfs:comment "Opportunity sub-purpose of the foundation mission"@en .
+
+###  http://example.org/trust-domain#ExampleFoundationTrust
+:ExampleFoundationTrust rdf:type owl:NamedIndividual ,
+                                 :ForeignPrivateIrrevocableNonGrantorTrust ;
+    :isRevocable "false"^^xsd:boolean ;
+    :isGrantorTrust "false"^^xsd:boolean ;
+    :isForeign "true"^^xsd:boolean ;
+    :isDomestic "false"^^xsd:boolean ;
+    :jurisdiction "Nevis" ;
+    :hasCourtJurisdiction "Nevis High Court" ;
+    :hasControlLocation "Nevis" ;
+    :establishedDate "2024-01-15"^^xsd:date ;
+    :hasEIN "98-7654321" ;
+    :hasPurpose :FoundationMission ;
+    :hasTrustee :FoundationTrustee ;
+    rdfs:label "Example Foundation Trust"@en ;
+    rdfs:comment "Foreign private irrevocable non-grantor trust operating as a private foundation with mission to empower lives through health, education, innovation, and opportunity. Purpose legitimizes authority, which enables deployment of instruments."@en .
+
+###  http://example.org/trust-domain#FoundationTrustee
+:FoundationTrustee rdf:type owl:NamedIndividual ,
+                            :Trustee ;
+    rdfs:label "Foundation Trustee"@en ;
+    rdfs:comment "Fiduciary exercising authority to advance the foundation's charitable mission"@en .
+
+###  http://example.org/trust-domain#TheKeystoneConstraint
+:TheKeystoneConstraint rdf:type owl:NamedIndividual ,
+                                :KeystoneConstraint ;
+    rdfs:label "The Keystone Constraint"@en ;
+    rdfs:comment "THE fundamental rule: Private enablement is permissible when and only when it is BOTH incidental to AND inseparable from purpose-driven execution. This is the boundary between legitimate operation and private inurement."@en .
+
+###  http://example.org/trust-domain#ExamplePermissibleCompensation
+:ExamplePermissibleCompensation rdf:type owl:NamedIndividual ,
+                                         :EmployeeCompensationEnablement ,
+                                         :PermissiblePrivateEnablement ;
+    :isIncidentalTo :FoundationMission ;
+    :isInseparableFrom :ExampleResearchActivity ;
+    :satisfiesKeystoneConstraint :TheKeystoneConstraint ;
+    rdfs:label "Example: Permissible Researcher Compensation"@en ;
+    rdfs:comment "Compensation paid to research scientist conducting medical research grants aligned with health mission. This is INCIDENTAL TO (health mission) AND INSEPARABLE FROM (research cannot occur without researcher) purpose-driven execution - therefore permissible."@en .
+
+###  http://example.org/trust-domain#ExamplePermissibleHealthBenefit
+:ExamplePermissibleHealthBenefit rdf:type owl:NamedIndividual ,
+                                          :OperationalBenefitEnablement ,
+                                          :PermissiblePrivateEnablement ;
+    :isIncidentalTo :FoundationMission ;
+    :isInseparableFrom :ExampleResearchActivity ;
+    :satisfiesKeystoneConstraint :TheKeystoneConstraint ;
+    rdfs:label "Example: Permissible Health Insurance Benefit"@en ;
+    rdfs:comment "Health insurance provided to research staff. This is INCIDENTAL TO (not the purpose, but enables the purpose) AND INSEPARABLE FROM (sustaining workforce capability required for execution) mission advancement - therefore permissible."@en .
+
+###  http://example.org/trust-domain#ExampleImproperLavishExpense
+:ExampleImproperLavishExpense rdf:type owl:NamedIndividual ,
+                                       :ImproperPrivateEnablement ;
+    :violatesKeystoneConstraint :TheKeystoneConstraint ;
+    rdfs:label "Example: Improper Lavish Personal Expense"@en ;
+    rdfs:comment "Luxury vacation for trustee unrelated to mission activities. This is NOT INCIDENTAL (serves no mission purpose) and IS SEPARABLE (can be removed without affecting execution) - therefore VIOLATES keystone constraint and constitutes private inurement."@en .
+
+###  http://example.org/trust-domain#ExampleImproperExcessCompensation
+:ExampleImproperExcessCompensation rdf:type owl:NamedIndividual ,
+                                            :ImproperPrivateEnablement ;
+    :violatesKeystoneConstraint :TheKeystoneConstraint ;
+    rdfs:label "Example: Improper Excessive Compensation"@en ;
+    rdfs:comment "Compensation far exceeding market rate for comparable services. While some compensation is incidental and inseparable, the EXCESS portion is SEPARABLE from execution and serves enrichment rather than purpose - therefore the excess VIOLATES keystone constraint."@en .
+
+###  http://example.org/trust-domain#ExampleResearchActivity
+:ExampleResearchActivity rdf:type owl:NamedIndividual ,
+                                  :OperationalActivity ;
+    :advancesPurpose :FoundationHealthMission ;
+    :withinBoundary :ExampleOperatingBoundary ;
+    rdfs:label "Example: Medical Research Activity"@en ;
+    rdfs:comment "Conducting medical research grants to advance health mission"@en .
+
+###  http://example.org/trust-domain#ExampleOperatingBoundary
+:ExampleOperatingBoundary rdf:type owl:NamedIndividual ,
+                                   :OperatingBoundary ;
+    rdfs:label "Example Operating Boundary"@en ;
+    rdfs:comment "The perimeter defining what belongs inside the foundation's operational system"@en .
+
+###  THE AUTHORITY CASCADE - Complete Traceable Example
+
+###  http://example.org/trust-domain#ClinicalTrialsActivity
+:ClinicalTrialsActivity rdf:type owl:NamedIndividual ,
+                                 :AuthorizedActivity ;
+    :advancesPurpose :FoundationHealthMission ;
+    :withinBoundary :ExampleOperatingBoundary ;
+    :requires :ResearchScientistDrSmith ;
+    :performedBy :ResearchScientistDrSmith ;
+    rdfs:label "Clinical Trials Activity"@en ;
+    rdfs:comment "Authorized activity: Conducting clinical trials for novel cancer treatments - authorized by health mission purpose domain"@en .
+
+###  http://example.org/trust-domain#ResearchScientistDrSmith
+:ResearchScientistDrSmith rdf:type owl:NamedIndividual ,
+                                   :OperatorInRole ;
+    :servesActivity :ClinicalTrialsActivity ;
+    :necessitates :CompensationDomain_DrSmith ,
+                  :BenefitsDomain_DrSmith ;
+    rdfs:label "Dr. Smith (Research Scientist)"@en ;
+    rdfs:comment "Operator in role: Research scientist conducting clinical trials - required by the authorized activity"@en .
+
+###  http://example.org/trust-domain#CompensationDomain_DrSmith
+:CompensationDomain_DrSmith rdf:type owl:NamedIndividual ,
+                                     :CompensationDomain ;
+    :sustains :ResearchScientistDrSmith ;
+    :manifestsAs :SalaryPayment_DrSmith_January2024 ;
+    :enablesPrivately :SalaryEnablement_DrSmith ;
+    rdfs:label "Compensation Domain: Dr. Smith"@en ;
+    rdfs:comment "Expense domain: Compensation for Dr. Smith - necessitated by her role as research scientist"@en .
+
+###  http://example.org/trust-domain#BenefitsDomain_DrSmith
+:BenefitsDomain_DrSmith rdf:type owl:NamedIndividual ,
+                                 :BenefitsDomain ;
+    :sustains :ResearchScientistDrSmith ;
+    :manifestsAs :HealthInsurance_DrSmith_January2024 ;
+    :enablesPrivately :BenefitsEnablement_DrSmith ;
+    rdfs:label "Benefits Domain: Dr. Smith"@en ;
+    rdfs:comment "Expense domain: Health insurance and retirement benefits for Dr. Smith"@en .
+
+###  http://example.org/trust-domain#SalaryPayment_DrSmith_January2024
+:SalaryPayment_DrSmith_January2024 rdf:type owl:NamedIndividual ,
+                                            :ActualSpend ;
+    :tracesBackTo :FoundationHealthMission ;
+    rdfs:label "Actual Spend: Dr. Smith Salary (Jan 2024) - $12,500"@en ;
+    rdfs:comment "ACTUAL SPEND: $12,500 salary payment to Dr. Smith for January 2024. TRACES BACK TO: FoundationHealthMission → ClinicalTrialsActivity → ResearchScientistDrSmith → CompensationDomain_DrSmith → THIS SPEND. The complete traceable chain PROVES keystone constraint satisfaction: incidental to health mission AND inseparable from clinical trials execution."@en .
+
+###  http://example.org/trust-domain#HealthInsurance_DrSmith_January2024
+:HealthInsurance_DrSmith_January2024 rdf:type owl:NamedIndividual ,
+                                              :ActualSpend ;
+    :tracesBackTo :FoundationHealthMission ;
+    rdfs:label "Actual Spend: Dr. Smith Health Insurance (Jan 2024) - $850"@en ;
+    rdfs:comment "ACTUAL SPEND: $850 health insurance premium for Dr. Smith for January 2024. TRACES BACK TO: FoundationHealthMission → ClinicalTrialsActivity → ResearchScientistDrSmith → BenefitsDomain_DrSmith → THIS SPEND. Sustaining workforce capability is incidental to AND inseparable from mission execution."@en .
+
+###  http://example.org/trust-domain#SalaryEnablement_DrSmith
+:SalaryEnablement_DrSmith rdf:type owl:NamedIndividual ,
+                                   :EmployeeCompensationEnablement ,
+                                   :PermissiblePrivateEnablement ;
+    :isIncidentalTo :FoundationHealthMission ;
+    :isInseparableFrom :ClinicalTrialsActivity ;
+    :satisfiesKeystoneConstraint :TheKeystoneConstraint ;
+    rdfs:label "Private Enablement: Dr. Smith Salary"@en ;
+    rdfs:comment "PERMISSIBLE: Dr. Smith's salary is incidental to the health mission (not the mission itself) AND inseparable from clinical trials (trials cannot occur without qualified researcher). Satisfies both keystone tests."@en .
+
+###  http://example.org/trust-domain#BenefitsEnablement_DrSmith
+:BenefitsEnablement_DrSmith rdf:type owl:NamedIndividual ,
+                                     :OperationalBenefitEnablement ,
+                                     :PermissiblePrivateEnablement ;
+    :isIncidentalTo :FoundationHealthMission ;
+    :isInseparableFrom :ClinicalTrialsActivity ;
+    :satisfiesKeystoneConstraint :TheKeystoneConstraint ;
+    rdfs:label "Private Enablement: Dr. Smith Benefits"@en ;
+    rdfs:comment "PERMISSIBLE: Dr. Smith's health benefits sustain her capability to perform research, incidental to mission AND inseparable from execution."@en .
+
+###  http://example.org/trust-domain#TheAuthorityCascade
+:TheAuthorityCascade rdf:type owl:NamedIndividual ,
+                              :AuthorityCascade ;
+    rdfs:label "The Authority Cascade: Mission to Spend"@en ;
+    rdfs:comment """THE COMPLETE AUTHORITY CASCADE EXAMPLE:
+
+1. MISSION: 'Empowering lives through health...' (FoundationMission)
+   ↓ legitimizes Authority
+   ↓ has sub-purpose
+
+2. PURPOSE DOMAIN: Health mission (FoundationHealthMission)
+   ↓ authorizes
+
+3. AUTHORIZED ACTIVITY: Conducting clinical trials (ClinicalTrialsActivity)
+   ↓ requires
+
+4. OPERATOR IN ROLE: Research scientist Dr. Smith (ResearchScientistDrSmith)
+   ↓ necessitates
+
+5. EXPENSE DOMAINS: Compensation + Benefits (CompensationDomain_DrSmith, BenefitsDomain_DrSmith)
+   ↓ manifest as
+
+6. ACTUAL SPEND: $12,500 salary + $850 insurance (SalaryPayment_DrSmith_January2024, HealthInsurance_DrSmith_January2024)
+   ↓ traces back to
+
+7. PURPOSE: FoundationHealthMission ✓
+
+RESULT: Every dollar spent is PROVABLY:
+- Incidental to purpose (serves health mission, not enrichment)
+- Inseparable from execution (clinical trials require qualified researcher)
+
+This is PROOF OF LEGITIMACY. The cascade cannot be completed for improper private enablement."""@en .
+
+###  TEMPORAL EXAMPLES
+
+###  http://example.org/trust-domain#FiscalYear2024
+:FiscalYear2024 rdf:type owl:NamedIndividual ,
+                         :FiscalYear ;
+    :fiscalYearStart "2024-01-01"^^xsd:date ;
+    :fiscalYearEnd "2024-12-31"^^xsd:date ;
+    :yearNumber "2024"^^xsd:integer ;
+    :minimumDistributionRequired "500000.00"^^xsd:decimal ;
+    :qualifyingDistributionsMade "625000.00"^^xsd:decimal ;
+    rdfs:label "Fiscal Year 2024"@en ;
+    rdfs:comment "Foundation fiscal year 2024 - made $625K qualifying distributions, exceeding $500K minimum requirement"@en .
+
+###  http://example.org/trust-domain#DNI_2024
+:DNI_2024 rdf:type owl:NamedIndividual ,
+                   :DistributableNetIncome ;
+    :computedFor :FiscalYear2024 ;
+    :dniAmount "850000.00"^^xsd:decimal ;
+    rdfs:label "DNI for Fiscal Year 2024"@en ;
+    rdfs:comment "Distributable Net Income computed for fiscal year 2024"@en .
+
+###  Expenditure with temporal binding
+:SalaryPayment_DrSmith_January2024 :occursDuring :FiscalYear2024 ;
+                                   :expenditureDate "2024-01-15"^^xsd:date .
+
+###  GRANTMAKING EXAMPLES
+
+###  http://example.org/trust-domain#CancerResearchGrantActivity
+:CancerResearchGrantActivity rdf:type owl:NamedIndividual ,
+                                      :GrantmakingActivity ;
+    :advancesPurpose :FoundationHealthMission ;
+    :hasTemporalExtent :FiscalYear2024 ;
+    rdfs:label "Cancer Research Grantmaking Activity"@en ;
+    rdfs:comment "Grantmaking activity to fund cancer research - DISTINCT from operational research"@en .
+
+###  http://example.org/trust-domain#GrantToStanfordMedicine
+:GrantToStanfordMedicine rdf:type owl:NamedIndividual ,
+                                  :Grant ;
+    :grantAmount "250000.00"^^xsd:decimal ;
+    :receivesGrant :StanfordMedicine ;
+    :satisfiesQualifyingDistribution :QD_StanfordGrant ;
+    :occursDuring :FiscalYear2024 ;
+    rdfs:label "Grant to Stanford Medicine - $250,000"@en ;
+    rdfs:comment "Charitable grant to Stanford Medicine for cancer research"@en .
+
+###  http://example.org/trust-domain#StanfordMedicine
+:StanfordMedicine rdf:type owl:NamedIndividual ,
+                           :PublicCharity ;
+    rdfs:label "Stanford Medicine (Public Charity)"@en ;
+    rdfs:comment "IRC §509(a) public charity - qualifying grantee"@en .
+
+###  http://example.org/trust-domain#QD_StanfordGrant
+:QD_StanfordGrant rdf:type owl:NamedIndividual ,
+                           :QualifyingDistribution ;
+    rdfs:label "Qualifying Distribution: Stanford Grant"@en ;
+    rdfs:comment "Grant to public charity counts toward IRC §4942 minimum distribution"@en .
+
+###  IRC §§4941-4945 VIOLATION EXAMPLES
+
+###  http://example.org/trust-domain#ExampleSelfDealing
+:ExampleSelfDealing rdf:type owl:NamedIndividual ,
+                             :SelfDealingTransaction ;
+    :involvesDisqualifiedPerson :ExampleTrusteeAsDisqualifiedPerson ;
+    rdfs:label "Example: Self-Dealing Transaction"@en ;
+    rdfs:comment "Transaction between foundation and trustee (disqualified person) - PROHIBITED under IRC §4941"@en .
+
+###  http://example.org/trust-domain#ExampleTrusteeAsDisqualifiedPerson
+:ExampleTrusteeAsDisqualifiedPerson rdf:type owl:NamedIndividual ,
+                                             :FoundationManager ,
+                                             :DisqualifiedPerson ;
+    rdfs:label "Trustee (Disqualified Person)"@en ;
+    rdfs:comment "Foundation manager is disqualified person under IRC §4946"@en .
+
+###  http://example.org/trust-domain#ExampleJeopardizingInvestment
+:ExampleJeopardizingInvestment rdf:type owl:NamedIndividual ,
+                                        :JeopardizingInvestment ;
+    :jeopardizesMission :FoundationHealthMission ;
+    rdfs:label "Example: Jeopardizing Investment"@en ;
+    rdfs:comment "Speculative investment jeopardizing ability to carry out health mission - PROHIBITED under IRC §4944"@en .
+
+###  http://example.org/trust-domain#ExampleLobbyingExpense
+:ExampleLobbyingExpense rdf:type owl:NamedIndividual ,
+                                 :LobbyingExpenditure ,
+                                 :TaxableExpenditure ;
+    :isTaxableExpenditure :TaxableExpenditure ;
+    rdfs:label "Example: Lobbying Expenditure"@en ;
+    rdfs:comment "Expenditure to influence legislation - taxable under IRC §4945(d)(1)"@en .
 
 ###  Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi

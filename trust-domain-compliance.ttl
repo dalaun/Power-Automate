@@ -1,0 +1,257 @@
+@prefix : <http://example.org/trust-domain#> .
+@prefix ep: <http://example.org/trust-domain/estate-planning#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+:TrustEntity rdfs:subClassOf [ a owl:Restriction ;
+            owl:minCardinality "1"^^xsd:nonNegativeInteger ;
+            owl:onProperty ep:hasGrantor ],
+        [ a owl:Restriction ;
+            owl:maxCardinality "1"^^xsd:nonNegativeInteger ;
+            owl:onProperty ep:satisfiesTrustValidity ],
+        [ a owl:Restriction ;
+            owl:minCardinality "1"^^xsd:nonNegativeInteger ;
+            owl:onProperty :hasBeneficiary ],
+        [ a owl:Restriction ;
+            owl:maxCardinality "1"^^xsd:nonNegativeInteger ;
+            owl:onProperty :hasProtector ],
+        [ a owl:Restriction ;
+            owl:cardinality "1"^^xsd:nonNegativeInteger ;
+            owl:onProperty ep:establishedBy ],
+        [ a owl:Restriction ;
+            owl:cardinality "1"^^xsd:nonNegativeInteger ;
+            owl:onProperty ep:governedBy ],
+        [ a owl:Restriction ;
+            owl:cardinality "1"^^xsd:nonNegativeInteger ;
+            owl:onProperty ep:hasState ],
+        [ a owl:Restriction ;
+            owl:cardinality "1"^^xsd:nonNegativeInteger ;
+            owl:onProperty ep:holdsCorpus ],
+        [ a owl:Class ;
+            owl:unionOf ( [ a owl:Restriction ;
+                        owl:onProperty ep:hasOutcome ;
+                        owl:someValuesFrom ep:TrustValid ] [ a owl:Restriction ;
+                        owl:onProperty ep:hasOutcome ;
+                        owl:someValuesFrom ep:TrustInvalid ] ) ] .
+
+ep:Asset rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxCardinality "1"^^xsd:nonNegativeInteger ;
+            owl:onProperty ep:satisfiesTransferValidity ],
+        [ a owl:Restriction ;
+            owl:onProperty ep:governedBySitusRule ;
+            owl:someValuesFrom ep:SitusRule ] .
+
+ep:CrossBorderTrust rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty ep:recognizedUnder ;
+            owl:someValuesFrom ep:HagueTrustsConvention ],
+        [ a owl:Restriction ;
+            owl:minCardinality "2"^^xsd:nonNegativeInteger ;
+            owl:onProperty ep:operatesInJurisdiction ],
+        [ a owl:Restriction ;
+            owl:onProperty ep:hasOutcome ;
+            owl:someValuesFrom ep:ValidityOutcome ],
+        [ a owl:Restriction ;
+            owl:onProperty ep:hasOutcome ;
+            owl:someValuesFrom ep:RecognitionOutcome ] .
+
+ep:Document rdfs:subClassOf [ a owl:Restriction ;
+            owl:minCardinality "1"^^xsd:nonNegativeInteger ;
+            owl:onProperty ep:executedBy ] .
+
+ep:IncomeBeneficiary owl:disjointWith ep:RemainderBeneficiary .
+
+ep:IrrevocabilityEvent owl:equivalentClass [ a owl:Class ;
+            owl:unionOf ( ep:GrantorDeath ep:IrrevocableByTerms ep:ExplicitIrrevocability ) ] .
+
+ep:Judge owl:disjointWith ep:Attorney,
+        ep:Beneficiary,
+        ep:Grantor,
+        ep:Settlor,
+        ep:Trustee .
+
+ep:LegalAction rdfs:subClassOf [ a owl:Restriction ;
+            owl:cardinality "1"^^xsd:nonNegativeInteger ;
+            owl:onProperty ep:judgedBy ],
+        [ a owl:Restriction ;
+            owl:cardinality "1"^^xsd:nonNegativeInteger ;
+            owl:onProperty ep:initiatedBy ] .
+
+ep:MandatoryRule rdfs:subClassOf [ a owl:Restriction ;
+            owl:minCardinality "1"^^xsd:nonNegativeInteger ;
+            owl:onProperty ep:mandatoryRuleAppliesTo ] ;
+    owl:disjointWith ep:ChoiceOfLaw .
+
+ep:NonGrantorTrustStatus owl:disjointWith ep:GrantorTrustStatus .
+
+ep:NotaryPublic owl:disjointWith ep:Beneficiary,
+        ep:Grantor,
+        ep:Settlor .
+
+ep:PotentialSelfDealingTransaction rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty ep:hasOutcome ;
+            owl:someValuesFrom ep:IRC4941ExciseTax ] ;
+    owl:equivalentClass [ a owl:Class ;
+            owl:intersectionOf ( ep:RelatedPartyTransaction ep:BelowMarketTransaction ) ] .
+
+ep:TerminationEvent owl:equivalentClass [ a owl:Class ;
+            owl:unionOf ( ep:MergerEvent ep:PurposeFulfilled ep:RAPViolation ep:FinalDistribution ) ] .
+
+ep:Testator owl:disjointWith ep:Grantor .
+
+ep:Transaction rdfs:subClassOf [ a owl:Restriction ;
+            owl:minCardinality "1"^^xsd:nonNegativeInteger ;
+            owl:onProperty ep:transactionBy ],
+        [ a owl:Restriction ;
+            owl:minCardinality "1"^^xsd:nonNegativeInteger ;
+            owl:onProperty ep:transactionWith ],
+        [ a owl:Class ;
+            owl:unionOf ( ep:ArmsLengthTransaction ep:RelatedPartyTransaction ) ],
+        [ a owl:Class ;
+            owl:unionOf ( ep:FairValueTransaction ep:BelowMarketTransaction ep:AboveMarketTransaction ) ],
+        [ a owl:Restriction ;
+            owl:onProperty rdf:type ;
+            owl:someValuesFrom [ owl:unionOf ( ep:ArmsLengthTransaction ep:RelatedPartyTransaction ) ] ],
+        [ a owl:Restriction ;
+            owl:onProperty rdf:type ;
+            owl:someValuesFrom [ owl:unionOf ( ep:FairValueTransaction ep:BelowMarketTransaction ep:AboveMarketTransaction ) ] ] .
+
+ep:TransferInvalid owl:disjointWith ep:TransferValid .
+
+ep:TrustAmendment owl:disjointWith ep:Deed .
+
+ep:TrustContest owl:disjointWith ep:AccountingProceeding,
+        ep:ConstructionProceeding,
+        ep:Partition,
+        ep:Reformation .
+
+ep:TrustNotRecognized owl:disjointWith ep:TrustRecognized .
+
+ep:TrustState owl:equivalentClass [ a owl:Class ;
+            owl:oneOf ( ep:TrustCreated ep:TrustFunded ep:TrustActive ep:TrustIrrevocable ep:TrustRevoked ep:TrustTerminated ) ] .
+
+ep:TrustValidity owl:disjointWith ep:AssetTransferValidity .
+
+ep:Will owl:disjointWith ep:TrustAgreement .
+
+ep:Witness owl:disjointWith ep:Beneficiary,
+        ep:Grantor,
+        ep:Settlor,
+        ep:Trustee .
+
+ep:hasBasis a owl:FunctionalProperty .
+
+ep:hasCapacity a owl:FunctionalProperty .
+
+ep:hasSitus a owl:FunctionalProperty .
+
+ep:notarizedBy a owl:FunctionalProperty .
+
+ep:operatesUnder a owl:FunctionalProperty .
+
+ep:restatedBy a owl:FunctionalProperty .
+
+ep:resultsIn a owl:FunctionalProperty .
+
+ep:terminatedBy a owl:FunctionalProperty .
+
+<http://example.org/trust-domain/estate-planning/compliance> a owl:Ontology ;
+    rdfs:label "Trust Domain Estate Planning Compliance (Operational Layer)"@en ;
+    rdfs:comment """AUTHORITY COMMITMENTS (Operational Layer)
+
+This ontology enforces WHAT IS ALLOWED in the trust and estate planning domain.
+It does NOT define what things mean - that is the job of the vocabulary layer.
+
+Litmus test: "If I remove this axiom, do I lose authority?"
+If yes → it belongs here. If no (lose understanding instead) → belongs in vocabulary layer.
+
+Contains:
+- Cardinality constraints (minCardinality, maxCardinality, cardinality)
+- Disjointness axioms (mutual exclusion)
+- Functional property declarations (max 1 value)
+- State machine transitions (canTransitionTo)
+- State enumeration (oneOf - closed world)
+- Outcome determination rules (equivalentClass with intersection/union)
+- Closure axioms (forcing classification via unionOf)
+
+Does NOT contain:
+- Class definitions (in vocabulary)
+- Property definitions (in vocabulary)
+- Labels, comments, glossary (in vocabulary)
+- Domain/range (in vocabulary)
+
+This layer IMPORTS the vocabulary layer and adds enforcement on top of meaning.
+
+Design principle: "Meaning can tolerate ambiguity. Authority cannot."
+"""@en ;
+    owl:imports <http://example.org/trust-domain/estate-planning/vocabulary> ;
+    owl:versionInfo "3.0" .
+
+ep:AccountingProceeding owl:disjointWith ep:ConstructionProceeding,
+        ep:Partition,
+        ep:Reformation .
+
+ep:ChoiceOfLaw rdfs:subClassOf [ a owl:Restriction ;
+            owl:cardinality "1"^^xsd:nonNegativeInteger ;
+            owl:onProperty ep:applicableLaw ] .
+
+ep:TrustAgreement owl:disjointWith ep:Deed .
+
+ep:TrustCreated ep:canTransitionTo ep:TrustFunded,
+        ep:TrustRevoked,
+        ep:TrustTerminated .
+
+ep:TrustInvalid owl:disjointWith ep:TrustValid .
+
+ep:establishedBy a owl:FunctionalProperty .
+
+ep:governedBy a owl:FunctionalProperty .
+
+ep:hasState a owl:FunctionalProperty .
+
+ep:holdsCorpus a owl:FunctionalProperty .
+
+ep:initiatedBy a owl:FunctionalProperty .
+
+ep:judgedBy a owl:FunctionalProperty .
+
+ep:Reformation owl:disjointWith ep:ConstructionProceeding,
+        ep:Partition .
+
+ep:TrustActive ep:canTransitionTo ep:TrustIrrevocable,
+        ep:TrustRevoked,
+        ep:TrustTerminated .
+
+ep:TrustFunded ep:canTransitionTo ep:TrustActive,
+        ep:TrustRevoked,
+        ep:TrustTerminated .
+
+ep:TrustIrrevocable ep:canTransitionTo ep:TrustTerminated .
+
+ep:Trustee rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty ep:owes ;
+            owl:someValuesFrom ep:FiduciaryDuty ] .
+
+ep:ArmsLengthTransaction rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty ep:meetsArmsLengthStandard ;
+            owl:someValuesFrom ep:ArmsLengthStandard ] .
+
+ep:ConstructionProceeding owl:disjointWith ep:Partition .
+
+ep:FairValueTransaction owl:disjointWith ep:AboveMarketTransaction,
+        ep:BelowMarketTransaction .
+
+ep:RelatedPartyTransaction rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty ep:hasConflictOfInterest ;
+            owl:someValuesFrom ep:ConflictOfInterest ] ;
+    owl:disjointWith ep:ArmsLengthTransaction .
+
+ep:AboveMarketTransaction owl:disjointWith ep:BelowMarketTransaction,
+        ep:FairValueTransaction .
+
+ep:BelowMarketTransaction rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxCardinality "0"^^xsd:nonNegativeInteger ;
+            owl:onProperty ep:meetsArmsLengthStandard ] ;
+    owl:disjointWith ep:AboveMarketTransaction .
+

@@ -18,23 +18,22 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Checkout wiki repository
-        uses: actions/checkout@v4
-        with:
-          repository: ${{ github.repository }}.wiki
-          path: wiki
-          token: ${{ secrets.WIKI_TOKEN }}
-
-      - name: Copy files to wiki
+      - name: Clone and update wiki
+        env:
+          WIKI_TOKEN: ${{ secrets.WIKI_TOKEN }}
         run: |
+          # Clone wiki using token authentication
+          git clone "https://x-access-token:${WIKI_TOKEN}@github.com/${{ github.repository }}.wiki.git" wiki
+
+          # Copy files
           cp docs/wiki/*.md wiki/
 
-      - name: Commit and push changes to wiki
-        run: |
+          # Commit and push
           cd wiki
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add .
+
           if git diff --cached --quiet; then
             echo "No changes to commit"
           else
@@ -42,5 +41,6 @@ jobs:
 
             Synced from docs/wiki/ in main repository
             Source commit: ${{ github.sha }}"
-            git push origin master
+
+            git push "https://x-access-token:${WIKI_TOKEN}@github.com/${{ github.repository }}.wiki.git" master
           fi

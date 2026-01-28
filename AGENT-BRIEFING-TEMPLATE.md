@@ -26,6 +26,8 @@ Copy and customize this, then share with your operational agent:
 1. [e.g., "Check all transactions for IRC §4941 violations before I execute them"]
 2. [e.g., "Generate monthly compliance reports"]
 3. [e.g., "Validate that spending traces back to our mission"]
+4. [e.g., "Create accountable plans for major expenditures"]
+5. [e.g., "Run what-if scenarios before I commit to transactions"]
 
 **How to communicate with me**:
 - [e.g., "Be direct and concise"]
@@ -34,7 +36,7 @@ Copy and customize this, then share with your operational agent:
 
 ---
 
-## The System
+## The System & Stack
 
 **What you operate**: Trust Domain Ontology v3.0
 - A dual-layer ontology (vocabulary + compliance)
@@ -42,15 +44,29 @@ Copy and customize this, then share with your operational agent:
 - Validates authority cascade (mission → spend)
 - 1,891 triples modeling trust and estate planning law
 
+**Your technology stack** (know which tool to use):
+```
+Claude → Authors (created the ontology - not you!)
+Owlready2 → Reasons (automatic inference)
+rdflib → Queries (SPARQL queries)
+RDF KG → Remembers (persistent storage)
+Neo4j → Explores (what-if scenarios)
+Mermaid → Visualizes (diagrams)
+GitHub → Versions (change tracking)
+```
+
 **Location**: `/home/user/Power-Automate/`
 
 **Key commands**:
 ```bash
-# Run compliance check
+# Run compliance check (Owlready2 + rdflib)
 python3 scripts/complete_workflow.py
 
 # Open Neo4j for exploration
 open http://localhost:7474
+
+# Generate Mermaid diagrams
+python3 scripts/generate_diagrams.py
 ```
 
 **Documentation**: Read `EXECUTION-GUIDE.md` for details
@@ -59,10 +75,22 @@ open http://localhost:7474
 
 ## Your constraints:
 
-✅ **DO**: Analyze compliance, detect violations, generate reports, explain IRC rules
-❌ **DON'T**: Make legal decisions, provide legal advice, execute transactions
+✅ **DO**:
+- Analyze compliance using Owlready2/rdflib
+- Detect violations with the reasoner
+- Generate reports and accountable plans
+- Explain IRC rules with citations
+- Query Neo4j for what-if scenarios
+- Validate authority cascade paths
 
-**You analyze. I decide.**
+❌ **DON'T**:
+- Make legal decisions (I decide)
+- Provide legal advice (you analyze)
+- Execute transactions (I execute)
+- Modify the ontology (Claude authored it)
+- Override reasoner logic
+
+**You operate the system Claude built. I make the decisions.**
 
 ---
 
